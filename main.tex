@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{tabularx}
 \usepackage{tikz}
 
 \usepackage[version=4]{mhchem}
@@ -28,13 +29,11 @@
 
 \chapter{化学物理原理}
 
-\section{化学热力学与动力学}
+\section{化学反应热力学}
 
-化学反应能否发生、能放出多少热、最终停在什么位置、又以多快的速度到达那里，是四个彼此独立却又相互牵连的问题。热力学回答前三个，动力学回答最后一个。本节按这条线索展开：先从内能与焓说起，引入熵作为方向性的判据，再把二者合成为吉布斯自由能，最后讨论平衡与电极电势；然后转向动力学，用统计分布与碰撞理论说明速率方程的来源。
+化学反应能否发生、能放出多少热、最终停在什么位置，是热力学要回答的问题。本节先把能量与方向性拆成焓与熵，再合成为吉布斯自由能；随后给出处理溶液平衡的三件通用工具——分布系数、守恒方程组、活度与条件常数；在此基础上讨论化学平衡的移动与多重平衡；最后把平衡条件用于电子转移，得到电极电势与能斯特方程。
 
-\subsection{化学反应热力学}
-
-\subsubsection{焓变}
+\subsection{焓变}
 
 热力学第一定律给出内能变化的普遍形式。若系统只做体积功，则
 \begin{equation}
@@ -79,7 +78,7 @@ H=U+pV,
 \end{equation}
 这条式子的意义在于，它把一个无法直接测量的绝对量转化成了可以查表求得的标准生成焓，从而使热化学计算成为可能。
 
-\subsubsection{熵变}
+\subsection{熵变}
 
 熵描述系统的混乱程度。若已知系统的微观状态数 $\Omega$，玻尔兹曼给出的定义是
 \begin{equation}
@@ -141,7 +140,7 @@ dS=\frac{\delta Q_{\mathrm{rev}}}{T}.
 -\sum_i\nu_i\,S_m^\theta(\text{反应物}).
 \end{equation}
 
-\subsubsection{吉布斯自由能}
+\subsection{吉布斯自由能}
 
 单靠焓变或熵变都无法判断反应方向：有些反应放热却仍不自发，有些反应吸热却能进行。方向性的判据必须把二者合在一起，这就是吉布斯自由能的来源。
 
@@ -193,49 +192,452 @@ Q=\prod_i\left(\frac{p_i}{p^\theta}\right)^{\nu_i}
 
 从能量分配的角度看，吉布斯自由能是总能量中扣除了不可逆热损耗 $T\Delta S$ 之后剩下的部分。这部分能量可以被自由支配：在氧化还原反应中它转化为电势能，在其它过程中也可能以辐射或其它形式释放。
 
-\subsubsection{化学平衡}
+\subsection{分布系数：总浓度在各形态间的分配}
+\label{sec:delta}
+
+平衡常数给的是各形态之间的比例，实际计算还需要把比例换算成浓度。设某组分的总分析浓度为 $c_T$，其中第 $i$ 种形态的浓度为 $c_i$，定义\textbf{分布系数}
+\begin{equation}
+\delta_i=\frac{c_i}{c_T},\qquad \sum_i\delta_i=1 .
+\end{equation}
+求和等于 1 并非额外假设：由物料平衡 $c_T=\sum_i c_i$，两边同除 $c_T$ 即得。真正有用的性质是 $\delta_i$ 只依赖主变量（酸碱体系中的 $[\mathrm{H^+}]$，配位体系中的 $[\mathrm{L}]$），与总浓度无关——稀释时各形态同比例减少，分配比例不变。推导中会看到 $c_T$ 被约掉，原因就在这里。
+
+\paragraph{一元酸}
+
+对 $\mathrm{HA}$，由 $K_{\mathrm{a}}=[\mathrm{H^+}][\mathrm{A^-}]/[\mathrm{HA}]$ 解出 $[\mathrm{A^-}]=K_{\mathrm{a}}[\mathrm{HA}]/[\mathrm{H^+}]$，代入物料平衡并提取公因子：
+\begin{equation}
+c_T=[\mathrm{HA}]+[\mathrm{A^-}]
+=[\mathrm{HA}]\left(1+\frac{K_{\mathrm{a}}}{[\mathrm{H^+}]}\right).
+\end{equation}
+由此 $[\mathrm{HA}]=c_T[\mathrm{H^+}]/([\mathrm{H^+}]+K_{\mathrm{a}})$，同法得 $[\mathrm{A^-}]=c_TK_{\mathrm{a}}/([\mathrm{H^+}]+K_{\mathrm{a}})$。两式各自除以 $c_T$：
+\begin{equation}
+\delta_{\mathrm{HA}}=\frac{[\mathrm{H^+}]}{[\mathrm{H^+}]+K_{\mathrm{a}}},
+\qquad
+\delta_{\mathrm{A^-}}=\frac{K_{\mathrm{a}}}{[\mathrm{H^+}]+K_{\mathrm{a}}}.
+\label{eq:delta-mono}
+\end{equation}
+$\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 时两者都是 $1/2$；$\mathrm{pH}$ 每改变 1 个单位，比值 $[\mathrm{A^-}]/[\mathrm{HA}]$ 改变 10 倍。
+
+\paragraph{多元酸}
+
+对 $\mathrm{H}_n\mathrm{A}$，从全脱质子的 $\mathrm{A}^{n-}$ 出发，逐级加质子的累积常数记作
+\begin{equation}
+\beta_i^{\mathrm{H}}=\frac{[\mathrm{H}_i\mathrm{A}^{(n-i)-}]}{[\mathrm{A}^{n-}][\mathrm{H^+}]^i}
+=\frac{1}{K_{\mathrm{a}1}K_{\mathrm{a}2}\cdots K_{\mathrm{a}i}},
+\qquad \beta_0^{\mathrm{H}}=1 ,
+\end{equation}
+其中 $i$ 是加上的质子数。于是每个物种都是 $[\mathrm{A}^{n-}]$ 的已知倍数，代入物料平衡并提出公因子：
+\begin{equation}
+c_T=[\mathrm{A}^{n-}]\sum_{k=0}^{n}\beta_k^{\mathrm{H}}[\mathrm{H^+}]^k .
+\end{equation}
+两边同除以 $c_T$，就得到任意形态的分布系数
+\begin{equation}
+\delta_{\mathrm{H}_{n-i}\mathrm{A}^{i-}}
+=\frac{\beta_i^{\mathrm{H}}[\mathrm{H^+}]^i}
+{\sum_{k=0}^{n}\beta_k^{\mathrm{H}}[\mathrm{H^+}]^k}
+=\frac{[\mathrm{H^+}]^{n-i}\prod_{j=1}^{i}K_{\mathrm{a}_j}}
+{\sum_{k=0}^{n}[\mathrm{H^+}]^{n-k}\prod_{j=1}^{k}K_{\mathrm{a}_j}},
+\qquad \prod_{j=1}^{0}K_{\mathrm{a}_j}=1 .
+\label{eq:delta-poly}
+\end{equation}
+第二式由第一式分子分母同乘 $\prod_{j=1}^{i}K_{\mathrm{a}_j}$ 并整理得到。它的读法是：分子里出现几个 $K_{\mathrm{a}}$，这个形态就比全质子化形式少几个质子；分母对同一 $\mathrm{pH}$ 下的所有形态都一样，归一化因此自动成立。
+
+在对数坐标下，把第二式分子分母同除以 $[\mathrm{H^+}]^n$，每项化为常数的连乘积：
+\begin{equation}
+\delta_{\mathrm{H}_{n-i}\mathrm{A}^{i-}}
+=\frac{10^{-i\,\mathrm{pH}}\prod_{j=1}^{i}K_{\mathrm{a}_j}}
+{\sum_{k=0}^{n}10^{-k\,\mathrm{pH}}\prod_{j=1}^{k}K_{\mathrm{a}_j}} .
+\end{equation}
+分母中每一项都含 $10^{-k\mathrm{pH}}$，取对数后是 $\mathrm{pH}$ 的直线。这是对数浓度图可以画成折线的原因，也是判断“某 $\mathrm{pH}$ 下是否只剩一种形态”的依据。
+
+\begin{table}[H]
+\centering
+\caption{$\mathrm{H_3PO_4}$ 的分布系数（$\mathrm{p}K_{\mathrm{a1}}=2.15$，$\mathrm{p}K_{\mathrm{a2}}=7.20$，$\mathrm{p}K_{\mathrm{a3}}=12.35$）}
+\begin{tabularx}{\textwidth}{rrrrr>{\centering\arraybackslash}X}
+\toprule
+$\mathrm{pH}$ & $\delta_{\mathrm{H_3A}}$ & $\delta_{\mathrm{H_2A^-}}$ & $\delta_{\mathrm{HA^{2-}}}$ & $\delta_{\mathrm{A^{3-}}}$ & 主要形态 \\
+\midrule
+2.0 & 0.59 & 0.41 & $\approx0$ & $\approx0$ & $\mathrm{H_3A}$ \\
+4.7 & $\approx0$ & 0.99 & 0.01 & $\approx0$ & $\mathrm{H_2A^-}$ \\
+7.2 & $\approx0$ & 0.50 & 0.50 & $\approx0$ & 缓冲 \\
+9.8 & $\approx0$ & 0.005 & 0.995 & $\approx0$ & $\mathrm{HA^{2-}}$ \\
+12.35 & $\approx0$ & $\approx0$ & 0.50 & 0.50 & 缓冲 \\
+14.0 & $\approx0$ & $\approx0$ & 0.02 & 0.98 & $\mathrm{A^{3-}}$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.85cm,y=5cm]
+  \draw[->] (0,0) -- (14.4,0) node[right] {$\mathrm{pH}$};
+  \draw[->] (0,0) -- (0,1.12) node[above] {$\delta$};
+  \foreach \x in {0,2,...,14} \draw (\x,0) -- (\x,-0.015) node[below,font=\scriptsize] {\x};
+  \foreach \y in {0,0.5,1} \draw (0,\y) -- (-0.12,\y) node[left,font=\scriptsize] {\y};
+  \draw[thick,domain=0:14,samples=200] plot (\x,{1/(1+exp(min(9,2.302585*(\x-4.74))))});
+  \draw[thick,dashed,domain=0:14,samples=200] plot (\x,{1-1/(1+exp(min(9,2.302585*(\x-4.74))))});
+  \draw[dotted] (4.74,0) -- (4.74,0.5) -- (0,0.5);
+  \node[font=\scriptsize] at (4.74,1.03) {$\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$};
+  \node[font=\scriptsize] at (2.2,0.72) {$\delta_{\mathrm{HA}}$};
+  \node[font=\scriptsize] at (7.6,0.72) {$\delta_{\mathrm{A^-}}$};
+\end{tikzpicture}
+\caption{一元酸（$\mathrm{p}K_{\mathrm{a}}=4.74$）的分布曲线。实线为酸式，虚线为碱式；两条曲线在 $\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 处相交于 $\delta=0.5$。}
+\label{fig:delta-mono}
+\end{figure}
+
+\paragraph{极值与交叉点}
+
+一元酸的 $\delta_{\mathrm{HA}}$ 随 $\mathrm{pH}$ 单调下降，没有内部极值。多元酸的中间形态则不同。设某中间形态两侧的逐级解离常数为 $K_1'$、$K_2'$（$K_1'>K_2'$，即先失去的那个质子对应的常数更大），它与两侧形态的浓度比分别为 $[\mathrm{H^+}]/K_1'$ 与 $K_2'/[\mathrm{H^+}]$，于是
+\begin{equation}
+\delta=\frac{1}{1+\dfrac{[\mathrm{H^+}]}{K_1'}+\dfrac{K_2'}{[\mathrm{H^+}]}} .
+\end{equation}
+对 $[\mathrm{H^+}]$ 求导并令导数为零，得
+\begin{equation}
+\frac{1}{K_1'}-\frac{K_2'}{[\mathrm{H^+}]^2}=0
+\quad\Longrightarrow\quad
+[\mathrm{H^+}]=\sqrt{K_1'K_2'},
+\end{equation}
+即极大值位于
+\begin{equation}
+\mathrm{pH}=\frac{\mathrm{p}K_1'+\mathrm{p}K_2'}{2}.
+\end{equation}
+代回得极大值
+\begin{equation}
+\delta_{\max}=\frac{1}{1+2\sqrt{K_2'/K_1'}}
+=\frac{1}{1+2\times10^{-\Delta/2}},
+\qquad \Delta=\mathrm{p}K_2'-\mathrm{p}K_1' .
+\end{equation}
+$\Delta=0$ 时 $\delta_{\max}=1/3$（三种形态等量）；$\Delta=3$ 时约 $0.94$；$\Delta$ 再小，中间形态就始终到不了接近 1，溶液中任何 $\mathrm{pH}$ 下都同时存在多种形态——这是判断“能否分步滴定”的第一条依据。相邻两个形态的曲线在 $\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 处相交，此时两者 $\delta$ 相等。
+
+\paragraph{与配位分布的同构}
+
+配位体系换一个主变量即可。设金属离子 $\mathrm{M}$ 与配体 $\mathrm{L}$ 逐级配位，累积稳定常数为 $\beta_i$，与多元酸的推导完全平行，得到
+\begin{equation}
+\delta_{\mathrm{ML}_i}
+=\frac{\beta_i[\mathrm{L}]^i}
+{1+\sum_{j=1}^{n}\beta_j[\mathrm{L}]^j},
+\qquad
+\sum_{i=0}^{n}\delta_{\mathrm{ML}_i}=1 .
+\label{eq:delta-complex}
+\end{equation}
+对照式 \eqref{eq:delta-poly}：把 $[\mathrm{H^+}]$ 换成 $[\mathrm{L}]$，把 $K_{\mathrm{a}}$ 的倒数换成 $\beta$，把“少几个质子”换成“多几个配体”，两式逐项对应。由此得到一条重要推论：\textbf{酸碱分布与配位分布在数学上是同一个问题}。酸的 $\mathrm{p}K_{\mathrm{a}}$ 对应配位的 $-\lg\beta$；酸碱滴定曲线与配位滴定曲线、缓冲容量与配位缓冲，都可以互相翻译。后面把金属离子水解也纳入这一框架\textsuperscript{[\pageref{sec:metal-acid}]}，靠的就是这条同构性。
+
+\subsection{溶液守恒方程组与质子平衡}
+\label{sec:balance}
+
+一个溶液体系该列几个方程，可以先数清楚。设溶液共有 $S$ 个物种，由 $C$ 个独立组分构成（溶剂水算一个组分）。独立的化学平衡数为 $S-C$；每个非溶剂组分可写一个物料平衡，共 $C-1$ 个；再加一个电中性条件。独立方程总数为
+\begin{equation}
+(S-C)+(C-1)+1=S,
+\end{equation}
+恰好等于 $S$ 个未知浓度的个数。这解释了平衡问题原则上为什么有唯一解，也解释了为什么不能多写方程：多写的那个一定是已有方程的线性组合。
+
+以一元弱酸 $\mathrm{HA}$ 为例。物种为 $\mathrm{H^+}$、$\mathrm{OH^-}$、$\mathrm{HA}$、$\mathrm{A^-}$，$S=4$；组分为 $\mathrm{HA}$ 与水，$C=2$。两个独立平衡、一个物料平衡、一个电荷平衡，四式四未知：
+\begin{equation}
+K_{\mathrm{a}}=\frac{[\mathrm{H^+}][\mathrm{A^-}]}{[\mathrm{HA}]},
+\qquad
+K_{\mathrm{w}}=[\mathrm{H^+}][\mathrm{OH^-}],
+\qquad
+c=[\mathrm{HA}]+[\mathrm{A^-}],
+\qquad
+[\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}].
+\end{equation}
+
+但“可解”不等于“好解”。把后两式与平衡常数联立，得到的是关于 $[\mathrm{H^+}]$ 的三次方程；阶数随多元酸和配位数迅速升高。所以实际的工作顺序是：先用分布系数把所有物种表示成主变量的函数，再用一个守恒条件定出主变量，最后判断能否近似、降到一次或二次。
+
+化学平衡方程就是逐个反应的 $K$ 表达式，其数目为 $S-C$；$K$ 与标准自由能变的关系见后文化学平衡一节。
+
+\paragraph{物料平衡}
+
+对每个非溶剂组分，其各形态浓度之和等于该组分的分析浓度：
+\begin{equation}
+c_T=\sum_i c_i .
+\end{equation}
+例如草酸溶液 $c=[\mathrm{H_2C_2O_4}]+[\mathrm{HC_2O_4^-}]+[\mathrm{C_2O_4^{2-}}]$。物料平衡正是分布系数的分母：把它两边除以 $c_T$，就得到 $\sum_i\delta_i=1$。
+
+\paragraph{电荷平衡}
+
+溶液整体电中性，正负电荷的总数相等：
+\begin{equation}
+\sum_i z_i c_i=0 .
+\end{equation}
+例如 $\mathrm{NaAc}$ 溶液有
+\begin{equation}
+[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}] .
+\end{equation}
+电荷平衡的优点是不需要知道物种之间的反应关系；缺点是必须把溶液中所有离子都列出，包括不参与主反应的旁观离子。
+
+\paragraph{质子平衡与零水准}
+
+质子平衡（质子条件式，PBE）说的是：得质子的物质所得质子总数，等于失质子的物质所失质子总数。它不是新的独立条件，而是电荷平衡消去旁观离子的结果。仍以 $\mathrm{NaAc}$ 溶液为例：电荷平衡为 $[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}]$，物料平衡为 $c=[\mathrm{HAc}]+[\mathrm{Ac^-}]$，而 $\mathrm{NaAc}$ 完全解离给出 $[\mathrm{Na^+}]=c$。把后两式代入第一式，消去 $[\mathrm{Na^+}]$ 与 $[\mathrm{Ac^-}]$，得
+\begin{equation}
+[\mathrm{H^+}]+[\mathrm{HAc}]=[\mathrm{OH^-}] .
+\end{equation}
+旁观离子 $\mathrm{Na^+}$ 不再出现，这就是 PBE。它与电荷平衡并不独立，二者选其一即可。
+
+\paragraph{零水准法} 写 PBE 的标准做法是先选“零水准”（参考水准）：溶液中大量存在、且直接参与质子转移的原始组分，外加溶剂水。以零水准为基准，比它多一个质子的物种记在“得质子”一侧，少一个质子的记在“失质子”一侧，转移了几个质子就乘几。
+
+\begin{table}[H]
+\centering
+\caption{常见体系的零水准与质子平衡方程}
+\begin{tabular}{p{2.4cm}p{4.6cm}p{7.6cm}}
+\toprule
+体系 & 零水准 & 质子平衡方程 \\
+\midrule
+$\mathrm{HA}$ & $\mathrm{HA},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}]$ \\
+$\mathrm{NaA}$ & $\mathrm{A^-},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{HA}]=[\mathrm{OH^-}]$ \\
+$\mathrm{NaHA}$ & $\mathrm{HA^-},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{H_2A}]=[\mathrm{A^{2-}}]+[\mathrm{OH^-}]$ \\
+$\mathrm{Na_2S}$ & $\mathrm{S^{2-}},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{HS^-}]+2[\mathrm{H_2S}]=[\mathrm{OH^-}]$ \\
+$\mathrm{H_2CO_3}$ & $\mathrm{H_2CO_3},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]=[\mathrm{HCO_3^-}]+2[\mathrm{CO_3^{2-}}]+[\mathrm{OH^-}]$ \\
+$(\mathrm{NH_4})_2\mathrm{HPO_4}$ & $\mathrm{NH_4^+},\ \mathrm{HPO_4^{2-}},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{H_2PO_4^-}]+2[\mathrm{H_3PO_4}]=[\mathrm{OH^-}]+[\mathrm{PO_4^{3-}}]+[\mathrm{NH_3}]$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+系数的来源在最后一例中看得最清楚：$\mathrm{HPO_4^{2-}}$ 得一个质子成 $\mathrm{H_2PO_4^-}$，得两个成 $\mathrm{H_3PO_4}$，所以后者系数是 2；$\mathrm{NH_4^+}$ 失一个质子成 $\mathrm{NH_3}$，系数为 1。凡转移了 $k$ 个质子的物种，系数就是 $k$。
+
+\paragraph{为什么优先用 PBE} 以 $\mathrm{NaAc}$ 与 $\mathrm{HAc}$ 的混合溶液为例，用电荷平衡要写
+\begin{equation}
+[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}],
+\end{equation}
+其中 $[\mathrm{Na^+}]$ 是外部给定的分析浓度；用 PBE 则直接写
+\begin{equation}
+[\mathrm{H^+}]+[\mathrm{HAc}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}],
+\end{equation}
+不必再处理旁观离子。含多种盐的复杂体系里，这个优势更明显：PBE 只关心“谁得质子、谁失质子”，不关心溶液里还漂着多少 $\mathrm{Na^+}$、$\mathrm{K^+}$、$\mathrm{Cl^-}$。
+
+\paragraph{书写中的两个易错点} \begin{enumerate}
+  \item \textbf{零水准只能选一个形态}。同一物质不能既把 $\mathrm{H_2A}$ 又把 $\mathrm{HA^-}$ 当零水准，否则会重复计数。
+  \item \textbf{忽略水时要说明条件}。若溶液酸性较强，$[\mathrm{OH^-}]$ 可略；但“可略”必须有数量级依据（通常差两个数量级以上），不能凭感觉。
+\end{enumerate}
+
+\subsection{活度、离子强度与条件常数}
+\label{sec:activity}
+
+以上所有常数都写在“浓度”意义上。严格地说，化学势应由活度定义：
+\begin{equation}
+\mu_i=\mu_i^{\ominus}+RT\ln a_i,
+\qquad
+a_i=\gamma_i\frac{c_i}{c^{\ominus}},
+\end{equation}
+其中 $\gamma_i$ 是活度系数，$c^{\ominus}=1\ \mathrm{mol\cdot L^{-1}}$。稀溶液中 $\gamma\to1$，浓度可以代替活度；离子强度增大后，离子间的静电作用不能再忽略，$\gamma$ 明显偏离 1。本节把它定量推出来。
+
+\paragraph{离子强度：从离子氛推出}
+
+取一个中心离子，电荷 $z_i e$，放在原点。其余离子受它的电势 $\varphi(r)$ 作用，按 Boltzmann 分布排布，数密度为
+\begin{equation}
+n_j(r)=n_j^0\exp\!\left(-\frac{z_j e\,\varphi(r)}{kT}\right).
+\end{equation}
+异号离子被吸引、同号离子被排斥，中心离子周围因此形成一层净电荷相反的“离子氛”。稀溶液中 $z_j e\varphi\ll kT$，指数展开并保留一阶项：
+\begin{equation}
+n_j(r)\approx n_j^0\left(1-\frac{z_j e\,\varphi(r)}{kT}\right).
+\end{equation}
+离子氛的电荷密度为 $\rho=\sum_j z_j e\,n_j(r)$。其中与 $\varphi$ 无关的一项 $\sum_j z_j e\,n_j^0$ 就是溶液整体的电中性条件，恒为零，于是
+\begin{equation}
+\rho(r)=-\frac{e^2\varphi(r)}{kT}\sum_j z_j^2 n_j^0 .
+\end{equation}
+代入 Poisson 方程 $\varepsilon_0\varepsilon\nabla^2\varphi=-\rho$，得
+\begin{equation}
+\nabla^2\varphi=\kappa^2\varphi,
+\qquad
+\kappa^2=\frac{e^2}{\varepsilon_0\varepsilon kT}\sum_j z_j^2 n_j^0 .
+\end{equation}
+球对称下满足边界条件的解是
+\begin{equation}
+\varphi(r)=\frac{z_i e}{4\pi\varepsilon_0\varepsilon}\cdot\frac{e^{-\kappa r}}{r},
+\end{equation}
+$\kappa^{-1}$ 就是离子氛的特征厚度（Debye 长度）：距离超过它，中心电荷基本被屏蔽。
+
+关键在 $\kappa^2$ 里的浓度加权和 $\sum_j z_j^2 n_j^0$。把它换成摩尔浓度，并特意提取一个 $1/2$：
+\begin{equation}
+\sum_j z_j^2 n_j^0=N_A\sum_j z_j^2 c_j=2N_A I,
+\qquad
+I\equiv\frac{1}{2}\sum_j c_j z_j^2 .
+\end{equation}
+于是
+\begin{equation}
+\kappa^2=\frac{2e^2N_A I}{\varepsilon_0\varepsilon kT}
+=\frac{2F^2I}{\varepsilon_0\varepsilon RT},
+\end{equation}
+其中用了 $F=N_Ae$、$R=N_Ak$。这就是离子强度的来历：它不是为了凑公式而人为定义的量，而是把 $\kappa^2$ 中的浓度加权和记成一个符号的结果。电荷以平方出现，是因为 Boltzmann 因子中的电势乘的是 $z_j e$，线性化时又提出一个 $z_j$，两个因子相乘得到 $z_j^2$。一个 $\mathrm{Al^{3+}}$ 的贡献因此是 $\mathrm{Na^+}$ 的 9 倍：即使总浓度不高，高价离子也能把离子强度抬得很高。
+
+在 $25^\circ\mathrm{C}$ 的水中（$\varepsilon=78.3$）代入常数，得 $\kappa=3.29\times10^{9}\sqrt{I}\ \mathrm{m^{-1}}$（$I$ 以 $\mathrm{mol\cdot L^{-1}}$ 计），离子氛厚度为 $\kappa^{-1}=0.304/\sqrt{I}\ \mathrm{nm}$。
+
+\paragraph{活度系数：充电功}
+
+有了离子氛，就能算中心离子的静电稳定化能。把中心离子的电荷从 0 可逆地充到 $z_i e$，克服自身离子氛的电势所做的功为
+\begin{equation}
+W=\frac{1}{2}z_i e\,\varphi_{\mathrm{atm}}(0),
+\qquad
+\varphi_{\mathrm{atm}}(0)=-\frac{z_i e\kappa}{4\pi\varepsilon_0\varepsilon},
+\end{equation}
+因子 $1/2$ 来自充电过程中电荷与电势同步增长。每摩尔离子的超额自由能为 $N_A W$，而超额化学势又等于 $RT\ln\gamma_i$，故
+\begin{equation}
+\ln\gamma_i=\frac{N_A W}{RT}
+=-\frac{z_i^2e^2\kappa}{8\pi\varepsilon_0\varepsilon kT}.
+\end{equation}
+把 $\kappa=\sqrt{2F^2I/(\varepsilon_0\varepsilon RT)}$ 代入，与 $I$ 无关的部分只剩基本常数，收成一个无量纲系数 $A$：
+\begin{equation}
+-\lg\gamma_i=A z_i^2\sqrt{I},
+\qquad
+A=\frac{1}{2.303}\cdot\frac{e^2}{8\pi\varepsilon_0\varepsilon kT}
+\sqrt{\frac{2F^2}{\varepsilon_0\varepsilon RT}} .
+\end{equation}
+此式以国际单位制写出，$I$ 须用 $\mathrm{mol\cdot m^{-3}}$。换成常用的 $\mathrm{mol\cdot L^{-1}}$ 时，$I$ 缩小 $10^3$ 倍，$A$ 相应乘 $\sqrt{10^3}$；在 $25^\circ\mathrm{C}$ 的水中算得 $A=0.51$。这就是 Debye--H\"uckel 极限式，适用于 $I<0.01\ \mathrm{mol\cdot L^{-1}}$：
+\begin{equation}
+-\lg\gamma_i=0.51\,z_i^2\sqrt{I}.
+\end{equation}
+
+极限式把离子当成点电荷，浓度稍高就高估了屏蔽。真实的离子有体积，两个离子的中心不能靠得比某个距离 $a$ 更近。在 $r=a$ 处匹配边界条件重解 Poisson 方程，球对称解改为
+\begin{equation}
+\varphi(r)=\frac{z_i e}{4\pi\varepsilon_0\varepsilon}\cdot
+\frac{e^{-\kappa(r-a)}}{1+\kappa a}\cdot\frac{1}{r},
+\end{equation}
+重复上面的充电计算，分母多出一个 $1+\kappa a$，得到扩展式（$I<0.1\ \mathrm{mol\cdot L^{-1}}$）：
+\begin{equation}
+-\lg\gamma_i=\frac{0.51\,z_i^2\sqrt{I}}{1+\kappa a},
+\qquad
+\kappa a=0.00328\,\dot{a}\sqrt{I},
+\label{eq:debye}
+\end{equation}
+其中 $\dot{a}$ 是水化离子的有效半径，单位 pm；系数 0.00328 由 $\kappa=3.29\times10^{9}\sqrt{I}\ \mathrm{m^{-1}}$ 与 $1\ \mathrm{pm}=10^{-12}\ \mathrm{m}$ 换算而来。$\dot{a}$ 越大，离子能靠近的距离越远，屏蔽越弱，$\gamma$ 越接近 1。
+
+\begin{table}[H]
+\centering
+\caption{常见离子的 $\dot{a}$ 值（pm）}
+\begin{tabular}{cccccccc}
+\toprule
+$\mathrm{H^+}$ & $\mathrm{Li^+}$ & $\mathrm{Na^+}$ & $\mathrm{K^+}$ & $\mathrm{Ca^{2+}}$ & $\mathrm{Al^{3+}}$ & $\mathrm{Cl^-}$ & $\mathrm{OH^-}$ \\
+\midrule
+900 & 600 & 450 & 300 & 600 & 900 & 300 & 350 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{例}：计算 $0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{HCl}$ 中 $\mathrm{H^+}$ 的活度系数。离子强度
+\begin{equation}
+I=\frac{1}{2}\left(0.10\times1^2+0.10\times1^2\right)=0.10\ \mathrm{mol\cdot L^{-1}}.
+\end{equation}
+由式 \eqref{eq:debye}，
+\begin{equation}
+-\lg\gamma_{\mathrm{H^+}}
+=\frac{0.51\times1^2\times\sqrt{0.10}}{1+0.00328\times900\times\sqrt{0.10}}
+=0.084,
+\end{equation}
+故 $\gamma_{\mathrm{H^+}}=0.83$，活度 $a_{\mathrm{H^+}}=0.083$，$\mathrm{pH}=1.08$；而 $-\lg c_{\mathrm{H^+}}=1.00$。两者相差 0.08 个 $\mathrm{pH}$ 单位。$\mathrm{pH}$ 计测量的是活度，这就是高离子强度下必须用标准缓冲校准、不能直接拿浓度算 $\mathrm{pH}$ 的原因。
+
+\paragraph{浓度常数}
+
+把活度系数并入平衡常数，得到浓度常数（条件常数）。对 $\mathrm{A}+\mathrm{B}\rightleftharpoons\mathrm{AB}$，热力学常数为 $K^{\ominus}=a_{\mathrm{AB}}/(a_{\mathrm{A}}a_{\mathrm{B}})$，代入 $a=\gamma c$：
+\begin{equation}
+K'=\frac{[\mathrm{AB}]}{[\mathrm{A}][\mathrm{B}]}
+=K^{\ominus}\frac{\gamma_{\mathrm{A}}\gamma_{\mathrm{B}}}{\gamma_{\mathrm{AB}}}.
+\end{equation}
+在固定离子强度的介质中工作，$\gamma$ 基本不变，$K'$ 就近似是常数：所有平衡公式保持原样，只需把 $K$ 换成 $K'$。这是“条件化”思想的第一步。
+
+\paragraph{副反应系数}
+
+主反应之外的其它平衡统称副反应。设某物种 $\mathrm{X}$ 除游离态外还能与配体 $\mathrm{L}$ 形成 $\mathrm{XL}_i$，累积稳定常数为 $\beta_i$。它的分析浓度是各形态之和：
+\begin{equation}
+c_{\mathrm{X}}=[\mathrm{X}]+\sum_{i=1}^{n}[\mathrm{XL}_i]
+=[\mathrm{X}]\left(1+\sum_{i=1}^{n}\beta_i[\mathrm{L}]^i\right),
+\end{equation}
+第二个等号用了 $[\mathrm{XL}_i]=\beta_i[\mathrm{X}][\mathrm{L}]^i$。定义副反应系数 $\alpha_{\mathrm{X}}=c_{\mathrm{X}}/[\mathrm{X}]$，就得到
+\begin{equation}
+\alpha_{\mathrm{X}}=1+\sum_{i=1}^{n}\beta_i[\mathrm{L}]^i\ge1 .
+\end{equation}
+它度量“有多少 $\mathrm{X}$ 被副反应占住”，越大表示游离态越少。
+
+配体的酸效应是同一公式的特例。以 EDTA（$\mathrm{Y^{4-}}$）为例，$\mathrm{Y}$ 与质子逐级结合，质子化常数为 $\beta_i^{\mathrm{H}}$：
+\begin{equation}
+\alpha_{\mathrm{Y(H)}}=1+\beta_1^{\mathrm{H}}[\mathrm{H^+}]+\beta_2^{\mathrm{H}}[\mathrm{H^+}]^2+\cdots+\beta_6^{\mathrm{H}}[\mathrm{H^+}]^6
+=1+\sum_{i=1}^{6}\beta_i^{\mathrm{H}}[\mathrm{H^+}]^i.
+\label{eq:alpha-YH}
+\end{equation}
+$\mathrm{pH}$ 越低，$\alpha_{\mathrm{Y(H)}}$ 越大，EDTA 越被质子占住，配位能力越弱。金属离子的水解效应把 $[\mathrm{H^+}]$ 换成 $[\mathrm{OH^-}]$：
+\begin{equation}
+\alpha_{\mathrm{M(OH)}}=1+\sum_{i=1}^{n}\beta_i[\mathrm{OH^-}]^i.
+\label{eq:alpha-MOH}
+\end{equation}
+两者形式相同，这正是“金属离子也是酸”的数学体现：酸效应与水解效应是同一个多项式，只是一个用质子浓度，一个用氢氧根浓度。若有辅助配体 $\mathrm{L}$，同理 $\alpha_{\mathrm{M(L)}}=1+\sum_i\beta_i[\mathrm{L}]^i$。
+
+多种副反应同时存在时，由分析浓度的可加性直接相加：
+\begin{equation}
+c_{\mathrm{M}}=[\mathrm{M}]+(c_{\mathrm{M}}^{\mathrm{(OH)}}-[\mathrm{M}])+(c_{\mathrm{M}}^{\mathrm{(L)}}-[\mathrm{M}])
+\;\Longrightarrow\;
+\alpha_{\mathrm{M}}=\alpha_{\mathrm{M(OH)}}+\alpha_{\mathrm{M(L)}}-1 .
+\end{equation}
+减 1 是因为游离 $\mathrm{M}$ 这一项在两个 $\alpha$ 中被各算了一次。
+
+\paragraph{条件常数}
+
+把副反应系数并入主反应的平衡常数。对 $\mathrm{M}+\mathrm{Y}\rightleftharpoons\mathrm{MY}$，由 $c_{\mathrm{M}}=\alpha_{\mathrm{M}}[\mathrm{M}]$、$c_{\mathrm{Y}}=\alpha_{\mathrm{Y}}[\mathrm{Y}]$、$c_{\mathrm{MY}}\approx[\mathrm{MY}]$，得
+\begin{equation}
+K'_{\mathrm{MY}}
+=\frac{c_{\mathrm{MY}}}{c_{\mathrm{M}}c_{\mathrm{Y}}}
+=\frac{[\mathrm{MY}]}{\alpha_{\mathrm{M}}[\mathrm{M}]\,\alpha_{\mathrm{Y}}[\mathrm{Y}]}
+=\frac{K_{\mathrm{MY}}}{\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}}}.
+\label{eq:conditional-K}
+\end{equation}
+这就是条件稳定常数：在指定 $\mathrm{pH}$、指定辅助配体浓度下，主反应“看起来”有多强。$\mathrm{pH}$ 太低，$\alpha_{\mathrm{Y}}$ 大，$K'$ 小；$\mathrm{pH}$ 太高，$\alpha_{\mathrm{M(OH)}}$ 大，$K'$ 也小。两者之间存在使 $K'$ 最大的 $\mathrm{pH}$ 窗口，这就是配位滴定必须控制酸度的根本原因。
+
+\begin{table}[H]
+\centering
+\caption{四类滴定的条件常数}
+\begin{tabular}{p{2.2cm}p{4.2cm}p{4.2cm}p{3.6cm}}
+\toprule
+类型 & 主反应 & 条件常数 & 主要副反应 \\
+\midrule
+酸碱 & $\mathrm{HA}+\mathrm{OH^-}\rightleftharpoons\mathrm{A^-}+\mathrm{H_2O}$ & $K_t=K_{\mathrm{a}}/K_{\mathrm{w}}$ & 溶剂的拉平与区分 \\
+配位 & $\mathrm{M}+\mathrm{Y}\rightleftharpoons\mathrm{MY}$ & $K'_{\mathrm{MY}}=K_{\mathrm{MY}}/(\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}})$ & 酸效应、水解、共存离子 \\
+沉淀 & $\mathrm{M}+\mathrm{A}\rightleftharpoons\mathrm{MA}\downarrow$ & $K_{\mathrm{sp}}'=K_{\mathrm{sp}}\alpha_{\mathrm{M}}\alpha_{\mathrm{A}}$ & 配位、水解、同离子 \\
+氧化还原 & $\mathrm{Ox}_1+\mathrm{Red}_2\rightleftharpoons\mathrm{Red}_1+\mathrm{Ox}_2$ & $\varphi^{\ominus'}=\varphi^{\ominus}+\dfrac{0.059}{z}\lg\dfrac{\alpha_{\mathrm{Red}}}{\alpha_{\mathrm{Ox}}}$ & 配位、沉淀、酸度 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+氧化还原体系的条件电势是同一思想的应用：把活度换成分析浓度与副反应系数的乘积，与浓度比无关的部分并入常数。推导见下节。
+
+\subsection{化学平衡}
 \label{ChemBlanance}
 
-\paragraph{水溶液中的平衡}
+平衡判据 $\Delta_rG=0$ 与反应商 $Q$ 已在吉布斯自由能一节给出。对反应 $a\mathrm{A}+b\mathrm{B}\rightleftharpoons c\mathrm{C}+d\mathrm{D}$，达平衡时 $\Delta_rG=\Delta_rG^{\ominus}+RT\ln Q=0$，此时的 $Q$ 就是平衡常数：
+\begin{equation}
+K=\frac{a_{\mathrm{C}}^c\,a_{\mathrm{D}}^d}{a_{\mathrm{A}}^a\,a_{\mathrm{B}}^b}
+\approx\frac{[\mathrm{C}]^c[\mathrm{D}]^d}{[\mathrm{A}]^a[\mathrm{B}]^b},
+\qquad
+\Delta_rG^{\ominus}=-RT\ln K .
+\end{equation}
+“平衡常数大”因此等价于“反应自由能下降多”；要求反应定量，本质上就是要求 $K$ 足够大。末一步用浓度代替活度在稀溶液中成立，离子强度较大时的修正见活度与条件常数一节。
 
-弱电解质在水中的电离是最常见的平衡。以 $\mathrm{A}_m\mathrm{B}_n$ 为例：
-\begin{equation}
-\mathrm{A}_m\mathrm{B}_n\rightleftharpoons m\,\mathrm{A}^{n+}+n\,\mathrm{B}^{m-}.
-\end{equation}
-设初始浓度为 $c_0$，平衡时解离了 $c$，则各物种浓度为 $m c$、$n c$ 与 $c_0-c$，平衡常数为
-\begin{equation}
-K=\frac{(mc)^m(nc)^n}{c_0-c}
-=\frac{m^m n^n c^{m+n}}{c_0-c}.
-\end{equation}
-对一元弱酸或一元弱碱，$m=n=1$，上式退化为
-\begin{equation}
-K=\frac{c^2}{c_0-c}.
-\end{equation}
-当 $c_0/K>400$ 时，$c_0-c\approx c_0$，于是
-\begin{equation}
-c=\sqrt{Kc_0},\qquad
-\alpha=\frac{c}{c_0}=\sqrt{\frac{K}{c_0}} .
-\end{equation}
-这两式就是估算一元弱酸、弱碱溶液 $\mathrm{pH}$ 的常用近似。
+\paragraph{多重平衡}
 
-水溶液中还需要考虑四种离子效应：
+实际体系里几个反应常同时存在。把反应式相加，对应的标准自由能变也相加，取指数后就是平衡常数相乘；相减则相除；方程式乘 $n$，$K$ 取 $n$ 次方。例如
+\begin{equation}
+\mathrm{AgCl(s)}\rightleftharpoons\mathrm{Ag^+}+\mathrm{Cl^-}\quad(K_{\mathrm{sp}}),
+\qquad
+\mathrm{Ag^+}+2\mathrm{NH_3}\rightleftharpoons[\mathrm{Ag(NH_3)_2}]^+\quad(\beta_2),
+\end{equation}
+两式相加得
+\begin{equation}
+\mathrm{AgCl(s)}+2\mathrm{NH_3}\rightleftharpoons[\mathrm{Ag(NH_3)_2}]^++\mathrm{Cl^-},
+\qquad
+K=K_{\mathrm{sp}}\beta_2 .
+\end{equation}
+氯化银能否溶于氨水，就看这个乘积够不够大。酸碱、配位、沉淀、氧化还原的耦合，都可以按同一条规则合并成一个总反应来处理。
+
+\paragraph{四类离子效应}
+
+溶液中的平衡很少孤立存在，另外加入的离子会通过四条途径使其移动：
 
 \begin{itemize}
-  \item \textbf{同离子效应}：加入与弱电解质含有相同离子的强电解质，平衡左移，解离度减小。缓冲溶液正是利用这一点：弱酸与其共轭碱共存时，$\mathrm{pH}$ 由二者的浓度比决定，
-  \begin{equation}
-  \mathrm{pH}=\mathrm{p}K_a+\lg\frac{c_b}{c_a}.
-  \end{equation}
-  \item \textbf{盐效应}：加入不含相同离子的强电解质，离子强度增大，活度系数下降，解离度略微增大。离子强度定义为
-  \begin{equation}
-  I=\frac{1}{2}\sum_i c_i z_i^2 .
-  \end{equation}
-  \item \textbf{配位效应}：沉淀中的金属离子与加入的试剂形成稳定配合物，使沉淀溶解度增大。
-  \item \textbf{酸效应}：溶液酸度改变弱酸根的质子化程度，从而影响沉淀溶解度或配体浓度。
+  \item \textbf{同离子效应}：加入含有相同离子的强电解质，平衡向消耗该离子的方向移动，解离度或溶解度减小。缓冲溶液正是利用这一点：弱酸与其共轭碱共存时，$\mathrm{pH}$ 由二者的浓度比决定。具体计算见第四章\textsuperscript{[\pageref{sec:buffer-ph}]}。
+  \item \textbf{盐效应}：加入不含相同离子的强电解质，离子强度增大，活度系数下降，解离度或溶解度略微增大。定量关系由活度与条件常数一节给出。
+  \item \textbf{配位效应}：金属离子与加入的试剂形成稳定配合物，游离金属离子浓度下降，沉淀溶解度增大。
+  \item \textbf{酸效应}：溶液酸度改变弱酸根的质子化程度，从而改变配体浓度或沉淀溶解度。
 \end{itemize}
 
-这四类效应并非彼此孤立，同一体系中往往同时存在；平衡计算的任务，就是把它们统一到同一个平衡常数与物料衡算之中。酸碱解离平衡、沉淀溶解平衡与配位平衡，都可以用这套框架处理。
+这四类效应往往同时出现。处理时不必逐个修正，而是把活度系数与副反应系数一起并入条件常数，让平衡式保持原来的形式——这正是上一节“条件化”的做法。
 
-\paragraph{氧化还原反应与原电池}
+\subsection{氧化还原反应平衡与电极电势}
 \label{sec:nernst}
 
 氧化还原反应的本质是电子传递。为了描述电子的得失，先要区分两个容易混淆的概念：\textbf{氧化数}是按化学式分配的价态，是形式上的记账；\textbf{化合价}则指实际形成的共价键数目。前者用于配平与判断氧化还原，后者用于描述结构。
@@ -349,11 +751,11 @@ $E^{\theta'}$ 称为\textbf{条件电极电势}（conditional potential）。它
 \end{equation}
 拉提莫图最能直接反映不同氧化态之间的转化趋势：若某物种右侧的电势大于左侧，它便倾向于歧化。熟悉一个元素的氧化还原化学，往往就是从这张图开始的。注意图中各电势均为标准状态下的数值。
 
-\subsection{化学反应动力学}
+\section{化学反应动力学}
 
 热力学只告诉我们反应的终点在哪里，却不告诉我们到达终点需要多久。动力学的基本假设是碰撞理论：只有能量足够、取向正确的分子相遇，才能越过过渡态，反应物才转化为产物。要把“能量足够”与“取向正确”写成定量表达式，先需要统计分布这个工具。
 
-\subsubsection{配分函数与玻尔兹曼分布}
+\subsection{配分函数与玻尔兹曼分布}
 
 设有 $M$ 个可区分的系统（例如定域子系统），处于能级 $E_i$ 的系统有 $M_i$ 个，则总系统数与总能量满足
 \begin{equation}
@@ -432,7 +834,7 @@ Z=\sum_i e^{-E_i/k_{\mathrm B}T}.
 \end{equation}
 配分函数是统计力学的核心量：系统的所有热力学性质都可以由它导出。
 
-\subsubsection{碰撞理论与速率方程}
+\subsection{碰撞理论与速率方程}
 
 对一般反应 $aA+bB\to cC+dD$，总反应可分解为若干基元反应。以基元反应 $mA+nB\to eE$ 为例，按碰撞理论，速率取决于具有足够活化能的 $A$、$B$ 分子相遇的数目。能级 $E_i$ 上的分子数为 $M_i=Ae^{-E_i/k_{\mathrm B}T}$，而对固定系统配分函数 $Z$ 是常数，因此处于活化态的概率为
 \begin{equation}
@@ -490,7 +892,7 @@ v=-\frac{dc}{dt}=k\,c^{m+n},
 
 \section{介观物理模型：原子、分子与配合物}
 
-上一节讨论的是宏观的热力学量，本节把尺度缩小到原子与分子，回答三个层层递进的问题：电子在原子核周围如何排布，原子之间如何成键，多个原子与配体又如何组成具有一定空间构型的配合物。这条线索从单个电子的波函数一直延伸到配合物的能级分裂，构成了后面理解各区元素结构性质的理论骨架。
+前两节讨论的是宏观的热力学与动力学，本节把尺度缩小到原子与分子，回答三个层层递进的问题：电子在原子核周围如何排布，原子之间如何成键，多个原子与配体又如何组成具有一定空间构型的配合物。这条线索从单个电子的波函数一直延伸到配合物的能级分裂，构成了后面理解各区元素结构性质的理论骨架。
 
 \subsection{从原子光谱到分子间作用力}
 
@@ -3942,331 +4344,11 @@ L_{\mathrm{D}}=3s_{\text{空白}}\quad(\text{或}\ 3\sigma\text{ 对应的浓度
 
 
 
-\section{可逆平衡与溶液方程组}
+\section{水溶液 $\mathrm{pH}$ 的计算}
 
-水溶液里的反应几乎都是可逆的：解离、配位、沉淀、氧化还原，每一步都由一个平衡常数约束，反应因此总是不完全的。处理这类体系只有一条主线——先选定一个主变量，用分布系数把各物种浓度写成它的函数；再用物料、电荷、质子三个守恒方程，连同平衡方程本身，把主变量定下来；最后在条件允许时把方程逐级约化，得到可以直接计算的公式。
+$\mathrm{pH}$ 计算是第一章原理的直接应用：分布系数给出各形态的分数，守恒方程给出主变量满足的方程，条件常数把活度与副反应并入常数。这些原理连同推导已在原理部分讲完（分布系数\textsuperscript{[\pageref{sec:delta}]}、守恒方程组与质子平衡\textsuperscript{[\pageref{sec:balance}]}、活度与条件常数\textsuperscript{[\pageref{sec:activity}]}），本节不再重复，只按体系类型给出可用公式、适用条件与算例。
 
-本节按这条主线展开：从平衡常数引出分布系数；列出守恒方程组，说明它们为什么恰好给出唯一解；交代活度与副反应如何把常数条件化；再以酸碱体系为例，先写精确式，再按浓度与常数的相对大小逐级约化到最简式。数值方法与对数浓度图是解析近似失效时的兜底，放在解析近似之后；最后统一到路易斯酸碱的框架，并给出贯穿全节的算例。
-
-\subsection{从解离平衡到分布系数}
-
-平衡常数把各形态的比例固定下来，但反应并不完全：一元弱酸 $\mathrm{HA}$ 只解离一部分，$\mathrm{A^-}$ 又会与质子结合回去。要算某一形态的浓度，先得知道总浓度在各形态之间按什么比例分配。分布系数描述的就是这个分配。
-
-\label{sec:delta}
-设某组分总浓度为 $c_T$，其中第 $i$ 个物种的浓度为 $c_i$，定义分布系数
-\begin{equation}
-\delta_i=\frac{c_i}{c_T},
-\qquad
-\sum_i\delta_i=1.
-\end{equation}
-分布系数是无量纲的权重，描述“在给定条件下，这个组分有多大比例以第 $i$ 种形态存在”。它只依赖于主变量（酸碱体系里是 $[\mathrm{H^+}]$），与总浓度 $c_T$ 无关——这是它最有用的性质。
-
-\subsubsection{一元酸}
-
-对 $\mathrm{HA}$，由 $K_{\mathrm{a}}=[\mathrm{H^+}][\mathrm{A^-}]/[\mathrm{HA}]$ 与物料平衡 $c_T=[\mathrm{HA}]+[\mathrm{A^-}]$ 得
-\begin{equation}
-\delta_{\mathrm{HA}}=\frac{[\mathrm{H^+}]}{[\mathrm{H^+}]+K_{\mathrm{a}}},
-\qquad
-\delta_{\mathrm{A^-}}=\frac{K_{\mathrm{a}}}{[\mathrm{H^+}]+K_{\mathrm{a}}}.
-\label{eq:delta-mono}
-\end{equation}
-两者相加恒为 1。当 $\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 时 $\delta_{\mathrm{HA}}=\delta_{\mathrm{A^-}}=0.5$；$\mathrm{pH}$ 每改变 1 个单位，比值 $[\mathrm{A^-}]/[\mathrm{HA}]$ 改变 10 倍。这就是“$\mathrm{p}K_{\mathrm{a}}$ 是酸碱对的分水岭”的定量含义。
-
-\subsubsection{多元酸}
-
-对 $\mathrm{H}_n\mathrm{A}$，用累积质子化常数 $\beta_i^{\mathrm{H}}=K_{\mathrm{a1}}^{-1}K_{\mathrm{a2}}^{-1}\cdots K_{\mathrm{a}i}^{-1}$（即从 $\mathrm{A^{n-}}$ 加 $i$ 个质子的常数），可写成统一形式
-\begin{equation}
-\delta_{\mathrm{H}_{n-i}\mathrm{A}^{i-}}
-=\frac{[\mathrm{H^+}]^{n-i}\prod_{j=1}^{i}K_{\mathrm{a}_j}}
-{\sum_{k=0}^{n}[\mathrm{H^+}]^{n-k}\prod_{j=1}^{k}K_{\mathrm{a}_j}},
-\qquad
-\prod_{j=1}^{0}K_{\mathrm{a}_j}=1.
-\label{eq:delta-poly}
-\end{equation}
-分子里出现几个 $K_{\mathrm{a}}$，就说明这个物种比全质子化形式少几个质子。分母是同一个多项式，保证归一化。
-
-把它写成“除以 $[\mathrm{H^+}]^n$”的形式，往往更好用：
-\begin{equation}
-\delta_{\mathrm{H}_{n-i}\mathrm{A}^{i-}}
-=\frac{10^{-i\,\mathrm{pH}}\prod_{j=1}^{i}K_{\mathrm{a}_j}}
-{\sum_{k=0}^{n}10^{-k\,\mathrm{pH}}\prod_{j=1}^{k}K_{\mathrm{a}_j}},
-\end{equation}
-因为对数坐标下每一项都是直线，这正是后面对数浓度图的基础。
-
-\begin{table}[H]
-\centering
-\caption{$\mathrm{H_3PO_4}$ 的分布系数（$\mathrm{p}K_{\mathrm{a1}}=2.15$，$\mathrm{p}K_{\mathrm{a2}}=7.20$，$\mathrm{p}K_{\mathrm{a3}}=12.35$）}
-\begin{tabular}{cccccc}
-\toprule
-$\mathrm{pH}$ & $\delta_{\mathrm{H_3A}}$ & $\delta_{\mathrm{H_2A^-}}$ & $\delta_{\mathrm{HA^{2-}}}$ & $\delta_{\mathrm{A^{3-}}}$ & 主要形态 \\
-\midrule
-2.0 & 0.59 & 0.41 & $\approx0$ & $\approx0$ & $\mathrm{H_3A}$ \\
-4.7 & $\approx0$ & 0.99 & 0.01 & $\approx0$ & $\mathrm{H_2A^-}$ \\
-7.2 & $\approx0$ & 0.50 & 0.50 & $\approx0$ & 缓冲 \\
-9.8 & $\approx0$ & 0.005 & 0.995 & $\approx0$ & $\mathrm{HA^{2-}}$ \\
-12.35 & $\approx0$ & $\approx0$ & 0.50 & 0.50 & 缓冲 \\
-14.0 & $\approx0$ & $\approx0$ & 0.02 & 0.98 & $\mathrm{A^{3-}}$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[x=0.85cm,y=5cm]
-  \draw[->] (0,0) -- (14.4,0) node[right] {$\mathrm{pH}$};
-  \draw[->] (0,0) -- (0,1.12) node[above] {$\delta$};
-  \foreach \x in {0,2,...,14} \draw (\x,0) -- (\x,-0.015) node[below,font=\scriptsize] {\x};
-  \foreach \y in {0,0.5,1} \draw (0,\y) -- (-0.12,\y) node[left,font=\scriptsize] {\y};
-  \draw[thick,domain=0:14,samples=200] plot (\x,{1/(1+exp(min(9,2.302585*(\x-4.74))))});
-  \draw[thick,dashed,domain=0:14,samples=200] plot (\x,{1-1/(1+exp(min(9,2.302585*(\x-4.74))))});
-  \draw[dotted] (4.74,0) -- (4.74,0.5) -- (0,0.5);
-  \node[font=\scriptsize] at (4.74,1.03) {$\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$};
-  \node[font=\scriptsize] at (2.2,0.72) {$\delta_{\mathrm{HA}}$};
-  \node[font=\scriptsize] at (7.6,0.72) {$\delta_{\mathrm{A^-}}$};
-\end{tikzpicture}
-\caption{一元酸（$\mathrm{p}K_{\mathrm{a}}=4.74$）的分布曲线。实线为酸式，虚线为碱式；两条曲线在 $\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 处相交于 $\delta=0.5$。}
-\label{fig:delta-mono}
-\end{figure}
-
-\subsubsection{分布的极值与交叉点}
-
-对一元酸，由 $\mathrm{d}\delta_{\mathrm{HA}}/\mathrm{dpH}=0$ 可知 $\delta_{\mathrm{HA}}$ 随 $\mathrm{pH}$ 单调下降，没有内部极值。对多元酸，中间形态 $\mathrm{H}_{n-i}\mathrm{A}^{i-}$ 的分布系数在
-\begin{equation}
-\mathrm{pH}=\frac{\mathrm{p}K_{\mathrm{a}i}+\mathrm{p}K_{\mathrm{a}(i+1)}}{2}
-\end{equation}
-处取极大值，约等于 $\dfrac{\sqrt{K_{\mathrm{a}i}/K_{\mathrm{a}(i+1)}}}{1+\sqrt{K_{\mathrm{a}i}/K_{\mathrm{a}(i+1)}}}$；相邻两个形态在 $\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 处相交。若两个 $\mathrm{p}K_{\mathrm{a}}$ 相差小于约 3 个单位，中间形态的极大值达不到 1，溶液中任何 $\mathrm{pH}$ 下都同时存在多种形态——这是判断“能否分步滴定”的第一条依据。
-
-配位体系就是同一个公式换了变量，设金属离子 $\mathrm{M}$ 与配体 $\mathrm{L}$ 逐级配位，累积稳定常数为 $\beta_i$，则
-\begin{equation}
-\delta_{\mathrm{ML}_i}
-=\frac{\beta_i[\mathrm{L}]^i}
-{1+\sum_{j=1}^{n}\beta_j[\mathrm{L}]^j},
-\qquad
-\sum_{i=0}^{n}\delta_{\mathrm{ML}_i}=1.
-\label{eq:delta-complex}
-\end{equation}
-形式与式 \eqref{eq:delta-poly} 完全同构：把 $[\mathrm{H^+}]$ 换成 $[\mathrm{L}]$，把 $K_{\mathrm{a}}$ 的倒数换成 $\beta$，把“少几个质子”换成“多几个配体”。
-
-由此得到一条重要推论：\textbf{酸碱分布与配位分布在数学上是同一个问题}。酸的 $\mathrm{p}K_{\mathrm{a}}$ 对应配位的 $-\lg\beta$；酸碱滴定曲线与配位滴定曲线、缓冲容量与配位缓冲，都可以互相翻译。后面把金属离子水解也纳入这一框架\textsuperscript{[\pageref{sec:metal-acid}]}，正是靠这条同构性。
-
-\subsection{溶液方程组：平衡、物料、电荷与质子}
-
-先数一数：一个溶液里到底需要几个独立方程。设溶液中共有 $S$ 个物种，由 $C$ 个独立组分构成（溶剂水算一个组分）。独立化学平衡数为 $S-C$，每个非溶剂组分可写一个物料平衡，共 $C-1$ 个，再加一个电中性条件。于是独立方程总数为
-\begin{equation}
-(S-C)+(C-1)+1=S,
-\end{equation}
-恰好等于未知数（$S$ 个物种浓度）的个数。这解释了为什么平衡问题在原则上有唯一解，也解释了为什么不能多写方程：多写的那个一定是前面方程的线性组合。
-
-以一元弱酸 $\mathrm{HA}$ 为例。物种有 $\mathrm{H^+}$、$\mathrm{OH^-}$、$\mathrm{HA}$、$\mathrm{A^-}$，共 $S=4$；组分为 $\mathrm{HA}$ 与水，$C=2$。独立平衡两个：
-\begin{equation}
-K_{\mathrm{a}}=\frac{[\mathrm{H^+}][\mathrm{A^-}]}{[\mathrm{HA}]},
-\qquad
-K_{\mathrm{w}}=[\mathrm{H^+}][\mathrm{OH^-}].
-\end{equation}
-物料平衡一个：$c=[\mathrm{HA}]+[\mathrm{A^-}]$。电荷平衡一个：$[\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}]$。四式四未知，原则上可解。
-
-但“可解”不等于“好解”。把 $[\mathrm{A^-}]$、$[\mathrm{OH^-}]$、$[\mathrm{HA}]$ 都代进电荷平衡，会得到一个关于 $[\mathrm{H^+}]$ 的三次方程。阶数随多元酸和配位数迅速升高。因此真正的工作顺序是：先用分布系数把所有物种表示成 $[\mathrm{H^+}]$ 的函数，再用守恒条件列一个方程，最后判断能否近似、降到一次或二次。
-
-\subsubsection{化学平衡方程}
-
-对任一反应
-\begin{equation}
-a\mathrm{A}+b\mathrm{B}\rightleftharpoons c\mathrm{C}+d\mathrm{D},
-\end{equation}
-平衡时有
-\begin{equation}
-K=\frac{a_{\mathrm{C}}^c\,a_{\mathrm{D}}^d}{a_{\mathrm{A}}^a\,a_{\mathrm{B}}^b}
-\approx\frac{[\mathrm{C}]^c[\mathrm{D}]^d}{[\mathrm{A}]^a[\mathrm{B}]^b}.
-\end{equation}
-$K$ 与标准自由能变的关系为
-\begin{equation}
-\Delta_rG^{\ominus}=-RT\ln K.
-\end{equation}
-因此“平衡常数大”等价于“反应自由能下降多”。分析化学要求反应定量，本质上就是要求 $K$ 足够大。
-
-\subsubsection{物料平衡}
-
-对每个非溶剂组分，其各物种浓度之和等于该组分的分析浓度：
-\begin{equation}
-c_T=\sum_i c_i.
-\end{equation}
-例如草酸溶液 $c=[\mathrm{H_2C_2O_4}]+[\mathrm{HC_2O_4^-}]+[\mathrm{C_2O_4^{2-}}]$。物料平衡是用分布系数表达各物种后的“归一化约束”，也是把 $c_T$ 与 $\delta_i$ 联系起来的桥梁。
-
-\subsubsection{电荷平衡}
-
-溶液整体电中性：
-\begin{equation}
-\sum_i z_i c_i=0.
-\end{equation}
-例如 $\mathrm{NaAc}$ 溶液：
-\begin{equation}
-[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}].
-\end{equation}
-电荷平衡的优点是不需要知道物种之间的反应关系，缺点是必须把溶液中所有离子都列出来，包括不参与主反应的旁观离子。
-
-\subsubsection{质子平衡与零水准}
-
-质子平衡（质子条件式，PBE）说的是：溶液中得质子的物质所得到的质子总数，等于失质子的物质所失去的质子总数。它不含旁观离子，因而在酸碱计算中比电荷平衡更好用。
-
-PBE 与电荷平衡并不独立：把物料平衡代入电荷平衡，消去旁观离子，就得到 PBE。二者选其一即可。
-
-\paragraph{零水准法} 写 PBE 的标准做法是选“零水准”（参考水准）：通常选溶液中大量存在、且直接参与质子转移的原始组分，以及溶剂水。以零水准为基准，比它多一个质子的物种记在“得质子”一边，少一个质子的记在“失质子”一边，转移了几个质子就乘几。
-
-\begin{table}[H]
-\centering
-\caption{常见体系的零水准与质子平衡方程}
-\begin{tabular}{p{2.4cm}p{4.6cm}p{7.6cm}}
-\toprule
-体系 & 零水准 & 质子平衡方程 \\
-\midrule
-$\mathrm{HA}$ & $\mathrm{HA},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}]$ \\
-$\mathrm{NaA}$ & $\mathrm{A^-},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{HA}]=[\mathrm{OH^-}]$ \\
-$\mathrm{NaHA}$ & $\mathrm{HA^-},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{H_2A}]=[\mathrm{A^{2-}}]+[\mathrm{OH^-}]$ \\
-$\mathrm{Na_2S}$ & $\mathrm{S^{2-}},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{HS^-}]+2[\mathrm{H_2S}]=[\mathrm{OH^-}]$ \\
-$\mathrm{H_2CO_3}$ & $\mathrm{H_2CO_3},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]=[\mathrm{HCO_3^-}]+2[\mathrm{CO_3^{2-}}]+[\mathrm{OH^-}]$ \\
-$(\mathrm{NH_4})_2\mathrm{HPO_4}$ & $\mathrm{NH_4^+},\ \mathrm{HPO_4^{2-}},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{H_2PO_4^-}]+2[\mathrm{H_3PO_4}]=[\mathrm{OH^-}]+[\mathrm{PO_4^{3-}}]+[\mathrm{NH_3}]$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-以 $(\mathrm{NH_4})_2\mathrm{HPO_4}$ 为例说明“系数”的来源：$\mathrm{HPO_4^{2-}}$ 得一个质子成 $\mathrm{H_2PO_4^-}$，得两个成 $\mathrm{H_3PO_4}$，所以后者的系数是 2；$\mathrm{NH_4^+}$ 失一个质子成 $\mathrm{NH_3}$，系数为 1。凡是转移了 $k$ 个质子的物种，系数就是 $k$。
-
-\paragraph{为什么优先用 PBE} 考虑 $\mathrm{NaAc}$ 与 $\mathrm{HAc}$ 的混合溶液。用电荷平衡要写
-\begin{equation}
-[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}],
-\end{equation}
-其中 $[\mathrm{Na^+}]$ 等于 $\mathrm{NaAc}$ 的分析浓度，是外部给定值；用 PBE 则直接写
-\begin{equation}
-[\mathrm{H^+}]+[\mathrm{HAc}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}],
-\end{equation}
-不必再显式处理旁观离子。对含多种盐的复杂体系，PBE 的优势更明显：它只关心“谁得质子、谁失质子”，不关心溶液里还漂着多少 $\mathrm{Na^+}$、$\mathrm{K^+}$、$\mathrm{Cl^-}$。
-
-\paragraph{书写中的两个易错点} \begin{enumerate}
-  \item \textbf{零水准只能选一个形态}。同一物质不能既把 $\mathrm{H_2A}$ 又把 $\mathrm{HA^-}$ 当零水准，否则会重复计数。
-  \item \textbf{忽略水时要说明条件}。若溶液酸性较强，$[\mathrm{OH^-}]$ 可略；但“可略”必须有数量级依据（通常差两个数量级以上），不能凭感觉。
-\end{enumerate}
-
-\subsection{条件常数：活度与副反应}
-
-\label{sec:activity}
-以上所有常数都是在“浓度”意义上写的。严格地说，平衡常数应由活度定义：
-\begin{equation}
-a_i=\gamma_i c_i,
-\end{equation}
-其中 $\gamma_i$ 为活度系数。稀溶液中 $\gamma\to1$，浓度近似活度；离子强度增大后，$\gamma$ 明显偏离 1。
-
-离子强度定义为
-\begin{equation}
-I=\frac{1}{2}\sum_i c_i z_i^2.
-\end{equation}
-注意它按电荷平方加权：一个 $\mathrm{Al^{3+}}$ 的贡献是 $\mathrm{Na^+}$ 的 9 倍。因此即使浓度不高，高价离子的溶液离子强度也可能很大。
-
-Debye--H\"uckel 极限式适用于 $I<0.01\ \mathrm{mol\cdot L^{-1}}$：
-\begin{equation}
--\lg\gamma_i=0.51z_i^2\sqrt{I}\qquad(25^\circ\mathrm{C}),
-\end{equation}
-扩展式适用于 $I<0.1\ \mathrm{mol\cdot L^{-1}}$：
-\begin{equation}
--\lg\gamma_i=\frac{0.51z_i^2\sqrt{I}}{1+B\dot{a}\sqrt{I}},
-\qquad B=0.00328\ (25^\circ\mathrm{C}),
-\label{eq:debye}
-\end{equation}
-其中 $\dot{a}$ 为离子体积参数（水化离子有效半径，单位 pm）。
-
-\begin{table}[H]
-\centering
-\caption{常见离子的 $\dot{a}$ 值（pm）}
-\begin{tabular}{cccccccc}
-\toprule
-$\mathrm{H^+}$ & $\mathrm{Li^+}$ & $\mathrm{Na^+}$ & $\mathrm{K^+}$ & $\mathrm{Ca^{2+}}$ & $\mathrm{Al^{3+}}$ & $\mathrm{Cl^-}$ & $\mathrm{OH^-}$ \\
-\midrule
-900 & 600 & 450 & 300 & 600 & 900 & 300 & 350 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{例}：计算 $0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{HCl}$ 中 $\mathrm{H^+}$ 的活度系数。离子强度
-\begin{equation}
-I=\frac{1}{2}\left(0.10\times1^2+0.10\times1^2\right)=0.10\ \mathrm{mol\cdot L^{-1}}.
-\end{equation}
-由式 \eqref{eq:debye}，
-\begin{equation}
--\lg\gamma_{\mathrm{H^+}}
-=\frac{0.51\times1^2\times\sqrt{0.10}}{1+0.00328\times900\times\sqrt{0.10}}
-=0.084,
-\end{equation}
-故 $\gamma_{\mathrm{H^+}}=0.83$，活度 $a_{\mathrm{H^+}}=0.083$，$\mathrm{pH}=1.08$。而 $-\lg c_{\mathrm{H^+}}=1.00$。两者相差 0.08 个 pH 单位——pH 计读的是活度，这就是为什么高离子强度下必须用标准缓冲校准，而不能直接拿浓度算 pH。
-
-\textbf{条件常数}。把活度系数并入常数，得到浓度常数（条件常数）：
-\begin{equation}
-K'=K\frac{\gamma_{\mathrm{A}}\gamma_{\mathrm{B}}}{\gamma_{\mathrm{AB}}}.
-\end{equation}
-在固定离子强度的介质中工作，$K'$ 近似为常数，于是所有平衡公式保持原样，只是把 $K$ 换成 $K'$。这是分析化学中“条件化”思想的第一步；更一般的副反应系数也会被吸收进条件常数\textsuperscript{[\pageref{sec:cond-const}]}。
-
-这一节只给出结果，不展开推导。紧接着的副反应系数是同一思想在配位、沉淀体系中的推广；后面推导缓冲溶液的精确式\textsuperscript{[\pageref{sec:buffer-ph}]}时，也会回头用到这里的活度系数。
-
-\label{sec:cond-const}
-
-
-\subsubsection{副反应系数}
-
-主反应之外的其它平衡统称副反应。定义副反应系数
-\begin{equation}
-\alpha_{\mathrm{X}}=\frac{[\mathrm{X}']}{[\mathrm{X}]},
-\end{equation}
-其中 $[\mathrm{X}']$ 是未参与主反应的 $\mathrm{X}$ 的各种存在形式的总浓度，$[\mathrm{X}]$ 是游离浓度。$\alpha\ge1$，越大表示副反应越严重。
-
-\textbf{配体的酸效应}。以 EDTA（$\mathrm{Y^{4-}}$）为例，$\mathrm{Y}$ 会与 $\mathrm{H^+}$ 结合：
-\begin{equation}
-\alpha_{\mathrm{Y(H)}}=1+\beta_1^{\mathrm{H}}[\mathrm{H^+}]+\beta_2^{\mathrm{H}}[\mathrm{H^+}]^2+\cdots+\beta_6^{\mathrm{H}}[\mathrm{H^+}]^6
-=1+\sum_{i=1}^{6}\beta_i^{\mathrm{H}}[\mathrm{H^+}]^i.
-\label{eq:alpha-YH}
-\end{equation}
-这个式子和分布系数同源：它就是“质子化形态总和 / 游离形态”的比值。$\mathrm{pH}$ 越低，$\alpha_{\mathrm{Y(H)}}$ 越大，EDTA 越被质子“占住”，配位能力越弱。
-
-\textbf{金属离子的水解效应}。金属离子与 $\mathrm{OH^-}$ 结合：
-\begin{equation}
-\alpha_{\mathrm{M(OH)}}=1+\beta_1[\mathrm{OH^-}]+\beta_2[\mathrm{OH^-}]^2+\cdots
-=1+\sum_{i=1}^{n}\beta_i[\mathrm{OH^-}]^i.
-\label{eq:alpha-MOH}
-\end{equation}
-注意它的形式与式 \eqref{eq:alpha-YH} 完全相同，只是把 $[\mathrm{H^+}]$ 换成 $[\mathrm{OH^-}]$。这正是“金属离子也是酸”的数学体现：酸效应与水解效应是同一个多项式，一个用质子浓度，一个用氢氧根浓度。
-
-\textbf{金属离子的配位效应}。若有辅助配体 $\mathrm{L}$：
-\begin{equation}
-\alpha_{\mathrm{M(L)}}=1+\sum_{i=1}^{n}\beta_i[\mathrm{L}]^i.
-\end{equation}
-多种副反应同时存在时，总副反应系数为
-\begin{equation}
-\alpha_{\mathrm{M}}=\alpha_{\mathrm{M(OH)}}+\alpha_{\mathrm{M(L)}}-1,
-\end{equation}
-因为“只有游离 $\mathrm{M}$”这一项被重复计算了一次。
-
-\subsubsection{条件常数}
-
-把副反应系数并入主反应的平衡常数：
-\begin{equation}
-K'_{\mathrm{MY}}=\frac{K_{\mathrm{MY}}}{\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}}}.
-\label{eq:conditional-K}
-\end{equation}
-这就是条件稳定常数。它的意义是：在指定的 $\mathrm{pH}$、指定的辅助配体浓度下，主反应“看起来”有多强。$\mathrm{pH}$ 太低，$\alpha_{\mathrm{Y}}$ 大，$K'$ 小；$\mathrm{pH}$ 太高，$\alpha_{\mathrm{M(OH)}}$ 大，$K'$ 也小。两者之间有一个使 $K'$ 最大的 $\mathrm{pH}$ 窗口，这就是配位滴定必须控制酸度的根本原因。
-
-\begin{table}[H]
-\centering
-\caption{四类滴定的条件常数}
-\begin{tabular}{p{2.2cm}p{4.2cm}p{4.2cm}p{3.6cm}}
-\toprule
-类型 & 主反应 & 条件常数 & 主要副反应 \\
-\midrule
-酸碱 & $\mathrm{HA}+\mathrm{OH^-}\rightleftharpoons\mathrm{A^-}+\mathrm{H_2O}$ & $K_t=K_{\mathrm{a}}/K_{\mathrm{w}}$ & 溶剂的拉平与区分 \\
-配位 & $\mathrm{M}+\mathrm{Y}\rightleftharpoons\mathrm{MY}$ & $K'_{\mathrm{MY}}=K_{\mathrm{MY}}/(\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}})$ & 酸效应、水解、共存离子 \\
-沉淀 & $\mathrm{M}+\mathrm{A}\rightleftharpoons\mathrm{MA}\downarrow$ & $K_{\mathrm{sp}}'=K_{\mathrm{sp}}\alpha_{\mathrm{M}}\alpha_{\mathrm{A}}$ & 配位、水解、同离子 \\
-氧化还原 & $\mathrm{Ox}_1+\mathrm{Red}_2\rightleftharpoons\mathrm{Red}_1+\mathrm{Ox}_2$ & $\varphi^{\ominus'}=\varphi^{\ominus}+\dfrac{0.059}{z}\lg\dfrac{\alpha_{\mathrm{Red}}}{\alpha_{\mathrm{Ox}}}$ & 配位、沉淀、酸度 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-条件电势的推导见第一章\textsuperscript{[\pageref{sec:cond-potential}]}：把活度换成分析浓度、活度系数与副反应系数的乘积，与浓度比无关的部分并入常数。它说明：生成配合物或沉淀会改变电对的电极电势，从而改变滴定突跃的位置。例如用 $\mathrm{K_2Cr_2O_7}$ 滴定 $\mathrm{Fe^{2+}}$ 时加入 $\mathrm{H_3PO_4}$，使 $\mathrm{Fe^{3+}}$ 生成无色配合物，降低 $\mathrm{Fe^{3+}/Fe^{2+}}$ 的条件电势，使计量点电势下移、更接近指示剂变色点，从而减小终点误差。
+顺序由简到繁：强酸强碱（含极稀时水的电离）、一元弱酸弱碱、多元酸与两性物质、缓冲溶液、混合酸碱；最后是解析近似失效时的数值方法与对数浓度图。每一个近似式都由精确守恒方程约化而来，约化条件写在公式旁边。
 
 \subsection{强酸强碱与极稀溶液}
 
