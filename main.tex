@@ -31,655 +31,231 @@
 
 \section{化学反应热力学}
 
-化学反应能否发生、能放出多少热、最终停在什么位置，是热力学要回答的问题。本节先把能量与方向性拆成焓与熵，再合成为吉布斯自由能；随后给出处理溶液平衡的三件通用工具——分布系数、守恒方程组、活度与条件常数；在此基础上讨论化学平衡的移动与多重平衡；最后把平衡条件用于电子转移，得到电极电势与能斯特方程。
+化学反应能否发生、能放出多少热、最终停在什么位置，是热力学要回答的三个问题。回答第一个问题需要焓与熵，回答第二个问题需要吉布斯自由能；把吉布斯自由能用于平衡条件，就得到平衡常数。平衡常数只给出各物种的比例，要真正算出浓度，还需要分布系数与守恒方程组。真实溶液偏离理想行为时，用活度与条件常数修正；多个平衡共存时，再用耦合规则把它们合并成一个总反应。本节按这条线索展开：先建立能量判据，再讨论单个平衡的行为，最后处理多平衡耦合。
 
-\subsection{焓变}
+\subsection{焓变、熵变和吉布斯自由能}
 
-热力学第一定律给出内能变化的普遍形式。若系统只做体积功，则
-\begin{equation}
+\paragraph{焓与反应热}
+
+化学反应总伴随能量变化，最直观的表现就是放热或吸热。热力学第一定律给出内能变化的普遍形式。若系统只做体积功，则
+\[
 dU=\delta Q-p\,dV .
-\end{equation}
-化学反应中我们能够直接测量的是热量，而测量条件通常只有两种极端：恒容与恒压。
-
-恒容条件下，体积功为零，弹式量热计测得的反应热直接等于内能变化：
-\begin{equation}
+\]
+化学反应中能够直接测量的是热量，但测量条件通常只有两种极端：恒容与恒压。恒容条件下体积功为零，弹式量热计测得的反应热直接等于内能变化：
+\[
 Q_V=\Delta U .
-\end{equation}
-恒压条件下，杯式量热计测得的热量包含了系统对抗外压所做的体积功：
-\begin{equation}
+\]
+恒压条件下，杯式量热计测得的热量还包含系统对抗外压所做的体积功：
+\[
 \Delta U=Q_P-p\Delta V,
 \qquad\text{即}\qquad
 Q_P=\Delta U+p\Delta V .
-\end{equation}
-由于大多数化学过程在大气中进行，恒压情形更为常见。为把 $Q_P$ 也写成一个状态函数的增量，定义焓
-\begin{equation}
+\]
+由于大多数化学过程在大气中进行，恒压情形更为常见。化学家因此把恒压反应热写成一个状态函数的变化，这就是焓：
+\[
 H=U+pV,
-\end{equation}
-于是恒压反应热就是焓变：
-\begin{equation}
+\qquad
 \Delta H=Q_P=\Delta U+p\Delta V .
-\end{equation}
+\]
 焓是状态函数，其变化只取决于始态与终态，与路径无关。这一点使焓变成为热化学计算的基本量。
 
-对一般反应 $aA+bB\to cC+dD$，引入反应进度
-\begin{equation}
+对一般反应 \(aA+bB\to cC+dD\)，引入反应进度
+\[
 \xi=\frac{n_i-n_{i,0}}{\nu_i},
-\end{equation}
-其中 $\nu_i$ 为化学计量数（反应物取负、产物取正）。反应焓变与反应进度之比即摩尔反应焓变 $\Delta_rH_m=\Delta_rH/\xi$。为了在不同实验之间比较，还要规定标准状态：通常取 $p^\theta=100~\mathrm{kPa}$、$c^\theta=1~\mathrm{mol\cdot L^{-1}}$、$T=298.15~\mathrm{K}$，此时的标准摩尔反应焓变记为 $\Delta_rH_m^\theta$。
+\]
+其中 \(\nu_i\) 为化学计量数，反应物取负、产物取正。反应焓变与反应进度之比即摩尔反应焓变 \(\Delta_rH_m=\Delta_rH/\xi\)。为了在不同实验之间比较，还要规定标准状态：通常取 \(p^\theta=100~\mathrm{kPa}\)、\(c^\theta=1~\mathrm{mol\cdot L^{-1}}\)、\(T=298.15~\mathrm{K}\)，此时的标准摩尔反应焓变记为 \(\Delta_rH_m^\theta\)。
 
 若想由各物质的焓直接计算反应焓变，会遇到一个根本困难：焓包含内能，而内能不能被直接测量。因此焓的零点只能人为规定。热化学约定，最稳定单质的标准摩尔生成焓为零：
-\begin{equation}
+\[
 \Delta_fH_m^\theta(\text{最稳定单质})=0 .
-\end{equation}
-任何化合物的生成焓则定义为由单质生成 $1~\mathrm{mol}$ 该物质时的焓变。于是任意反应的焓变可以写成产物与反应物生成焓的代数和：
-\begin{equation}
+\]
+任何化合物的生成焓则定义为由单质生成 \(1~\mathrm{mol}\) 该物质时的焓变。于是任意反应的焓变可以写成产物与反应物生成焓的代数和：
+\[
 \Delta_rH_m^\theta=\sum_i\nu_i\,\Delta_fH_m^\theta(\text{生成物})
 -\sum_i\nu_i\,\Delta_fH_m^\theta(\text{反应物}).
-\end{equation}
-这条式子的意义在于，它把一个无法直接测量的绝对量转化成了可以查表求得的标准生成焓，从而使热化学计算成为可能。
+\]
+这条式子把一个无法直接测量的绝对量转化成了可以查表求得的标准生成焓，从而使热化学计算成为可能。由于焓是状态函数，反应不管分几步进行，总焓变都等于各步焓变之和；这条路径无关性就是盖斯定律。
 
-\subsection{熵变}
+\paragraph{熵与第二定律}
 
-熵描述系统的混乱程度。若已知系统的微观状态数 $\Omega$，玻尔兹曼给出的定义是
-\begin{equation}
+熵描述系统的混乱程度。若已知系统的微观状态数 \(\Omega\)，玻尔兹曼给出的定义是
+\[
 S=k_{\mathrm B}\ln\Omega ,
-\end{equation}
-其中 $k_{\mathrm B}$ 为玻尔兹曼常数。微观状态数越多，系统可选择的排布方式越多，熵越大。
+\]
+其中 \(k_{\mathrm B}\) 为玻尔兹曼常数。微观状态数越多，系统可选择的排布方式越多，熵越大。
 
-化学中更常用的是克劳修斯熵，它来自对热机循环的分析。卡诺循环由两个等温过程和两个绝热过程组成，工作在高温热源 $T_h$ 与低温热源 $T_c$ 之间。若高温热源向工作物质传热 $Q_h>0$，工作物质向低温热源传热 $Q_c<0$，则热机效率为
-\begin{equation}
+化学中更常用的是克劳修斯熵，它来自对热机循环的分析。卡诺循环由两个等温过程和两个绝热过程组成，工作在高温热源 \(T_h\) 与低温热源 \(T_c\) 之间。若高温热源向工作物质传热 \(Q_h>0\)，工作物质向低温热源传热 \(Q_c<0\)，则热机效率为
+\[
 \eta=1-\frac{|Q_c|}{Q_h}=1-\frac{T_c}{T_h}.
-\end{equation}
+\]
 整理得
-\begin{equation}
+\[
 \frac{Q_c}{T_c}+\frac{Q_h}{T_h}=0 .
-\end{equation}
+\]
 也就是说，在一个可逆的卡诺循环中，各段热温商之和为零。
 
-把任意一个可逆循环（在 $p$--$V$ 图上是一条闭合曲线）用许多绝热线和等温线切成无数个微小的卡诺循环：相邻小循环共用的绝热过程一正一反、相互抵消，所有小循环的外轮廓便逼近原来的任意循环。于是对任意可逆循环都有
-\begin{equation}
+把任意一个可逆循环用许多绝热线和等温线切成无数个微小的卡诺循环：相邻小循环共用的绝热过程一正一反、相互抵消，所有小循环的外轮廓便逼近原来的任意循环。于是对任意可逆循环都有
+\[
 \oint\frac{\delta Q_{\mathrm{rev}}}{T}=0 .
-\end{equation}
-这说明 $\delta Q_{\mathrm{rev}}/T$ 是某个状态函数的全微分。定义熵
-\begin{equation}
+\]
+这说明 \(\delta Q_{\mathrm{rev}}/T\) 是某个状态函数的全微分。定义熵
+\[
 dS=\frac{\delta Q_{\mathrm{rev}}}{T},
-\end{equation}
+\]
 它只由始末状态决定，与路径无关。
 
 若循环不可逆，热机效率总是低于卡诺效率，重复上述论证便得到克劳修斯不等式
-\begin{equation}
+\[
 dS\geq\frac{\delta Q}{T},
-\end{equation}
-等号仅在可逆过程中成立。这条不等式是热力学第二定律的数学表达：孤立系统（$\delta Q=0$）中熵永不减少。不可逆过程中“多出来”的熵，正是过程不可逆性的度量。
+\]
+等号仅在可逆过程中成立。这条不等式是热力学第二定律的数学表达：孤立系统中熵永不减少。不可逆过程中“多出来”的熵，正是过程不可逆性的度量。
 
 玻尔兹曼熵与克劳修斯熵并不矛盾，前者从微观计数出发，后者从宏观热量出发，二者在统计意义下等价。以单原子理想气体为例，其微观状态数满足
-\begin{equation}
+\[
 \Omega(U,V,N)\propto\frac{1}{N!}\left(\frac{V}{h^3}\right)^{N}\left(2\pi mU\right)^{3N/2},
-\end{equation}
+\]
 取对数得
-\begin{equation}
+\[
 S(U,V)=Nk_{\mathrm B}\ln V+\frac{3}{2}Nk_{\mathrm B}\ln U+S_0 .
-\end{equation}
+\]
 求全微分，
-\begin{equation}
+\[
 dS=\frac{Nk_{\mathrm B}}{V}\,dV+\frac{3Nk_{\mathrm B}}{2U}\,dU .
-\end{equation}
-对单原子理想气体有 $U=\frac{3}{2}Nk_{\mathrm B}T$、$pV=Nk_{\mathrm B}T$，代入后化为
-\begin{equation}
+\]
+对单原子理想气体有 \(U=\frac{3}{2}Nk_{\mathrm B}T\)、\(pV=Nk_{\mathrm B}T\)，代入后化为
+\[
 dS=\frac{p}{T}\,dV+\frac{1}{T}\,dU .
-\end{equation}
-再由第一定律 $dU=\delta Q_{\mathrm{rev}}-p\,dV$，便回到
-\begin{equation}
+\]
+再由第一定律 \(dU=\delta Q_{\mathrm{rev}}-p\,dV\)，便回到
+\[
 dS=\frac{\delta Q_{\mathrm{rev}}}{T}.
-\end{equation}
-可见两条路径得到同一个熵。至于为何多原子气体的内能更大、不等式仍然成立，则源于自由度不同带来的状态数差别，这里不再展开。
+\]
+可见两条路径得到同一个熵。多原子气体的内能更大、不等式仍然成立，则源于自由度不同带来的状态数差别。
 
 与焓一样，反应的熵变可以由标准摩尔熵的代数和对齐：
-\begin{equation}
+\[
 \Delta_rS_m^\theta=\sum_i\nu_i\,S_m^\theta(\text{生成物})
 -\sum_i\nu_i\,S_m^\theta(\text{反应物}).
-\end{equation}
+\]
 
-\subsection{吉布斯自由能}
+\paragraph{吉布斯自由能}
 
 单靠焓变或熵变都无法判断反应方向：有些反应放热却仍不自发，有些反应吸热却能进行。方向性的判据必须把二者合在一起，这就是吉布斯自由能的来源。
 
-对任意过程，若系统除体积功外还做非体积功 $\delta W'$，则
-\begin{equation}
+对任意过程，若系统除体积功外还做非体积功 \(\delta W'\)，则
+\[
 dU=\delta Q+\delta W=\delta Q-p\,dV+\delta W' .
-\end{equation}
-代入克劳修斯不等式 $dU\leq T\,dS-p\,dV+\delta W'$，得
-\begin{equation}
+\]
+代入克劳修斯不等式 \(dS\geq\delta Q/T\)，得
+\[
 dU\leq T\,dS-p\,dV+\delta W' .
-\end{equation}
-在恒温恒压条件下，$dH=dU+p\,dV$，上式变为
-\begin{equation}
+\]
+在恒温恒压条件下，\(dH=dU+p\,dV\)，上式变为
+\[
 dH-T\,dS\leq\delta W' .
-\end{equation}
+\]
 于是定义吉布斯自由能
-\begin{equation}
+\[
 G=H-TS,\qquad dG=dH-T\,dS\quad(\text{恒温}),
-\end{equation}
+\]
 判据就简化为
-\begin{equation}
+\[
 dG\leq\delta W' .
-\end{equation}
-若系统不做非体积功（$\delta W'=0$），则 $dG<0$ 时过程自发，$dG=0$ 时达到平衡，$dG>0$ 时过程不能自发进行。换言之，恒温恒压下系统总是朝着吉布斯自由能减小的方向演化。
+\]
+若系统不做非体积功，则 \(dG<0\) 时过程自发，\(dG=0\) 时达到平衡，\(dG>0\) 时过程不能自发进行。换言之，恒温恒压下系统总是朝着吉布斯自由能减小的方向演化。
 
 对化学反应，标准摩尔吉布斯自由能变为
-\begin{equation}
+\[
 \Delta_rG_m^\theta=\Delta_rH_m^\theta-T\Delta_rS_m^\theta ,
-\end{equation}
-它同时包含了焓与熵两种驱动力，并且显式地依赖温度，因此可以用来估算反应自发进行的温度条件。
-
+\]
+它同时包含焓与熵两种驱动力，并显式依赖温度。令其为零，可以估算反应自发进行的温度门槛：
+\[
+T_{\mathrm{转}}=\frac{\Delta_rH_m^\theta}{\Delta_rS_m^\theta}.
+\]
 不过上式只对标准压强下的恒压过程成立。若压强可变，吉布斯自由能的完整微分应写成
-\begin{equation}
+\[
 dG=-S\,dT+V\,dp .
-\end{equation}
-恒温下 $dG=V\,dp$；对理想气体 $V=RT/p$，积分得
-\begin{equation}
+\]
+恒温下 \(dG=V\,dp\)；对理想气体 \(V=RT/p\)，积分得
+\[
 \Delta G_m=RT\ln\frac{p}{p^\theta}.
-\end{equation}
+\]
 于是非标准状态下的反应自由能变为
-\begin{equation}
+\[
 \Delta_rG_m=\Delta_rG_m^\theta+RT\ln Q,
-\end{equation}
+\]
 其中
-\begin{equation}
+\[
 Q=\prod_i\left(\frac{p_i}{p^\theta}\right)^{\nu_i}
-\end{equation}
-为浓度商（对溶液则用 $c_i/c^\theta$）。这条式子把标准态的数据与实际浓度联系起来，是化学平衡与电化学的共同基础。
+\]
+为浓度商，对溶液则用 \(c_i/c^\theta\)。这条式子把标准态的数据与实际浓度联系起来，是化学平衡与电化学的共同基础。
 
-从能量分配的角度看，吉布斯自由能是总能量中扣除了不可逆热损耗 $T\Delta S$ 之后剩下的部分。这部分能量可以被自由支配：在氧化还原反应中它转化为电势能，在其它过程中也可能以辐射或其它形式释放。
+从能量分配的角度看，吉布斯自由能是总能量中扣除了不可逆热损耗 \(T\Delta S\) 之后剩下的部分。这部分能量可以被自由支配：在氧化还原反应中它转化为电势能，在其它过程中也可能以辐射或其它形式释放。
 
-\subsection{分布系数：总浓度在各形态间的分配}
-\label{sec:delta}
+\subsection{化学平衡与平衡行为}
 
-平衡常数给的是各形态之间的比例，实际计算还需要把比例换算成浓度。设某组分的总分析浓度为 $c_T$，其中第 $i$ 种形态的浓度为 $c_i$，定义\textbf{分布系数}
-\begin{equation}
-\delta_i=\frac{c_i}{c_T},\qquad \sum_i\delta_i=1 .
-\end{equation}
-求和等于 1 并非额外假设：由物料平衡 $c_T=\sum_i c_i$，两边同除 $c_T$ 即得。真正有用的性质是 $\delta_i$ 只依赖主变量（酸碱体系中的 $[\mathrm{H^+}]$，配位体系中的 $[\mathrm{L}]$），与总浓度无关——稀释时各形态同比例减少，分配比例不变。推导中会看到 $c_T$ 被约掉，原因就在这里。
+平衡判据 \(\Delta_rG=0\) 把上一节的浓度商变成一个只依赖温度的常数，这就是平衡常数。本小节先讨论化学平衡与各类平衡常数的统一来源，再讨论电子转移平衡与电极电势；随后处理非理想的活度修正；最后讨论单个平衡中“总浓度如何分配到各形态”以及主变量如何由守恒方程组确定。
 
-\paragraph{一元酸}
+\paragraph{化学平衡与平衡常数}
 
-对 $\mathrm{HA}$，由 $K_{\mathrm{a}}=[\mathrm{H^+}][\mathrm{A^-}]/[\mathrm{HA}]$ 解出 $[\mathrm{A^-}]=K_{\mathrm{a}}[\mathrm{HA}]/[\mathrm{H^+}]$，代入物料平衡并提取公因子：
-\begin{equation}
-c_T=[\mathrm{HA}]+[\mathrm{A^-}]
-=[\mathrm{HA}]\left(1+\frac{K_{\mathrm{a}}}{[\mathrm{H^+}]}\right).
-\end{equation}
-由此 $[\mathrm{HA}]=c_T[\mathrm{H^+}]/([\mathrm{H^+}]+K_{\mathrm{a}})$，同法得 $[\mathrm{A^-}]=c_TK_{\mathrm{a}}/([\mathrm{H^+}]+K_{\mathrm{a}})$。两式各自除以 $c_T$：
-\begin{equation}
-\delta_{\mathrm{HA}}=\frac{[\mathrm{H^+}]}{[\mathrm{H^+}]+K_{\mathrm{a}}},
-\qquad
-\delta_{\mathrm{A^-}}=\frac{K_{\mathrm{a}}}{[\mathrm{H^+}]+K_{\mathrm{a}}}.
-\label{eq:delta-mono}
-\end{equation}
-$\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 时两者都是 $1/2$；$\mathrm{pH}$ 每改变 1 个单位，比值 $[\mathrm{A^-}]/[\mathrm{HA}]$ 改变 10 倍。
-
-\paragraph{多元酸}
-
-对 $\mathrm{H}_n\mathrm{A}$，从全脱质子的 $\mathrm{A}^{n-}$ 出发，逐级加质子的累积常数记作
-\begin{equation}
-\beta_i^{\mathrm{H}}=\frac{[\mathrm{H}_i\mathrm{A}^{(n-i)-}]}{[\mathrm{A}^{n-}][\mathrm{H^+}]^i}
-=\frac{1}{K_{\mathrm{a}1}K_{\mathrm{a}2}\cdots K_{\mathrm{a}i}},
-\qquad \beta_0^{\mathrm{H}}=1 ,
-\end{equation}
-其中 $i$ 是加上的质子数。于是每个物种都是 $[\mathrm{A}^{n-}]$ 的已知倍数，代入物料平衡并提出公因子：
-\begin{equation}
-c_T=[\mathrm{A}^{n-}]\sum_{k=0}^{n}\beta_k^{\mathrm{H}}[\mathrm{H^+}]^k .
-\end{equation}
-两边同除以 $c_T$，就得到任意形态的分布系数
-\begin{equation}
-\delta_{\mathrm{H}_{n-i}\mathrm{A}^{i-}}
-=\frac{\beta_i^{\mathrm{H}}[\mathrm{H^+}]^i}
-{\sum_{k=0}^{n}\beta_k^{\mathrm{H}}[\mathrm{H^+}]^k}
-=\frac{[\mathrm{H^+}]^{n-i}\prod_{j=1}^{i}K_{\mathrm{a}_j}}
-{\sum_{k=0}^{n}[\mathrm{H^+}]^{n-k}\prod_{j=1}^{k}K_{\mathrm{a}_j}},
-\qquad \prod_{j=1}^{0}K_{\mathrm{a}_j}=1 .
-\label{eq:delta-poly}
-\end{equation}
-第二式由第一式分子分母同乘 $\prod_{j=1}^{i}K_{\mathrm{a}_j}$ 并整理得到。它的读法是：分子里出现几个 $K_{\mathrm{a}}$，这个形态就比全质子化形式少几个质子；分母对同一 $\mathrm{pH}$ 下的所有形态都一样，归一化因此自动成立。
-
-在对数坐标下，把第二式分子分母同除以 $[\mathrm{H^+}]^n$，每项化为常数的连乘积：
-\begin{equation}
-\delta_{\mathrm{H}_{n-i}\mathrm{A}^{i-}}
-=\frac{10^{-i\,\mathrm{pH}}\prod_{j=1}^{i}K_{\mathrm{a}_j}}
-{\sum_{k=0}^{n}10^{-k\,\mathrm{pH}}\prod_{j=1}^{k}K_{\mathrm{a}_j}} .
-\end{equation}
-分母中每一项都含 $10^{-k\mathrm{pH}}$，取对数后是 $\mathrm{pH}$ 的直线。这是对数浓度图可以画成折线的原因，也是判断“某 $\mathrm{pH}$ 下是否只剩一种形态”的依据。
-
-\begin{table}[H]
-\centering
-\caption{$\mathrm{H_3PO_4}$ 的分布系数（$\mathrm{p}K_{\mathrm{a1}}=2.15$，$\mathrm{p}K_{\mathrm{a2}}=7.20$，$\mathrm{p}K_{\mathrm{a3}}=12.35$）}
-\begin{tabularx}{\textwidth}{rrrrr>{\centering\arraybackslash}X}
-\toprule
-$\mathrm{pH}$ & $\delta_{\mathrm{H_3A}}$ & $\delta_{\mathrm{H_2A^-}}$ & $\delta_{\mathrm{HA^{2-}}}$ & $\delta_{\mathrm{A^{3-}}}$ & 主要形态 \\
-\midrule
-2.0 & 0.59 & 0.41 & $\approx0$ & $\approx0$ & $\mathrm{H_3A}$ \\
-4.7 & $\approx0$ & 0.99 & 0.01 & $\approx0$ & $\mathrm{H_2A^-}$ \\
-7.2 & $\approx0$ & 0.50 & 0.50 & $\approx0$ & 缓冲 \\
-9.8 & $\approx0$ & 0.005 & 0.995 & $\approx0$ & $\mathrm{HA^{2-}}$ \\
-12.35 & $\approx0$ & $\approx0$ & 0.50 & 0.50 & 缓冲 \\
-14.0 & $\approx0$ & $\approx0$ & 0.02 & 0.98 & $\mathrm{A^{3-}}$ \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[x=0.85cm,y=5cm]
-  \draw[->] (0,0) -- (14.4,0) node[right] {$\mathrm{pH}$};
-  \draw[->] (0,0) -- (0,1.12) node[above] {$\delta$};
-  \foreach \x in {0,2,...,14} \draw (\x,0) -- (\x,-0.015) node[below,font=\scriptsize] {\x};
-  \foreach \y in {0,0.5,1} \draw (0,\y) -- (-0.12,\y) node[left,font=\scriptsize] {\y};
-  \draw[thick,domain=0:14,samples=200] plot (\x,{1/(1+exp(min(9,2.302585*(\x-4.74))))});
-  \draw[thick,dashed,domain=0:14,samples=200] plot (\x,{1-1/(1+exp(min(9,2.302585*(\x-4.74))))});
-  \draw[dotted] (4.74,0) -- (4.74,0.5) -- (0,0.5);
-  \node[font=\scriptsize] at (4.74,1.03) {$\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$};
-  \node[font=\scriptsize] at (2.2,0.72) {$\delta_{\mathrm{HA}}$};
-  \node[font=\scriptsize] at (7.6,0.72) {$\delta_{\mathrm{A^-}}$};
-\end{tikzpicture}
-\caption{一元酸（$\mathrm{p}K_{\mathrm{a}}=4.74$）的分布曲线。实线为酸式，虚线为碱式；两条曲线在 $\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 处相交于 $\delta=0.5$。}
-\label{fig:delta-mono}
-\end{figure}
-
-\paragraph{极值与交叉点}
-
-一元酸的 $\delta_{\mathrm{HA}}$ 随 $\mathrm{pH}$ 单调下降，没有内部极值。多元酸的中间形态则不同。设某中间形态两侧的逐级解离常数为 $K_1'$、$K_2'$（$K_1'>K_2'$，即先失去的那个质子对应的常数更大），它与两侧形态的浓度比分别为 $[\mathrm{H^+}]/K_1'$ 与 $K_2'/[\mathrm{H^+}]$，于是
-\begin{equation}
-\delta=\frac{1}{1+\dfrac{[\mathrm{H^+}]}{K_1'}+\dfrac{K_2'}{[\mathrm{H^+}]}} .
-\end{equation}
-对 $[\mathrm{H^+}]$ 求导并令导数为零，得
-\begin{equation}
-\frac{1}{K_1'}-\frac{K_2'}{[\mathrm{H^+}]^2}=0
-\quad\Longrightarrow\quad
-[\mathrm{H^+}]=\sqrt{K_1'K_2'},
-\end{equation}
-即极大值位于
-\begin{equation}
-\mathrm{pH}=\frac{\mathrm{p}K_1'+\mathrm{p}K_2'}{2}.
-\end{equation}
-代回得极大值
-\begin{equation}
-\delta_{\max}=\frac{1}{1+2\sqrt{K_2'/K_1'}}
-=\frac{1}{1+2\times10^{-\Delta/2}},
-\qquad \Delta=\mathrm{p}K_2'-\mathrm{p}K_1' .
-\end{equation}
-$\Delta=0$ 时 $\delta_{\max}=1/3$（三种形态等量）；$\Delta=3$ 时约 $0.94$；$\Delta$ 再小，中间形态就始终到不了接近 1，溶液中任何 $\mathrm{pH}$ 下都同时存在多种形态——这是判断“能否分步滴定”的第一条依据。相邻两个形态的曲线在 $\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 处相交，此时两者 $\delta$ 相等。
-
-\paragraph{与配位分布的同构}
-
-配位体系换一个主变量即可。设金属离子 $\mathrm{M}$ 与配体 $\mathrm{L}$ 逐级配位，累积稳定常数为 $\beta_i$，与多元酸的推导完全平行，得到
-\begin{equation}
-\delta_{\mathrm{ML}_i}
-=\frac{\beta_i[\mathrm{L}]^i}
-{1+\sum_{j=1}^{n}\beta_j[\mathrm{L}]^j},
-\qquad
-\sum_{i=0}^{n}\delta_{\mathrm{ML}_i}=1 .
-\label{eq:delta-complex}
-\end{equation}
-对照式 \eqref{eq:delta-poly}：把 $[\mathrm{H^+}]$ 换成 $[\mathrm{L}]$，把 $K_{\mathrm{a}}$ 的倒数换成 $\beta$，把“少几个质子”换成“多几个配体”，两式逐项对应。由此得到一条重要推论：\textbf{酸碱分布与配位分布在数学上是同一个问题}。酸的 $\mathrm{p}K_{\mathrm{a}}$ 对应配位的 $-\lg\beta$；酸碱滴定曲线与配位滴定曲线、缓冲容量与配位缓冲，都可以互相翻译。后面把金属离子水解也纳入这一框架\textsuperscript{[\pageref{sec:metal-acid}]}，靠的就是这条同构性。
-
-\subsection{溶液守恒方程组与质子平衡}
-\label{sec:balance}
-
-一个溶液体系该列几个方程，可以先数清楚。设溶液共有 $S$ 个物种，由 $C$ 个独立组分构成（溶剂水算一个组分）。独立的化学平衡数为 $S-C$；每个非溶剂组分可写一个物料平衡，共 $C-1$ 个；再加一个电中性条件。独立方程总数为
-\begin{equation}
-(S-C)+(C-1)+1=S,
-\end{equation}
-恰好等于 $S$ 个未知浓度的个数。这解释了平衡问题原则上为什么有唯一解，也解释了为什么不能多写方程：多写的那个一定是已有方程的线性组合。
-
-以一元弱酸 $\mathrm{HA}$ 为例。物种为 $\mathrm{H^+}$、$\mathrm{OH^-}$、$\mathrm{HA}$、$\mathrm{A^-}$，$S=4$；组分为 $\mathrm{HA}$ 与水，$C=2$。两个独立平衡、一个物料平衡、一个电荷平衡，四式四未知：
-\begin{equation}
-K_{\mathrm{a}}=\frac{[\mathrm{H^+}][\mathrm{A^-}]}{[\mathrm{HA}]},
-\qquad
-K_{\mathrm{w}}=[\mathrm{H^+}][\mathrm{OH^-}],
-\qquad
-c=[\mathrm{HA}]+[\mathrm{A^-}],
-\qquad
-[\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}].
-\end{equation}
-
-但“可解”不等于“好解”。把后两式与平衡常数联立，得到的是关于 $[\mathrm{H^+}]$ 的三次方程；阶数随多元酸和配位数迅速升高。所以实际的工作顺序是：先用分布系数把所有物种表示成主变量的函数，再用一个守恒条件定出主变量，最后判断能否近似、降到一次或二次。
-
-化学平衡方程就是逐个反应的 $K$ 表达式，其数目为 $S-C$；$K$ 与标准自由能变的关系见后文化学平衡一节。
-
-\paragraph{物料平衡}
-
-对每个非溶剂组分，其各形态浓度之和等于该组分的分析浓度：
-\begin{equation}
-c_T=\sum_i c_i .
-\end{equation}
-例如草酸溶液 $c=[\mathrm{H_2C_2O_4}]+[\mathrm{HC_2O_4^-}]+[\mathrm{C_2O_4^{2-}}]$。物料平衡正是分布系数的分母：把它两边除以 $c_T$，就得到 $\sum_i\delta_i=1$。
-
-\paragraph{电荷平衡}
-
-溶液整体电中性，正负电荷的总数相等：
-\begin{equation}
-\sum_i z_i c_i=0 .
-\end{equation}
-例如 $\mathrm{NaAc}$ 溶液有
-\begin{equation}
-[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}] .
-\end{equation}
-电荷平衡的优点是不需要知道物种之间的反应关系；缺点是必须把溶液中所有离子都列出，包括不参与主反应的旁观离子。
-
-\paragraph{质子平衡与零水准}
-
-质子平衡（质子条件式，PBE）说的是：得质子的物质所得质子总数，等于失质子的物质所失质子总数。它不是新的独立条件，而是电荷平衡消去旁观离子的结果。仍以 $\mathrm{NaAc}$ 溶液为例：电荷平衡为 $[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}]$，物料平衡为 $c=[\mathrm{HAc}]+[\mathrm{Ac^-}]$，而 $\mathrm{NaAc}$ 完全解离给出 $[\mathrm{Na^+}]=c$。把后两式代入第一式，消去 $[\mathrm{Na^+}]$ 与 $[\mathrm{Ac^-}]$，得
-\begin{equation}
-[\mathrm{H^+}]+[\mathrm{HAc}]=[\mathrm{OH^-}] .
-\end{equation}
-旁观离子 $\mathrm{Na^+}$ 不再出现，这就是 PBE。它与电荷平衡并不独立，二者选其一即可。
-
-\paragraph{零水准法} 写 PBE 的标准做法是先选“零水准”（参考水准）：溶液中大量存在、且直接参与质子转移的原始组分，外加溶剂水。以零水准为基准，比它多一个质子的物种记在“得质子”一侧，少一个质子的记在“失质子”一侧，转移了几个质子就乘几。
-
-\begin{table}[H]
-\centering
-\caption{常见体系的零水准与质子平衡方程}
-\begin{tabular}{p{2.4cm}p{4.6cm}p{7.6cm}}
-\toprule
-体系 & 零水准 & 质子平衡方程 \\
-\midrule
-$\mathrm{HA}$ & $\mathrm{HA},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}]$ \\
-$\mathrm{NaA}$ & $\mathrm{A^-},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{HA}]=[\mathrm{OH^-}]$ \\
-$\mathrm{NaHA}$ & $\mathrm{HA^-},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{H_2A}]=[\mathrm{A^{2-}}]+[\mathrm{OH^-}]$ \\
-$\mathrm{Na_2S}$ & $\mathrm{S^{2-}},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{HS^-}]+2[\mathrm{H_2S}]=[\mathrm{OH^-}]$ \\
-$\mathrm{H_2CO_3}$ & $\mathrm{H_2CO_3},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]=[\mathrm{HCO_3^-}]+2[\mathrm{CO_3^{2-}}]+[\mathrm{OH^-}]$ \\
-$(\mathrm{NH_4})_2\mathrm{HPO_4}$ & $\mathrm{NH_4^+},\ \mathrm{HPO_4^{2-}},\ \mathrm{H_2O}$ & $[\mathrm{H^+}]+[\mathrm{H_2PO_4^-}]+2[\mathrm{H_3PO_4}]=[\mathrm{OH^-}]+[\mathrm{PO_4^{3-}}]+[\mathrm{NH_3}]$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-系数的来源在最后一例中看得最清楚：$\mathrm{HPO_4^{2-}}$ 得一个质子成 $\mathrm{H_2PO_4^-}$，得两个成 $\mathrm{H_3PO_4}$，所以后者系数是 2；$\mathrm{NH_4^+}$ 失一个质子成 $\mathrm{NH_3}$，系数为 1。凡转移了 $k$ 个质子的物种，系数就是 $k$。
-
-\paragraph{为什么优先用 PBE} 以 $\mathrm{NaAc}$ 与 $\mathrm{HAc}$ 的混合溶液为例，用电荷平衡要写
-\begin{equation}
-[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}],
-\end{equation}
-其中 $[\mathrm{Na^+}]$ 是外部给定的分析浓度；用 PBE 则直接写
-\begin{equation}
-[\mathrm{H^+}]+[\mathrm{HAc}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}],
-\end{equation}
-不必再处理旁观离子。含多种盐的复杂体系里，这个优势更明显：PBE 只关心“谁得质子、谁失质子”，不关心溶液里还漂着多少 $\mathrm{Na^+}$、$\mathrm{K^+}$、$\mathrm{Cl^-}$。
-
-\paragraph{书写中的两个易错点} \begin{enumerate}
-  \item \textbf{零水准只能选一个形态}。同一物质不能既把 $\mathrm{H_2A}$ 又把 $\mathrm{HA^-}$ 当零水准，否则会重复计数。
-  \item \textbf{忽略水时要说明条件}。若溶液酸性较强，$[\mathrm{OH^-}]$ 可略；但“可略”必须有数量级依据（通常差两个数量级以上），不能凭感觉。
-\end{enumerate}
-
-\subsection{活度、离子强度与条件常数}
-\label{sec:activity}
-
-以上所有常数都写在“浓度”意义上。严格地说，化学势应由活度定义：
-\begin{equation}
-\mu_i=\mu_i^{\ominus}+RT\ln a_i,
-\qquad
-a_i=\gamma_i\frac{c_i}{c^{\ominus}},
-\end{equation}
-其中 $\gamma_i$ 是活度系数，$c^{\ominus}=1\ \mathrm{mol\cdot L^{-1}}$。稀溶液中 $\gamma\to1$，浓度可以代替活度；离子强度增大后，离子间的静电作用不能再忽略，$\gamma$ 明显偏离 1。本节把它定量推出来。
-
-\paragraph{离子强度：从离子氛推出}
-
-取一个中心离子，电荷 $z_i e$，放在原点。其余离子受它的电势 $\varphi(r)$ 作用，按 Boltzmann 分布排布，数密度为
-\begin{equation}
-n_j(r)=n_j^0\exp\!\left(-\frac{z_j e\,\varphi(r)}{kT}\right).
-\end{equation}
-异号离子被吸引、同号离子被排斥，中心离子周围因此形成一层净电荷相反的“离子氛”。稀溶液中 $z_j e\varphi\ll kT$，指数展开并保留一阶项：
-\begin{equation}
-n_j(r)\approx n_j^0\left(1-\frac{z_j e\,\varphi(r)}{kT}\right).
-\end{equation}
-离子氛的电荷密度为 $\rho=\sum_j z_j e\,n_j(r)$。其中与 $\varphi$ 无关的一项 $\sum_j z_j e\,n_j^0$ 就是溶液整体的电中性条件，恒为零，于是
-\begin{equation}
-\rho(r)=-\frac{e^2\varphi(r)}{kT}\sum_j z_j^2 n_j^0 .
-\end{equation}
-代入 Poisson 方程 $\varepsilon_0\varepsilon\nabla^2\varphi=-\rho$，得
-\begin{equation}
-\nabla^2\varphi=\kappa^2\varphi,
-\qquad
-\kappa^2=\frac{e^2}{\varepsilon_0\varepsilon kT}\sum_j z_j^2 n_j^0 .
-\end{equation}
-球对称下满足边界条件的解是
-\begin{equation}
-\varphi(r)=\frac{z_i e}{4\pi\varepsilon_0\varepsilon}\cdot\frac{e^{-\kappa r}}{r},
-\end{equation}
-$\kappa^{-1}$ 就是离子氛的特征厚度（Debye 长度）：距离超过它，中心电荷基本被屏蔽。
-
-关键在 $\kappa^2$ 里的浓度加权和 $\sum_j z_j^2 n_j^0$。把它换成摩尔浓度，并特意提取一个 $1/2$：
-\begin{equation}
-\sum_j z_j^2 n_j^0=N_A\sum_j z_j^2 c_j=2N_A I,
-\qquad
-I\equiv\frac{1}{2}\sum_j c_j z_j^2 .
-\end{equation}
-于是
-\begin{equation}
-\kappa^2=\frac{2e^2N_A I}{\varepsilon_0\varepsilon kT}
-=\frac{2F^2I}{\varepsilon_0\varepsilon RT},
-\end{equation}
-其中用了 $F=N_Ae$、$R=N_Ak$。这就是离子强度的来历：它不是为了凑公式而人为定义的量，而是把 $\kappa^2$ 中的浓度加权和记成一个符号的结果。电荷以平方出现，是因为 Boltzmann 因子中的电势乘的是 $z_j e$，线性化时又提出一个 $z_j$，两个因子相乘得到 $z_j^2$。一个 $\mathrm{Al^{3+}}$ 的贡献因此是 $\mathrm{Na^+}$ 的 9 倍：即使总浓度不高，高价离子也能把离子强度抬得很高。
-
-在 $25^\circ\mathrm{C}$ 的水中（$\varepsilon=78.3$）代入常数，得 $\kappa=3.29\times10^{9}\sqrt{I}\ \mathrm{m^{-1}}$（$I$ 以 $\mathrm{mol\cdot L^{-1}}$ 计），离子氛厚度为 $\kappa^{-1}=0.304/\sqrt{I}\ \mathrm{nm}$。
-
-\paragraph{活度系数：充电功}
-
-有了离子氛，就能算中心离子的静电稳定化能。把中心离子的电荷从 0 可逆地充到 $z_i e$，克服自身离子氛的电势所做的功为
-\begin{equation}
-W=\frac{1}{2}z_i e\,\varphi_{\mathrm{atm}}(0),
-\qquad
-\varphi_{\mathrm{atm}}(0)=-\frac{z_i e\kappa}{4\pi\varepsilon_0\varepsilon},
-\end{equation}
-因子 $1/2$ 来自充电过程中电荷与电势同步增长。每摩尔离子的超额自由能为 $N_A W$，而超额化学势又等于 $RT\ln\gamma_i$，故
-\begin{equation}
-\ln\gamma_i=\frac{N_A W}{RT}
-=-\frac{z_i^2e^2\kappa}{8\pi\varepsilon_0\varepsilon kT}.
-\end{equation}
-把 $\kappa=\sqrt{2F^2I/(\varepsilon_0\varepsilon RT)}$ 代入，与 $I$ 无关的部分只剩基本常数，收成一个无量纲系数 $A$：
-\begin{equation}
--\lg\gamma_i=A z_i^2\sqrt{I},
-\qquad
-A=\frac{1}{2.303}\cdot\frac{e^2}{8\pi\varepsilon_0\varepsilon kT}
-\sqrt{\frac{2F^2}{\varepsilon_0\varepsilon RT}} .
-\end{equation}
-此式以国际单位制写出，$I$ 须用 $\mathrm{mol\cdot m^{-3}}$。换成常用的 $\mathrm{mol\cdot L^{-1}}$ 时，$I$ 缩小 $10^3$ 倍，$A$ 相应乘 $\sqrt{10^3}$；在 $25^\circ\mathrm{C}$ 的水中算得 $A=0.51$。这就是 Debye--H\"uckel 极限式，适用于 $I<0.01\ \mathrm{mol\cdot L^{-1}}$：
-\begin{equation}
--\lg\gamma_i=0.51\,z_i^2\sqrt{I}.
-\end{equation}
-
-极限式把离子当成点电荷，浓度稍高就高估了屏蔽。真实的离子有体积，两个离子的中心不能靠得比某个距离 $a$ 更近。在 $r=a$ 处匹配边界条件重解 Poisson 方程，球对称解改为
-\begin{equation}
-\varphi(r)=\frac{z_i e}{4\pi\varepsilon_0\varepsilon}\cdot
-\frac{e^{-\kappa(r-a)}}{1+\kappa a}\cdot\frac{1}{r},
-\end{equation}
-重复上面的充电计算，分母多出一个 $1+\kappa a$，得到扩展式（$I<0.1\ \mathrm{mol\cdot L^{-1}}$）：
-\begin{equation}
--\lg\gamma_i=\frac{0.51\,z_i^2\sqrt{I}}{1+\kappa a},
-\qquad
-\kappa a=0.00328\,\dot{a}\sqrt{I},
-\label{eq:debye}
-\end{equation}
-其中 $\dot{a}$ 是水化离子的有效半径，单位 pm；系数 0.00328 由 $\kappa=3.29\times10^{9}\sqrt{I}\ \mathrm{m^{-1}}$ 与 $1\ \mathrm{pm}=10^{-12}\ \mathrm{m}$ 换算而来。$\dot{a}$ 越大，离子能靠近的距离越远，屏蔽越弱，$\gamma$ 越接近 1。
-
-\begin{table}[H]
-\centering
-\caption{常见离子的 $\dot{a}$ 值（pm）}
-\begin{tabular}{cccccccc}
-\toprule
-$\mathrm{H^+}$ & $\mathrm{Li^+}$ & $\mathrm{Na^+}$ & $\mathrm{K^+}$ & $\mathrm{Ca^{2+}}$ & $\mathrm{Al^{3+}}$ & $\mathrm{Cl^-}$ & $\mathrm{OH^-}$ \\
-\midrule
-900 & 600 & 450 & 300 & 600 & 900 & 300 & 350 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{例}：计算 $0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{HCl}$ 中 $\mathrm{H^+}$ 的活度系数。离子强度
-\begin{equation}
-I=\frac{1}{2}\left(0.10\times1^2+0.10\times1^2\right)=0.10\ \mathrm{mol\cdot L^{-1}}.
-\end{equation}
-由式 \eqref{eq:debye}，
-\begin{equation}
--\lg\gamma_{\mathrm{H^+}}
-=\frac{0.51\times1^2\times\sqrt{0.10}}{1+0.00328\times900\times\sqrt{0.10}}
-=0.084,
-\end{equation}
-故 $\gamma_{\mathrm{H^+}}=0.83$，活度 $a_{\mathrm{H^+}}=0.083$，$\mathrm{pH}=1.08$；而 $-\lg c_{\mathrm{H^+}}=1.00$。两者相差 0.08 个 $\mathrm{pH}$ 单位。$\mathrm{pH}$ 计测量的是活度，这就是高离子强度下必须用标准缓冲校准、不能直接拿浓度算 $\mathrm{pH}$ 的原因。
-
-\paragraph{浓度常数}
-
-把活度系数并入平衡常数，得到浓度常数（条件常数）。对 $\mathrm{A}+\mathrm{B}\rightleftharpoons\mathrm{AB}$，热力学常数为 $K^{\ominus}=a_{\mathrm{AB}}/(a_{\mathrm{A}}a_{\mathrm{B}})$，代入 $a=\gamma c$：
-\begin{equation}
-K'=\frac{[\mathrm{AB}]}{[\mathrm{A}][\mathrm{B}]}
-=K^{\ominus}\frac{\gamma_{\mathrm{A}}\gamma_{\mathrm{B}}}{\gamma_{\mathrm{AB}}}.
-\end{equation}
-在固定离子强度的介质中工作，$\gamma$ 基本不变，$K'$ 就近似是常数：所有平衡公式保持原样，只需把 $K$ 换成 $K'$。这是“条件化”思想的第一步。
-
-\paragraph{副反应系数}
-
-主反应之外的其它平衡统称副反应。设某物种 $\mathrm{X}$ 除游离态外还能与配体 $\mathrm{L}$ 形成 $\mathrm{XL}_i$，累积稳定常数为 $\beta_i$。它的分析浓度是各形态之和：
-\begin{equation}
-c_{\mathrm{X}}=[\mathrm{X}]+\sum_{i=1}^{n}[\mathrm{XL}_i]
-=[\mathrm{X}]\left(1+\sum_{i=1}^{n}\beta_i[\mathrm{L}]^i\right),
-\end{equation}
-第二个等号用了 $[\mathrm{XL}_i]=\beta_i[\mathrm{X}][\mathrm{L}]^i$。定义副反应系数 $\alpha_{\mathrm{X}}=c_{\mathrm{X}}/[\mathrm{X}]$，就得到
-\begin{equation}
-\alpha_{\mathrm{X}}=1+\sum_{i=1}^{n}\beta_i[\mathrm{L}]^i\ge1 .
-\end{equation}
-它度量“有多少 $\mathrm{X}$ 被副反应占住”，越大表示游离态越少。
-
-配体的酸效应是同一公式的特例。以 EDTA（$\mathrm{Y^{4-}}$）为例，$\mathrm{Y}$ 与质子逐级结合，质子化常数为 $\beta_i^{\mathrm{H}}$：
-\begin{equation}
-\alpha_{\mathrm{Y(H)}}=1+\beta_1^{\mathrm{H}}[\mathrm{H^+}]+\beta_2^{\mathrm{H}}[\mathrm{H^+}]^2+\cdots+\beta_6^{\mathrm{H}}[\mathrm{H^+}]^6
-=1+\sum_{i=1}^{6}\beta_i^{\mathrm{H}}[\mathrm{H^+}]^i.
-\label{eq:alpha-YH}
-\end{equation}
-$\mathrm{pH}$ 越低，$\alpha_{\mathrm{Y(H)}}$ 越大，EDTA 越被质子占住，配位能力越弱。金属离子的水解效应把 $[\mathrm{H^+}]$ 换成 $[\mathrm{OH^-}]$：
-\begin{equation}
-\alpha_{\mathrm{M(OH)}}=1+\sum_{i=1}^{n}\beta_i[\mathrm{OH^-}]^i.
-\label{eq:alpha-MOH}
-\end{equation}
-两者形式相同，这正是“金属离子也是酸”的数学体现：酸效应与水解效应是同一个多项式，只是一个用质子浓度，一个用氢氧根浓度。若有辅助配体 $\mathrm{L}$，同理 $\alpha_{\mathrm{M(L)}}=1+\sum_i\beta_i[\mathrm{L}]^i$。
-
-多种副反应同时存在时，由分析浓度的可加性直接相加：
-\begin{equation}
-c_{\mathrm{M}}=[\mathrm{M}]+(c_{\mathrm{M}}^{\mathrm{(OH)}}-[\mathrm{M}])+(c_{\mathrm{M}}^{\mathrm{(L)}}-[\mathrm{M}])
-\;\Longrightarrow\;
-\alpha_{\mathrm{M}}=\alpha_{\mathrm{M(OH)}}+\alpha_{\mathrm{M(L)}}-1 .
-\end{equation}
-减 1 是因为游离 $\mathrm{M}$ 这一项在两个 $\alpha$ 中被各算了一次。
-
-\paragraph{条件常数}
-
-把副反应系数并入主反应的平衡常数。对 $\mathrm{M}+\mathrm{Y}\rightleftharpoons\mathrm{MY}$，由 $c_{\mathrm{M}}=\alpha_{\mathrm{M}}[\mathrm{M}]$、$c_{\mathrm{Y}}=\alpha_{\mathrm{Y}}[\mathrm{Y}]$、$c_{\mathrm{MY}}\approx[\mathrm{MY}]$，得
-\begin{equation}
-K'_{\mathrm{MY}}
-=\frac{c_{\mathrm{MY}}}{c_{\mathrm{M}}c_{\mathrm{Y}}}
-=\frac{[\mathrm{MY}]}{\alpha_{\mathrm{M}}[\mathrm{M}]\,\alpha_{\mathrm{Y}}[\mathrm{Y}]}
-=\frac{K_{\mathrm{MY}}}{\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}}}.
-\label{eq:conditional-K}
-\end{equation}
-这就是条件稳定常数：在指定 $\mathrm{pH}$、指定辅助配体浓度下，主反应“看起来”有多强。$\mathrm{pH}$ 太低，$\alpha_{\mathrm{Y}}$ 大，$K'$ 小；$\mathrm{pH}$ 太高，$\alpha_{\mathrm{M(OH)}}$ 大，$K'$ 也小。两者之间存在使 $K'$ 最大的 $\mathrm{pH}$ 窗口，这就是配位滴定必须控制酸度的根本原因。
-
-\begin{table}[H]
-\centering
-\caption{四类滴定的条件常数}
-\begin{tabular}{p{2.2cm}p{4.2cm}p{4.2cm}p{3.6cm}}
-\toprule
-类型 & 主反应 & 条件常数 & 主要副反应 \\
-\midrule
-酸碱 & $\mathrm{HA}+\mathrm{OH^-}\rightleftharpoons\mathrm{A^-}+\mathrm{H_2O}$ & $K_t=K_{\mathrm{a}}/K_{\mathrm{w}}$ & 溶剂的拉平与区分 \\
-配位 & $\mathrm{M}+\mathrm{Y}\rightleftharpoons\mathrm{MY}$ & $K'_{\mathrm{MY}}=K_{\mathrm{MY}}/(\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}})$ & 酸效应、水解、共存离子 \\
-沉淀 & $\mathrm{M}+\mathrm{A}\rightleftharpoons\mathrm{MA}\downarrow$ & $K_{\mathrm{sp}}'=K_{\mathrm{sp}}\alpha_{\mathrm{M}}\alpha_{\mathrm{A}}$ & 配位、水解、同离子 \\
-氧化还原 & $\mathrm{Ox}_1+\mathrm{Red}_2\rightleftharpoons\mathrm{Red}_1+\mathrm{Ox}_2$ & $\varphi^{\ominus'}=\varphi^{\ominus}+\dfrac{0.059}{z}\lg\dfrac{\alpha_{\mathrm{Red}}}{\alpha_{\mathrm{Ox}}}$ & 配位、沉淀、酸度 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-氧化还原体系的条件电势是同一思想的应用：把活度换成分析浓度与副反应系数的乘积，与浓度比无关的部分并入常数。推导见下节。
-
-\subsection{化学平衡}
-\label{ChemBlanance}
-
-平衡判据 $\Delta_rG=0$ 与反应商 $Q$ 已在吉布斯自由能一节给出。对反应 $a\mathrm{A}+b\mathrm{B}\rightleftharpoons c\mathrm{C}+d\mathrm{D}$，达平衡时 $\Delta_rG=\Delta_rG^{\ominus}+RT\ln Q=0$，此时的 $Q$ 就是平衡常数：
-\begin{equation}
+对反应 \(a\mathrm{A}+b\mathrm{B}\rightleftharpoons c\mathrm{C}+d\mathrm{D}\)，达平衡时 \(\Delta_rG=\Delta_rG^{\ominus}+RT\ln Q=0\)，此时的 \(Q\) 就是平衡常数：
+\[
 K=\frac{a_{\mathrm{C}}^c\,a_{\mathrm{D}}^d}{a_{\mathrm{A}}^a\,a_{\mathrm{B}}^b}
 \approx\frac{[\mathrm{C}]^c[\mathrm{D}]^d}{[\mathrm{A}]^a[\mathrm{B}]^b},
 \qquad
 \Delta_rG^{\ominus}=-RT\ln K .
-\end{equation}
-“平衡常数大”因此等价于“反应自由能下降多”；要求反应定量，本质上就是要求 $K$ 足够大。末一步用浓度代替活度在稀溶液中成立，离子强度较大时的修正见活度与条件常数一节。
+\]
+把两式相减，还能得到反应方向与平衡位置的统一判据：
+\[
+\Delta_rG=RT\ln\frac{Q}{K}.
+\]
+\(Q<K\) 时 \(\Delta_rG<0\)，反应正向进行；\(Q>K\) 时反向进行；\(Q=K\) 时达到平衡。“平衡常数大”等价于“标准自由能下降多”，要求反应定量，本质上就是要求 \(K\) 足够大。末一步用浓度代替活度在稀溶液中成立，离子强度较大时的修正见下文活度部分。
 
-\paragraph{多重平衡}
+平衡常数只依赖温度，不依赖起始浓度。纯固体与纯液体的活度取 1，因此不出现在表达式中；气体用分压，溶质用浓度。酸碱、沉淀、配位、氧化还原四类平衡，表面上是四套常数，实际上都由同一个判据 \(\Delta_rG^{\ominus}=-RT\ln K\) 给出。氧化还原的特殊之处只在于电子转移，标准自由能变与电极电势之间多了一个比例常数。
 
-实际体系里几个反应常同时存在。把反应式相加，对应的标准自由能变也相加，取指数后就是平衡常数相乘；相减则相除；方程式乘 $n$，$K$ 取 $n$ 次方。例如
-\begin{equation}
-\mathrm{AgCl(s)}\rightleftharpoons\mathrm{Ag^+}+\mathrm{Cl^-}\quad(K_{\mathrm{sp}}),
-\qquad
-\mathrm{Ag^+}+2\mathrm{NH_3}\rightleftharpoons[\mathrm{Ag(NH_3)_2}]^+\quad(\beta_2),
-\end{equation}
-两式相加得
-\begin{equation}
-\mathrm{AgCl(s)}+2\mathrm{NH_3}\rightleftharpoons[\mathrm{Ag(NH_3)_2}]^++\mathrm{Cl^-},
-\qquad
-K=K_{\mathrm{sp}}\beta_2 .
-\end{equation}
-氯化银能否溶于氨水，就看这个乘积够不够大。酸碱、配位、沉淀、氧化还原的耦合，都可以按同一条规则合并成一个总反应来处理。
-
-\paragraph{四类离子效应}
-
-溶液中的平衡很少孤立存在，另外加入的离子会通过四条途径使其移动：
-
-\begin{itemize}
-  \item \textbf{同离子效应}：加入含有相同离子的强电解质，平衡向消耗该离子的方向移动，解离度或溶解度减小。缓冲溶液正是利用这一点：弱酸与其共轭碱共存时，$\mathrm{pH}$ 由二者的浓度比决定。具体计算见第四章\textsuperscript{[\pageref{sec:buffer-ph}]}。
-  \item \textbf{盐效应}：加入不含相同离子的强电解质，离子强度增大，活度系数下降，解离度或溶解度略微增大。定量关系由活度与条件常数一节给出。
-  \item \textbf{配位效应}：金属离子与加入的试剂形成稳定配合物，游离金属离子浓度下降，沉淀溶解度增大。
-  \item \textbf{酸效应}：溶液酸度改变弱酸根的质子化程度，从而改变配体浓度或沉淀溶解度。
-\end{itemize}
-
-这四类效应往往同时出现。处理时不必逐个修正，而是把活度系数与副反应系数一起并入条件常数，让平衡式保持原来的形式——这正是上一节“条件化”的做法。
-
-\subsection{氧化还原反应平衡与电极电势}
-\label{sec:nernst}
+\phantomsection\label{sec:nernst}
+\paragraph{氧化还原平衡与电极电势}
 
 氧化还原反应的本质是电子传递。为了描述电子的得失，先要区分两个容易混淆的概念：\textbf{氧化数}是按化学式分配的价态，是形式上的记账；\textbf{化合价}则指实际形成的共价键数目。前者用于配平与判断氧化还原，后者用于描述结构。
 
-由于氧化还原反应可以拆成两个半反应，用电池符号记述最为方便。约定左侧为负极（发生氧化），右侧为正极（发生还原），相界面用单竖线“$|$”表示，盐桥用双竖线“$\|$”表示。例如
-\begin{equation}
+由于氧化还原反应可以拆成两个半反应，用电池符号记述最为方便。约定左侧为负极、发生氧化，右侧为正极、发生还原，相界面用单竖线“\(|\)”表示，盐桥用双竖线“\(\|\)”表示。例如
+\[
 (-)\ \mathrm{Zn(s)}\mid\mathrm{Zn^{2+}}(c_1)\ \|\ \mathrm{Cu^{2+}}(c_2)\mid\mathrm{Cu(s)}\ (+).
-\end{equation}
+\]
 半反应的通式为
-\begin{equation}
+\[
 \mathrm{Ox}+z\,e^-\rightleftharpoons\mathrm{Red}.
-\end{equation}
-若半反应中还含有 $\mathrm{H^+}$ 或 $\mathrm{OH^-}$，则溶液的酸碱性会通过浓度商影响电极电势：$\mathrm{H^+}$ 出现在氧化型一侧时，酸性越强，氧化性越强；$\mathrm{OH^-}$ 出现在氧化型一侧时，碱性越强，氧化性越强。
+\]
+若半反应中还含有 \(\mathrm{H^+}\) 或 \(\mathrm{OH^-}\)，则溶液的酸碱性会通过浓度商影响电极电势：\(\mathrm{H^+}\) 出现在氧化型一侧时，酸性越强，氧化性越强；\(\mathrm{OH^-}\) 出现在氧化型一侧时，碱性越强，氧化性越强。
 
 反应自由能与电池电势之间的关系为
-\begin{equation}
+\[
 \Delta_rG_m^\theta=-zFE^\theta ,
-\end{equation}
-其中 $z$ 为转移电子数，$F$ 为法拉第常数。由此可得能斯特方程
-\begin{equation}
+\]
+其中 \(z\) 为转移电子数，\(F\) 为法拉第常数。对任意状态，把 \(\Delta_rG=-zFE\) 与 \(\Delta_rG=\Delta_rG^\theta+RT\ln Q\) 联立，即得能斯特方程
+\[
 E=E^\theta-\frac{RT}{zF}\ln Q,
-\end{equation}
-$Q$ 为整个电池反应的浓度商。实际计算时通常把它拆成两个半反应，总电势为
-\begin{equation}
+\]
+\(Q\) 为整个电池反应的浓度商。实际计算时通常把它拆成两个半反应，总电势为
+\[
 E=E_+-E_- .
-\end{equation}
+\]
 对单个电极反应，
-\begin{equation}
+\[
 E_{\mathrm{Ox/Red}}=E^\theta_{\mathrm{Ox/Red}}
 -\frac{RT}{zF}\ln\frac{a_{\mathrm{Red}}}{a_{\mathrm{Ox}}}.
-\end{equation}
-在 $298~\mathrm{K}$ 下代入常数，常写成便于手算的形式
-\begin{equation}
+\]
+在 \(298~\mathrm{K}\) 下代入常数，常写成便于手算的形式
+\[
 E_{\mathrm{Ox/Red}}=E^\theta_{\mathrm{Ox/Red}}
 -\frac{0.059}{z}\lg\frac{[\mathrm{Red}]}{[\mathrm{Ox}]}.
-\end{equation}
-其中 $\mathrm{Ox}$ 是高价态，$\mathrm{Red}$ 是低价态。这一形式在氧化还原滴定中直接用来计算滴定过程中的电势，那里不再重复推导，只引用这里的结论\textsuperscript{[\pageref{sec:redox-titration}]}。
+\]
+其中 \(\mathrm{Ox}\) 是高价态，\(\mathrm{Red}\) 是低价态。这一形式在氧化还原滴定中直接用来计算滴定过程中的电势，那里不再重复推导，只引用这里的结论\textsuperscript{[\pageref{sec:redox-titration}]}。
 
 标准电极电势对应各组分活度均为 1 的理想状态。实际体系中离子强度不可忽略，氧化型与还原型还会发生水解、配位或沉淀等副反应，存在形式随之改变；此时若仍按标准电势与浓度计算，结果会与实测值明显偏离。
 
-仍以单电极反应 $\mathrm{Ox}+z e^-\rightleftharpoons\mathrm{Red}$ 为例。设氧化型、还原型的分析浓度分别为 $c_{\mathrm{Ox}}$、$c_{\mathrm{Red}}$，总副反应系数分别为 $\alpha_{\mathrm{Ox}}$、$\alpha_{\mathrm{Red}}$，活度系数分别为 $\gamma_{\mathrm{Ox}}$、$\gamma_{\mathrm{Red}}$。游离浓度与活度分别为
-\begin{equation}
+仍以单电极反应 \(\mathrm{Ox}+z e^-\rightleftharpoons\mathrm{Red}\) 为例。设氧化型、还原型的分析浓度分别为 \(c_{\mathrm{Ox}}\)、\(c_{\mathrm{Red}}\)，总副反应系数分别为 \(\alpha_{\mathrm{Ox}}\)、\(\alpha_{\mathrm{Red}}\)，活度系数分别为 \(\gamma_{\mathrm{Ox}}\)、\(\gamma_{\mathrm{Red}}\)。游离浓度与活度分别为
+\[
 [\mathrm{Ox}]=\frac{c_{\mathrm{Ox}}}{\alpha_{\mathrm{Ox}}},
 \qquad
 [\mathrm{Red}]=\frac{c_{\mathrm{Red}}}{\alpha_{\mathrm{Red}}},
@@ -687,54 +263,50 @@ E_{\mathrm{Ox/Red}}=E^\theta_{\mathrm{Ox/Red}}
 a_{\mathrm{Ox}}=\gamma_{\mathrm{Ox}}[\mathrm{Ox}],
 \qquad
 a_{\mathrm{Red}}=\gamma_{\mathrm{Red}}[\mathrm{Red}].
-\end{equation}
+\]
 代入能斯特方程
-\begin{equation}
+\[
 E_{\mathrm{Ox/Red}}
 =E^\theta_{\mathrm{Ox/Red}}
 +\frac{0.059}{z}\lg\frac{a_{\mathrm{Ox}}}{a_{\mathrm{Red}}},
-\end{equation}
+\]
 得
-\begin{equation}
+\[
 E_{\mathrm{Ox/Red}}
 =E^\theta_{\mathrm{Ox/Red}}
 +\frac{0.059}{z}\lg
 \frac{\gamma_{\mathrm{Ox}}\alpha_{\mathrm{Red}}\,c_{\mathrm{Ox}}}
 {\gamma_{\mathrm{Red}}\alpha_{\mathrm{Ox}}\,c_{\mathrm{Red}}}.
-\label{eq:cond-potential-raw}
-\end{equation}
-式 \eqref{eq:cond-potential-raw} 中，前一部分只与介质（离子强度、副反应）有关，与浓度比无关。把它单独记为
-\begin{equation}
+\]
+前一部分只与介质有关，与浓度比无关。把它单独记为
+\[
 E^{\theta'}_{\mathrm{Ox/Red}}
 =E^\theta_{\mathrm{Ox/Red}}
 +\frac{0.059}{z}\lg
 \frac{\gamma_{\mathrm{Ox}}\alpha_{\mathrm{Red}}}
 {\gamma_{\mathrm{Red}}\alpha_{\mathrm{Ox}}},
-\label{eq:cond-potential}
-\end{equation}
+\]
 则有
-\begin{equation}
+\[
 E_{\mathrm{Ox/Red}}
 =E^{\theta'}_{\mathrm{Ox/Red}}
 +\frac{0.059}{z}\lg\frac{c_{\mathrm{Ox}}}{c_{\mathrm{Red}}}.
-\label{eq:cond-potential-use}
-\end{equation}
-$E^{\theta'}$ 称为\textbf{条件电极电势}（conditional potential）。它是特定条件下氧化型与还原型的分析浓度均为 $1\ \mathrm{mol\cdot L^{-1}}$ 时的实际电势：式 \eqref{eq:cond-potential-use} 中令 $c_{\mathrm{Ox}}=c_{\mathrm{Red}}$，对数项为零，$E=E^{\theta'}$。条件电势与标准电势的关系，和配位滴定中条件稳定常数 $K'$ 与 $K$ 的关系相同：都把离子强度与副反应打包进常数，形式不变，数值随介质而变。
+\]
+\(E^{\theta'}\) 称为\textbf{条件电极电势}。它是特定条件下氧化型与还原型的分析浓度均为 \(1\ \mathrm{mol\cdot L^{-1}}\) 时的实际电势：令 \(c_{\mathrm{Ox}}=c_{\mathrm{Red}}\)，对数项为零，\(E=E^{\theta'}\)。条件电势与标准电势的关系，和配位滴定中条件稳定常数 \(K'\) 与 \(K\) 的关系相同：都把离子强度与副反应打包进常数，形式不变，数值随介质而变。
 
-影响条件电势的因素相应分为四类：\textbf{盐效应}通过活度系数 $\gamma$ 起作用；\textbf{酸效应}、\textbf{沉淀效应}与\textbf{配位效应}通过副反应系数 $\alpha$ 起作用。$\gamma$ 与 $\alpha$ 往往难以逐个求准，条件电势因此通常由实验测定，手册中给出的是不同介质中的实测值。缺少所需介质的数据时，可借用条件相近的数值，而不能退回标准电势。例如 $\mathrm{Fe^{3+}/Fe^{2+}}$ 的标准电势为 $0.77\ \mathrm{V}$，在 $1.0\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{H_2SO_4}$ 中实测条件电势只有 $0.68\ \mathrm{V}$；若未查到 $1.5\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{H_2SO_4}$ 中的数据，用 $0.68\ \mathrm{V}$ 近似比用 $0.77\ \mathrm{V}$ 可靠得多。
+影响条件电势的因素相应分为四类：\textbf{盐效应}通过活度系数 \(\gamma\) 起作用；\textbf{酸效应}、\textbf{沉淀效应}与\textbf{配位效应}通过副反应系数 \(\alpha\) 起作用。\(\gamma\) 与 \(\alpha\) 往往难以逐个求准，条件电势因此通常由实验测定，手册中给出的是不同介质中的实测值。缺少所需介质的数据时，可借用条件相近的数值，而不能退回标准电势。例如 \(\mathrm{Fe^{3+}/Fe^{2+}}\) 的标准电势为 \(0.77\ \mathrm{V}\)，在 \(1.0\ \mathrm{mol\cdot L^{-1}}\) \(\mathrm{H_2SO_4}\) 中实测条件电势只有 \(0.68\ \mathrm{V}\)；若未查到 \(1.5\ \mathrm{mol\cdot L^{-1}}\) \(\mathrm{H_2SO_4}\) 中的数据，用 \(0.68\ \mathrm{V}\) 近似比用 \(0.77\ \mathrm{V}\) 可靠得多。
 
-\label{sec:cond-potential}
-
-把电极电势随条件的变化画成图，可以直观地读出元素各氧化态的稳定性。常用的有三种图。第一种是电势--$\mathrm{pH}$ 图（普贝图），横轴为 $\mathrm{pH}$、纵轴为电极电势，图上每一条线代表两种物种的平衡边界；给定溶液的电势与 $\mathrm{pH}$，即可判断哪个物种稳定。图~\ref{fig:pourbaix-co} 是钴的普贝图。
+\phantomsection\label{sec:cond-potential}
+把电极电势随条件的变化画成图，可以直观地读出元素各氧化态的稳定性。常用的有三种图。第一种是电势--\(\mathrm{pH}\) 图，也称普贝图，横轴为 \(\mathrm{pH}\)、纵轴为电极电势，图上每一条线代表两种物种的平衡边界；给定溶液的电势与 \(\mathrm{pH}\)，即可判断哪个物种稳定。图~\ref{fig:pourbaix-co} 是钴的普贝图。
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.62\textwidth]{pourbaix-co.png}
-  \caption{钴的电势--$\mathrm{pH}$ 图（普贝图）}
+  \caption{钴的电势--\(\mathrm{pH}\) 图（普贝图）}
   \label{fig:pourbaix-co}
 \end{figure}
 
-第二种是弗罗斯特图，以氧化数为横轴、$nE^\theta$ 为纵轴。图上相邻两点连线的斜率对应步进电势，凹点处对应的物种容易发生歧化，凸点则对应归中。图~\ref{fig:frost-mn} 是锰的弗罗斯特图。
+第二种是弗罗斯特图，以氧化数为横轴、\(nE^\theta\) 为纵轴。图上相邻两点连线的斜率对应步进电势，凹点处对应的物种容易发生歧化，凸点则对应归中。图~\ref{fig:frost-mn} 是锰的弗罗斯特图。
 
 \begin{figure}[H]
   \centering
@@ -744,13 +316,450 @@ $E^{\theta'}$ 称为\textbf{条件电极电势}（conditional potential）。它
 \end{figure}
 
 第三种是拉提莫图，把同一元素各氧化态按从高到低的顺序排成一行，并在相邻物种之间的箭头上标出标准电极电势。例如氯的拉提莫图为
-\begin{equation}
+\[
 \ce{ClO4-}\xrightarrow{+0.37}\ce{ClO3-}\xrightarrow{+0.30}\ce{ClO2-}
 \xrightarrow{+0.68}\ce{ClO-}\xrightarrow{+0.42}\ce{Cl2}
 \xrightarrow{+1.89}\ce{Cl-}.
-\end{equation}
+\]
 拉提莫图最能直接反映不同氧化态之间的转化趋势：若某物种右侧的电势大于左侧，它便倾向于歧化。熟悉一个元素的氧化还原化学，往往就是从这张图开始的。注意图中各电势均为标准状态下的数值。
 
+\phantomsection\label{sec:activity}
+\paragraph{活度、离子强度与条件常数}
+
+以上所有常数都写在“浓度”意义上。严格地说，化学势应由活度定义：
+\[
+\mu_i=\mu_i^{\ominus}+RT\ln a_i,
+\qquad
+a_i=\gamma_i\frac{c_i}{c^{\ominus}},
+\]
+其中 \(\gamma_i\) 是活度系数，\(c^{\ominus}=1\ \mathrm{mol\cdot L^{-1}}\)。稀溶液中 \(\gamma\to1\)，浓度可以代替活度；离子强度增大后，离子间的静电作用不能再忽略，\(\gamma\) 明显偏离 1。下面把它定量推出来。
+
+离子强度的来历可以从离子氛模型看出。取一个中心离子，电荷 \(z_i e\)，放在原点。其余离子受它的电势 \(\varphi(r)\) 作用，按 Boltzmann 分布排布，数密度为
+\[
+n_j(r)=n_j^0\exp\!\left(-\frac{z_j e\,\varphi(r)}{kT}\right).
+\]
+异号离子被吸引、同号离子被排斥，中心离子周围因此形成一层净电荷相反的“离子氛”。稀溶液中 \(z_j e\varphi\ll kT\)，指数展开并保留一阶项：
+\[
+n_j(r)\approx n_j^0\left(1-\frac{z_j e\,\varphi(r)}{kT}\right).
+\]
+离子氛的电荷密度为 \(\rho=\sum_j z_j e\,n_j(r)\)。其中与 \(\varphi\) 无关的一项 \(\sum_j z_j e\,n_j^0\) 就是溶液整体的电中性条件，恒为零，于是
+\[
+\rho(r)=-\frac{e^2\varphi(r)}{kT}\sum_j z_j^2 n_j^0 .
+\]
+代入 Poisson 方程 \(\varepsilon_0\varepsilon\nabla^2\varphi=-\rho\)，得
+\[
+\nabla^2\varphi=\kappa^2\varphi,
+\qquad
+\kappa^2=\frac{e^2}{\varepsilon_0\varepsilon kT}\sum_j z_j^2 n_j^0 .
+\]
+球对称下满足边界条件的解是
+\[
+\varphi(r)=\frac{z_i e}{4\pi\varepsilon_0\varepsilon}\cdot\frac{e^{-\kappa r}}{r},
+\]
+\(\kappa^{-1}\) 就是离子氛的特征厚度，也称 Debye 长度：距离超过它，中心电荷基本被屏蔽。
+
+关键在 \(\kappa^2\) 里的浓度加权和 \(\sum_j z_j^2 n_j^0\)。把它换成摩尔浓度，并特意提取一个 \(1/2\)：
+\[
+\sum_j z_j^2 n_j^0=N_A\sum_j z_j^2 c_j=2N_A I,
+\qquad
+I\equiv\frac{1}{2}\sum_j c_j z_j^2 .
+\]
+于是
+\[
+\kappa^2=\frac{2e^2N_A I}{\varepsilon_0\varepsilon kT}
+=\frac{2F^2I}{\varepsilon_0\varepsilon RT},
+\]
+其中用了 \(F=N_Ae\)、\(R=N_Ak\)。这就是离子强度的来历：它不是为了凑公式而人为定义的量，而是把 \(\kappa^2\) 中的浓度加权和记成一个符号的结果。电荷以平方出现，是因为 Boltzmann 因子中的电势乘的是 \(z_j e\)，线性化时又提出一个 \(z_j\)，两个因子相乘得到 \(z_j^2\)。一个 \(\mathrm{Al^{3+}}\) 的贡献因此是 \(\mathrm{Na^+}\) 的 9 倍：即使总浓度不高，高价离子也能把离子强度抬得很高。
+
+在 \(25^\circ\mathrm{C}\) 的水中，\(\varepsilon=78.3\)，代入常数得 \(\kappa=3.29\times10^{9}\sqrt{I}\ \mathrm{m^{-1}}\)，其中 \(I\) 以 \(\mathrm{mol\cdot L^{-1}}\) 计；离子氛厚度为 \(\kappa^{-1}=0.304/\sqrt{I}\ \mathrm{nm}\)。
+
+有了离子氛，就能算中心离子的静电稳定化能。把中心离子的电荷从 0 可逆地充到 \(z_i e\)，克服自身离子氛的电势所做的功为
+\[
+W=\frac{1}{2}z_i e\,\varphi_{\mathrm{atm}}(0),
+\qquad
+\varphi_{\mathrm{atm}}(0)=-\frac{z_i e\kappa}{4\pi\varepsilon_0\varepsilon},
+\]
+因子 \(1/2\) 来自充电过程中电荷与电势同步增长。每摩尔离子的超额自由能为 \(N_A W\)，而超额化学势又等于 \(RT\ln\gamma_i\)，故
+\[
+\ln\gamma_i=\frac{N_A W}{RT}
+=-\frac{z_i^2e^2\kappa}{8\pi\varepsilon_0\varepsilon kT}.
+\]
+把 \(\kappa=\sqrt{2F^2I/(\varepsilon_0\varepsilon RT)}\) 代入，与 \(I\) 无关的部分只剩基本常数，收成一个无量纲系数 \(A\)：
+\[
+-\lg\gamma_i=A z_i^2\sqrt{I},
+\qquad
+A=\frac{1}{2.303}\cdot\frac{e^2}{8\pi\varepsilon_0\varepsilon kT}
+\sqrt{\frac{2F^2}{\varepsilon_0\varepsilon RT}} .
+\]
+此式以国际单位制写出，\(I\) 须用 \(\mathrm{mol\cdot m^{-3}}\)。换成常用的 \(\mathrm{mol\cdot L^{-1}}\) 时，\(I\) 缩小 \(10^3\) 倍，\(A\) 相应乘 \(\sqrt{10^3}\)；在 \(25^\circ\mathrm{C}\) 的水中算得 \(A=0.51\)。这就是 Debye--H\"uckel 极限式，适用于 \(I<0.01\ \mathrm{mol\cdot L^{-1}}\)：
+\[
+-\lg\gamma_i=0.51\,z_i^2\sqrt{I}.
+\]
+极限式把离子当成点电荷，浓度稍高就高估了屏蔽。真实的离子有体积，两个离子的中心不能靠得比某个距离 \(a\) 更近。在 \(r=a\) 处匹配边界条件重解 Poisson 方程，球对称解改为
+\[
+\varphi(r)=\frac{z_i e}{4\pi\varepsilon_0\varepsilon}\cdot
+\frac{e^{-\kappa(r-a)}}{1+\kappa a}\cdot\frac{1}{r},
+\]
+重复上面的充电计算，分母多出一个 \(1+\kappa a\)，得到扩展式，适用于 \(I<0.1\ \mathrm{mol\cdot L^{-1}}\)：
+\[
+-\lg\gamma_i=\frac{0.51\,z_i^2\sqrt{I}}{1+\kappa a},
+\qquad
+\kappa a=0.00328\,\dot{a}\sqrt{I},
+\]
+其中 \(\dot{a}\) 是水化离子的有效半径，单位 pm；系数 \(0.00328\) 由 \(\kappa=3.29\times10^{9}\sqrt{I}\ \mathrm{m^{-1}}\) 与 \(1\ \mathrm{pm}=10^{-12}\ \mathrm{m}\) 换算而来。\(\dot{a}\) 越大，离子能靠近的距离越远，屏蔽越弱，\(\gamma\) 越接近 1。
+
+\begin{table}[H]
+\centering
+\caption{常见离子的 \(\dot{a}\) 值（pm）}
+\begin{tabular}{cccccccc}
+\toprule
+\(\mathrm{H^+}\) & \(\mathrm{Li^+}\) & \(\mathrm{Na^+}\) & \(\mathrm{K^+}\) & \(\mathrm{Ca^{2+}}\) & \(\mathrm{Al^{3+}}\) & \(\mathrm{Cl^-}\) & \(\mathrm{OH^-}\) \\
+\midrule
+900 & 600 & 450 & 300 & 600 & 900 & 300 & 350 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{例}：计算 \(0.10\ \mathrm{mol\cdot L^{-1}}\) \(\mathrm{HCl}\) 中 \(\mathrm{H^+}\) 的活度系数。离子强度
+\[
+I=\frac{1}{2}\left(0.10\times1^2+0.10\times1^2\right)=0.10\ \mathrm{mol\cdot L^{-1}}.
+\]
+由扩展式，
+\[
+-\lg\gamma_{\mathrm{H^+}}
+=\frac{0.51\times1^2\times\sqrt{0.10}}{1+0.00328\times900\times\sqrt{0.10}}
+=0.084,
+\]
+故 \(\gamma_{\mathrm{H^+}}=0.83\)，活度 \(a_{\mathrm{H^+}}=0.083\)，\(\mathrm{pH}=1.08\)；而 \(-\lg c_{\mathrm{H^+}}=1.00\)。两者相差 0.08 个 \(\mathrm{pH}\) 单位。\(\mathrm{pH}\) 计测量的是活度，这就是高离子强度下必须用标准缓冲校准、不能直接拿浓度算 \(\mathrm{pH}\) 的原因。
+
+把活度系数并入平衡常数，就得到浓度常数；再把副反应系数并入，就得到条件常数。这两步都在下一小节“多平衡耦合”中统一处理。就单个平衡而言，活度修正只是把 \(K\) 换成一个随介质缓慢变化的 \(K'\)，平衡式的形式保持不变。
+
+\phantomsection\label{sec:delta}
+\paragraph{分布系数：总浓度在各形态间的分配}
+
+平衡常数给的是各形态之间的比例，实际计算还需要把比例换算成浓度。设某组分的总分析浓度为 \(c_T\)，其中第 \(i\) 种形态的浓度为 \(c_i\)，定义\textbf{分布系数}
+\[
+\delta_i=\frac{c_i}{c_T},\qquad \sum_i\delta_i=1 .
+\]
+求和等于 1 并非额外假设：由物料平衡 \(c_T=\sum_i c_i\)，两边同除 \(c_T\) 即得。真正有用的性质是 \(\delta_i\) 只依赖主变量，酸碱体系中的主变量是 \([\mathrm{H^+}]\)，配位体系中是 \([\mathrm{L}]\)，与总浓度无关。稀释时各形态同比例减少，分配比例不变；推导中会看到 \(c_T\) 被约掉，原因就在这里。
+
+对一元酸 \(\mathrm{HA}\)，由 \(K_{\mathrm{a}}=[\mathrm{H^+}][\mathrm{A^-}]/[\mathrm{HA}]\) 解出 \([\mathrm{A^-}]=K_{\mathrm{a}}[\mathrm{HA}]/[\mathrm{H^+}]\)，代入物料平衡并提取公因子：
+\[
+c_T=[\mathrm{HA}]+[\mathrm{A^-}]
+=[\mathrm{HA}]\left(1+\frac{K_{\mathrm{a}}}{[\mathrm{H^+}]}\right).
+\]
+由此 \([\mathrm{HA}]=c_T[\mathrm{H^+}]/([\mathrm{H^+}]+K_{\mathrm{a}})\)，同法得 \([\mathrm{A^-}]=c_TK_{\mathrm{a}}/([\mathrm{H^+}]+K_{\mathrm{a}})\)。两式各自除以 \(c_T\)：
+\[
+\delta_{\mathrm{HA}}=\frac{[\mathrm{H^+}]}{[\mathrm{H^+}]+K_{\mathrm{a}}},
+\qquad
+\delta_{\mathrm{A^-}}=\frac{K_{\mathrm{a}}}{[\mathrm{H^+}]+K_{\mathrm{a}}}.
+\]
+\(\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}\) 时两者都是 \(1/2\)；\(\mathrm{pH}\) 每改变 1 个单位，比值 \([\mathrm{A^-}]/[\mathrm{HA}]\) 改变 10 倍。
+
+对多元酸 \(\mathrm{H}_n\mathrm{A}\)，从全脱质子的 \(\mathrm{A}^{n-}\) 出发，逐级加质子的累积常数记作
+\[
+\beta_i^{\mathrm{H}}=\frac{[\mathrm{H}_i\mathrm{A}^{(n-i)-}]}{[\mathrm{A}^{n-}][\mathrm{H^+}]^i}
+=\frac{1}{K_{\mathrm{a}1}K_{\mathrm{a}2}\cdots K_{\mathrm{a}i}},
+\qquad \beta_0^{\mathrm{H}}=1 ,
+\]
+其中 \(i\) 是加上的质子数。于是每个物种都是 \([\mathrm{A}^{n-}]\) 的已知倍数，代入物料平衡并提出公因子：
+\[
+c_T=[\mathrm{A}^{n-}]\sum_{k=0}^{n}\beta_k^{\mathrm{H}}[\mathrm{H^+}]^k .
+\]
+两边同除以 \(c_T\)，就得到任意形态的分布系数
+\[
+\delta_{\mathrm{H}_{n-i}\mathrm{A}^{i-}}
+=\frac{\beta_i^{\mathrm{H}}[\mathrm{H^+}]^i}
+{\sum_{k=0}^{n}\beta_k^{\mathrm{H}}[\mathrm{H^+}]^k}
+=\frac{[\mathrm{H^+}]^{n-i}\prod_{j=1}^{i}K_{\mathrm{a}_j}}
+{\sum_{k=0}^{n}[\mathrm{H^+}]^{n-k}\prod_{j=1}^{k}K_{\mathrm{a}_j}},
+\qquad \prod_{j=1}^{0}K_{\mathrm{a}_j}=1 .
+\]
+第二式由第一式分子分母同乘 \(\prod_{j=1}^{i}K_{\mathrm{a}_j}\) 并整理得到。它的读法是：分子里出现几个 \(K_{\mathrm{a}}\)，这个形态就比全质子化形式少几个质子；分母对同一 \(\mathrm{pH}\) 下的所有形态都一样，归一化因此自动成立。
+
+在对数坐标下，把第二式分子分母同除以 \([\mathrm{H^+}]^n\)，每项化为常数的连乘积：
+\[
+\delta_{\mathrm{H}_{n-i}\mathrm{A}^{i-}}
+=\frac{10^{-i\,\mathrm{pH}}\prod_{j=1}^{i}K_{\mathrm{a}_j}}
+{\sum_{k=0}^{n}10^{-k\,\mathrm{pH}}\prod_{j=1}^{k}K_{\mathrm{a}_j}} .
+\]
+分母中每一项都含 \(10^{-k\mathrm{pH}}\)，取对数后是 \(\mathrm{pH}\) 的直线。这是对数浓度图可以画成折线的原因，也是判断“某 \(\mathrm{pH}\) 下是否只剩一种形态”的依据。
+
+\begin{table}[H]
+\centering
+\caption{\(\mathrm{H_3PO_4}\) 的分布系数（\(\mathrm{p}K_{\mathrm{a1}}=2.15\)，\(\mathrm{p}K_{\mathrm{a2}}=7.20\)，\(\mathrm{p}K_{\mathrm{a3}}=12.35\)）}
+\begin{tabularx}{\textwidth}{rrrrr>{\centering\arraybackslash}X}
+\toprule
+\(\mathrm{pH}\) & \(\delta_{\mathrm{H_3A}}\) & \(\delta_{\mathrm{H_2A^-}}\) & \(\delta_{\mathrm{HA^{2-}}}\) & \(\delta_{\mathrm{A^{3-}}}\) & 主要形态 \\
+\midrule
+2.0 & 0.59 & 0.41 & \(\approx0\) & \(\approx0\) & \(\mathrm{H_3A}\) \\
+4.7 & \(\approx0\) & 0.99 & 0.01 & \(\approx0\) & \(\mathrm{H_2A^-}\) \\
+7.2 & \(\approx0\) & 0.50 & 0.50 & \(\approx0\) & 缓冲 \\
+9.8 & \(\approx0\) & 0.005 & 0.995 & \(\approx0\) & \(\mathrm{HA^{2-}}\) \\
+12.35 & \(\approx0\) & \(\approx0\) & 0.50 & 0.50 & 缓冲 \\
+14.0 & \(\approx0\) & \(\approx0\) & 0.02 & 0.98 & \(\mathrm{A^{3-}}\) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=0.85cm,y=5cm]
+  \draw[->] (0,0) -- (14.4,0) node[right] {\(\mathrm{pH}\)};
+  \draw[->] (0,0) -- (0,1.12) node[above] {\(\delta\)};
+  \foreach \x in {0,2,...,14} \draw (\x,0) -- (\x,-0.015) node[below,font=\scriptsize] {\x};
+  \foreach \y in {0,0.5,1} \draw (0,\y) -- (-0.12,\y) node[left,font=\scriptsize] {\y};
+  \draw[thick,domain=0:14,samples=200] plot (\x,{1/(1+exp(min(9,2.302585*(\x-4.74))))});
+  \draw[thick,dashed,domain=0:14,samples=200] plot (\x,{1-1/(1+exp(min(9,2.302585*(\x-4.74))))});
+  \draw[dotted] (4.74,0) -- (4.74,0.5) -- (0,0.5);
+  \node[font=\scriptsize] at (4.74,1.03) {\(\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}\)};
+  \node[font=\scriptsize] at (2.2,0.72) {\(\delta_{\mathrm{HA}}\)};
+  \node[font=\scriptsize] at (7.6,0.72) {\(\delta_{\mathrm{A^-}}\)};
+\end{tikzpicture}
+\caption{一元酸（\(\mathrm{p}K_{\mathrm{a}}=4.74\)）的分布曲线。实线为酸式，虚线为碱式；两条曲线在 \(\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}\) 处相交于 \(\delta=0.5\)。}
+\label{fig:delta-mono}
+\end{figure}
+
+一元酸的 \(\delta_{\mathrm{HA}}\) 随 \(\mathrm{pH}\) 单调下降，没有内部极值。多元酸的中间形态则不同。设某中间形态两侧的逐级解离常数为 \(K_1'\)、\(K_2'\)，且 \(K_1'>K_2'\)，即先失去的那个质子对应的常数更大，它与两侧形态的浓度比分别为 \([\mathrm{H^+}]/K_1'\) 与 \(K_2'/[\mathrm{H^+}]\)，于是
+\[
+\delta=\frac{1}{1+\dfrac{[\mathrm{H^+}]}{K_1'}+\dfrac{K_2'}{[\mathrm{H^+}]}} .
+\]
+对 \([\mathrm{H^+}]\) 求导并令导数为零，得
+\[
+\frac{1}{K_1'}-\frac{K_2'}{[\mathrm{H^+}]^2}=0
+\quad\Longrightarrow\quad
+[\mathrm{H^+}]=\sqrt{K_1'K_2'},
+\]
+即极大值位于
+\[
+\mathrm{pH}=\frac{\mathrm{p}K_1'+\mathrm{p}K_2'}{2}.
+\]
+代回得极大值
+\[
+\delta_{\max}=\frac{1}{1+2\sqrt{K_2'/K_1'}}
+=\frac{1}{1+2\times10^{-\Delta/2}},
+\qquad \Delta=\mathrm{p}K_2'-\mathrm{p}K_1' .
+\]
+\(\Delta=0\) 时 \(\delta_{\max}=1/3\)，三种形态等量；\(\Delta=3\) 时约 \(0.94\)；\(\Delta\) 再小，中间形态就始终到不了接近 1，溶液中任何 \(\mathrm{pH}\) 下都同时存在多种形态。这是判断“能否分步滴定”的第一条依据。相邻两个形态的曲线在 \(\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}\) 处相交，此时两者 \(\delta\) 相等。
+
+配位体系换一个主变量即可。设金属离子 \(\mathrm{M}\) 与配体 \(\mathrm{L}\) 逐级配位，累积稳定常数为 \(\beta_i\)，与多元酸的推导完全平行，得到
+\[
+\delta_{\mathrm{ML}_i}
+=\frac{\beta_i[\mathrm{L}]^i}
+{1+\sum_{j=1}^{n}\beta_j[\mathrm{L}]^j},
+\qquad
+\sum_{i=0}^{n}\delta_{\mathrm{ML}_i}=1 .
+\]
+对照多元酸分布式：把 \([\mathrm{H^+}]\) 换成 \([\mathrm{L}]\)，把 \(K_{\mathrm{a}}\) 的倒数换成 \(\beta\)，把“少几个质子”换成“多几个配体”，两式逐项对应。由此得到一条重要推论：\textbf{酸碱分布与配位分布在数学上是同一个问题}。酸的 \(\mathrm{p}K_{\mathrm{a}}\) 对应配位的 \(-\lg\beta\)；酸碱滴定曲线与配位滴定曲线、缓冲容量与配位缓冲，都可以互相翻译。后面把金属离子水解也纳入这一框架\textsuperscript{[\pageref{sec:metal-acid}]}，靠的就是这条同构性。
+
+\phantomsection\label{sec:balance}
+\paragraph{守恒方程组与主变量的确定}
+
+分布系数把每个物种都写成主变量的函数，但主变量本身还没有确定。以一个溶液体系为例，未知浓度有 \(S\) 个，需要 \(S\) 个独立方程。设体系由 \(C\) 个独立组分构成，溶剂水算一个组分。独立的化学平衡数为 \(S-C\)；每个非溶剂组分可写一个物料平衡，共 \(C-1\) 个；再加一个电中性条件。独立方程总数为
+\[
+(S-C)+(C-1)+1=S,
+\]
+恰好等于 \(S\) 个未知浓度的个数。这解释了平衡问题原则上为什么有唯一解，也解释了为什么不能多写方程：多写的那个一定是已有方程的线性组合。
+
+以一元弱酸 \(\mathrm{HA}\) 为例。物种为 \(\mathrm{H^+}\)、\(\mathrm{OH^-}\)、\(\mathrm{HA}\)、\(\mathrm{A^-}\)，\(S=4\)；组分为 \(\mathrm{HA}\) 与水，\(C=2\)。两个独立平衡、一个物料平衡、一个电荷平衡，四式四未知：
+\[
+K_{\mathrm{a}}=\frac{[\mathrm{H^+}][\mathrm{A^-}]}{[\mathrm{HA}]},
+\qquad
+K_{\mathrm{w}}=[\mathrm{H^+}][\mathrm{OH^-}],
+\qquad
+c=[\mathrm{HA}]+[\mathrm{A^-}],
+\qquad
+[\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}].
+\]
+消去其余物种，得到关于 \([\mathrm{H^+}]\) 的三次方程
+\[
+[\mathrm{H^+}]^3+K_{\mathrm{a}}[\mathrm{H^+}]^2
+-\left(K_{\mathrm{w}}+K_{\mathrm{a}}c\right)[\mathrm{H^+}]
+-K_{\mathrm{a}}K_{\mathrm{w}}=0 .
+\]
+阶数随多元酸和配位数迅速升高。若酸不太稀、水的电离可略，三次方程退化为二次方程，进一步近似得到
+\[
+[\mathrm{H^+}]\approx\sqrt{K_{\mathrm{a}}c}.
+\]
+所以实际的工作顺序是：先用分布系数把所有物种表示成主变量的函数，再用一个守恒条件定出主变量，最后判断能否近似、降到一次或二次。解出主变量后，回代分布系数即可得到全部物种浓度；把 \(\delta_i\) 对 \(\mathrm{pH}\) 作图，就是前面的分布曲线，而把主变量对加入的滴定剂体积作图，就是滴定曲线。
+
+\textbf{物料平衡}：对每个非溶剂组分，其各形态浓度之和等于该组分的分析浓度，
+\[
+c_T=\sum_i c_i .
+\]
+例如草酸溶液 \(c=[\mathrm{H_2C_2O_4}]+[\mathrm{HC_2O_4^-}]+[\mathrm{C_2O_4^{2-}}]\)。物料平衡正是分布系数的分母：把它两边除以 \(c_T\)，就得到 \(\sum_i\delta_i=1\)。
+
+\textbf{电荷平衡}：溶液整体电中性，正负电荷的总数相等，
+\[
+\sum_i z_i c_i=0 .
+\]
+例如 \(\mathrm{NaAc}\) 溶液有
+\[
+[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}] .
+\]
+电荷平衡的优点是不需要知道物种之间的反应关系；缺点是必须把溶液中所有离子都列出，包括不参与主反应的旁观离子。
+
+\textbf{质子平衡与零水准}：质子平衡（质子条件式，PBE）说的是，得质子的物质所得质子总数等于失质子的物质所失质子总数。它不是新的独立条件，而是电荷平衡消去旁观离子的结果。仍以 \(\mathrm{NaAc}\) 溶液为例：电荷平衡为 \([\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}]\)，物料平衡为 \(c=[\mathrm{HAc}]+[\mathrm{Ac^-}]\)，而 \(\mathrm{NaAc}\) 完全解离给出 \([\mathrm{Na^+}]=c\)。把后两式代入第一式，消去 \([\mathrm{Na^+}]\) 与 \([\mathrm{Ac^-}]\)，得
+\[
+[\mathrm{H^+}]+[\mathrm{HAc}]=[\mathrm{OH^-}] .
+\]
+旁观离子 \(\mathrm{Na^+}\) 不再出现，这就是 PBE。它与电荷平衡并不独立，二者选其一即可。
+
+写 PBE 的标准做法是先选“零水准”，即参考水准：溶液中大量存在、且直接参与质子转移的原始组分，外加溶剂水。以零水准为基准，比它多一个质子的物种记在“得质子”一侧，少一个质子的记在“失质子”一侧，转移了几个质子就乘几。
+
+\begin{table}[H]
+\centering
+\caption{常见体系的零水准与质子平衡方程}
+\begin{tabular}{p{2.4cm}p{4.6cm}p{7.6cm}}
+\toprule
+体系 & 零水准 & 质子平衡方程 \\
+\midrule
+\(\mathrm{HA}\) & \(\mathrm{HA},\ \mathrm{H_2O}\) & \([\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}]\) \\
+\(\mathrm{NaA}\) & \(\mathrm{A^-},\ \mathrm{H_2O}\) & \([\mathrm{H^+}]+[\mathrm{HA}]=[\mathrm{OH^-}]\) \\
+\(\mathrm{NaHA}\) & \(\mathrm{HA^-},\ \mathrm{H_2O}\) & \([\mathrm{H^+}]+[\mathrm{H_2A}]=[\mathrm{A^{2-}}]+[\mathrm{OH^-}]\) \\
+\(\mathrm{Na_2S}\) & \(\mathrm{S^{2-}},\ \mathrm{H_2O}\) & \([\mathrm{H^+}]+[\mathrm{HS^-}]+2[\mathrm{H_2S}]=[\mathrm{OH^-}]\) \\
+\(\mathrm{H_2CO_3}\) & \(\mathrm{H_2CO_3},\ \mathrm{H_2O}\) & \([\mathrm{H^+}]=[\mathrm{HCO_3^-}]+2[\mathrm{CO_3^{2-}}]+[\mathrm{OH^-}]\) \\
+\((\mathrm{NH_4})_2\mathrm{HPO_4}\) & \(\mathrm{NH_4^+},\ \mathrm{HPO_4^{2-}},\ \mathrm{H_2O}\) & \([\mathrm{H^+}]+[\mathrm{H_2PO_4^-}]+2[\mathrm{H_3PO_4}]=[\mathrm{OH^-}]+[\mathrm{PO_4^{3-}}]+[\mathrm{NH_3}]\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+系数的来源在最后一例中看得最清楚：\(\mathrm{HPO_4^{2-}}\) 得一个质子成 \(\mathrm{H_2PO_4^-}\)，得两个成 \(\mathrm{H_3PO_4}\)，所以后者系数是 2；\(\mathrm{NH_4^+}\) 失一个质子成 \(\mathrm{NH_3}\)，系数为 1。凡转移了 \(k\) 个质子的物种，系数就是 \(k\)。
+
+\textbf{为什么优先用 PBE}：以 \(\mathrm{NaAc}\) 与 \(\mathrm{HAc}\) 的混合溶液为例，用电荷平衡要写
+\[
+[\mathrm{Na^+}]+[\mathrm{H^+}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}],
+\]
+其中 \([\mathrm{Na^+}]\) 是外部给定的分析浓度；用 PBE 则直接写
+\[
+[\mathrm{H^+}]+[\mathrm{HAc}]=[\mathrm{Ac^-}]+[\mathrm{OH^-}],
+\]
+不必再处理旁观离子。含多种盐的复杂体系里，这个优势更明显：PBE 只关心“谁得质子、谁失质子”，不关心溶液里还漂着多少 \(\mathrm{Na^+}\)、\(\mathrm{K^+}\)、\(\mathrm{Cl^-}\)。
+
+书写中有两个易错点。其一，零水准只能选一个形态：同一物质不能既把 \(\mathrm{H_2A}\) 又把 \(\mathrm{HA^-}\) 当零水准，否则会重复计数。其二，忽略水时要说明条件：若溶液酸性较强，\([\mathrm{OH^-}]\) 可略，但“可略”必须有数量级依据，通常差两个数量级以上，不能凭感觉。
+
+\subsection{多平衡耦合行为以及描述}
+
+单个平衡的行为由平衡常数、分布系数与守恒方程组描述。实际体系往往同时存在多个平衡，例如沉淀溶解与配位共存、酸碱平衡与氧化还原共存。处理这类问题不需要为每种组合重新推导，只需三件工具：把多个反应按计量关系合并的耦合规则、把副反应并入常数的副反应系数，以及把活度与副反应一起打包的条件常数。
+
+\paragraph{多重平衡的耦合规则}
+
+实际体系里几个反应常同时存在。把反应式相加，对应的标准自由能变也相加，取指数后就是平衡常数相乘；相减则相除；方程式乘 \(n\)，\(K\) 取 \(n\) 次方。写成通式，若总反应是各分反应的线性组合，
+\[
+\Delta_rG^\circ=\sum_i n_i\Delta_rG_i^\circ,
+\qquad
+K=\prod_i K_i^{\,n_i},
+\]
+其中 \(n_i\) 为分反应在总反应中的系数，逆反应取负。例如
+\[
+\mathrm{AgCl(s)}\rightleftharpoons\mathrm{Ag^+}+\mathrm{Cl^-}\quad(K_{\mathrm{sp}}),
+\qquad
+\mathrm{Ag^+}+2\mathrm{NH_3}\rightleftharpoons[\mathrm{Ag(NH_3)_2}]^+\quad(\beta_2),
+\]
+两式相加得
+\[
+\mathrm{AgCl(s)}+2\mathrm{NH_3}\rightleftharpoons[\mathrm{Ag(NH_3)_2}]^++\mathrm{Cl^-},
+\qquad
+K=K_{\mathrm{sp}}\beta_2 .
+\]
+氯化银能否溶于氨水，就看这个乘积够不够大。酸碱、配位、沉淀、氧化还原的耦合，都可以按同一条规则合并成一个总反应来处理。
+
+\paragraph{四类离子效应}
+
+溶液中的平衡很少孤立存在，另外加入的离子会通过四条途径使其移动。
+
+\textbf{同离子效应}：加入含有相同离子的强电解质，平衡向消耗该离子的方向移动，解离度或溶解度减小。以弱酸缓冲为例，弱酸与其共轭碱共存时，
+\[
+\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}+\lg\frac{[\mathrm{A^-}]}{[\mathrm{HA}]},
+\]
+\(\mathrm{pH}\) 由二者的浓度比决定。具体计算见第四章\textsuperscript{[\pageref{sec:buffer-ph}]}。
+
+\textbf{盐效应}：加入不含相同离子的强电解质，离子强度增大，活度系数下降。对 \(1:1\) 型沉淀 \(\mathrm{MA}\)，热力学溶度积为
+\[
+K_{\mathrm{sp}}^\circ=a_{\mathrm{M}}a_{\mathrm{A}}
+=\gamma_{\mathrm{M}}\gamma_{\mathrm{A}}[\mathrm{M}][\mathrm{A}],
+\]
+所以按浓度写出的条件溶度积
+\[
+K_{\mathrm{sp}}'=\frac{K_{\mathrm{sp}}^\circ}{\gamma_{\mathrm{M}}\gamma_{\mathrm{A}}}
+\]
+会随离子强度增大而增大，溶解度略微上升。
+
+\textbf{配位效应}：金属离子与加入的试剂形成稳定配合物，游离金属离子浓度下降，沉淀溶解度增大。若金属离子的副反应系数为 \(\alpha_{\mathrm{M}}\)，则
+\[
+K_{\mathrm{sp}}'=K_{\mathrm{sp}}^\circ\alpha_{\mathrm{M}}.
+\]
+
+\textbf{酸效应}：溶液酸度改变弱酸根的质子化程度，从而改变配体浓度或沉淀溶解度。若酸根的副反应系数为 \(\alpha_{\mathrm{A}}\)，则
+\[
+K_{\mathrm{sp}}'=K_{\mathrm{sp}}^\circ\alpha_{\mathrm{A}}.
+\]
+四类效应往往同时出现。处理时不必逐个修正，而是把活度系数与副反应系数一起并入条件常数，让平衡式保持原来的形式——这正是下面“条件化”的做法。
+
+\paragraph{副反应系数与条件常数}
+
+主反应之外的其它平衡统称副反应。设某物种 \(\mathrm{X}\) 除游离态外还能与配体 \(\mathrm{L}\) 形成 \(\mathrm{XL}_i\)，累积稳定常数为 \(\beta_i\)。它的分析浓度是各形态之和：
+\[
+c_{\mathrm{X}}=[\mathrm{X}]+\sum_{i=1}^{n}[\mathrm{XL}_i]
+=[\mathrm{X}]\left(1+\sum_{i=1}^{n}\beta_i[\mathrm{L}]^i\right),
+\]
+第二个等号用了 \([\mathrm{XL}_i]=\beta_i[\mathrm{X}][\mathrm{L}]^i\)。定义副反应系数 \(\alpha_{\mathrm{X}}=c_{\mathrm{X}}/[\mathrm{X}]\)，就得到
+\[
+\alpha_{\mathrm{X}}=1+\sum_{i=1}^{n}\beta_i[\mathrm{L}]^i\ge1 .
+\]
+它度量“有多少 \(\mathrm{X}\) 被副反应占住”，越大表示游离态越少。
+
+配体的酸效应是同一公式的特例。以 EDTA（\(\mathrm{Y^{4-}}\)）为例，\(\mathrm{Y}\) 与质子逐级结合，质子化常数为 \(\beta_i^{\mathrm{H}}\)：
+\[
+\alpha_{\mathrm{Y(H)}}=1+\beta_1^{\mathrm{H}}[\mathrm{H^+}]+\beta_2^{\mathrm{H}}[\mathrm{H^+}]^2+\cdots+\beta_6^{\mathrm{H}}[\mathrm{H^+}]^6
+=1+\sum_{i=1}^{6}\beta_i^{\mathrm{H}}[\mathrm{H^+}]^i.
+\]
+\(\mathrm{pH}\) 越低，\(\alpha_{\mathrm{Y(H)}}\) 越大，EDTA 越被质子占住，配位能力越弱。金属离子的水解效应把 \([\mathrm{H^+}]\) 换成 \([\mathrm{OH^-}]\)：
+\[
+\alpha_{\mathrm{M(OH)}}=1+\sum_{i=1}^{n}\beta_i[\mathrm{OH^-}]^i.
+\]
+两者形式相同，这正是“金属离子也是酸”的数学体现：酸效应与水解效应是同一个多项式，只是一个用质子浓度，一个用氢氧根浓度。若有辅助配体 \(\mathrm{L}\)，同理 \(\alpha_{\mathrm{M(L)}}=1+\sum_i\beta_i[\mathrm{L}]^i\)。
+
+多种副反应同时存在时，由分析浓度的可加性直接相加：
+\[
+c_{\mathrm{M}}=[\mathrm{M}]+(c_{\mathrm{M}}^{\mathrm{(OH)}}-[\mathrm{M}])+(c_{\mathrm{M}}^{\mathrm{(L)}}-[\mathrm{M}])
+\;\Longrightarrow\;
+\alpha_{\mathrm{M}}=\alpha_{\mathrm{M(OH)}}+\alpha_{\mathrm{M(L)}}-1 .
+\]
+减 1 是因为游离 \(\mathrm{M}\) 这一项在两个 \(\alpha\) 中被各算了一次。
+
+把活度系数与副反应系数并入主反应的平衡常数。对 \(\mathrm{A}+\mathrm{B}\rightleftharpoons\mathrm{AB}\)，热力学常数为 \(K^{\ominus}=a_{\mathrm{AB}}/(a_{\mathrm{A}}a_{\mathrm{B}})\)，代入 \(a=\gamma c\)：
+\[
+K'=\frac{[\mathrm{AB}]}{[\mathrm{A}][\mathrm{B}]}
+=K^{\ominus}\frac{\gamma_{\mathrm{A}}\gamma_{\mathrm{B}}}{\gamma_{\mathrm{AB}}}.
+\]
+在固定离子强度的介质中工作，\(\gamma\) 基本不变，\(K'\) 就近似是常数：所有平衡公式保持原样，只需把 \(K\) 换成 \(K'\)。再对配位主反应 \(\mathrm{M}+\mathrm{Y}\rightleftharpoons\mathrm{MY}\) 并入副反应系数，由 \(c_{\mathrm{M}}=\alpha_{\mathrm{M}}[\mathrm{M}]\)、\(c_{\mathrm{Y}}=\alpha_{\mathrm{Y}}[\mathrm{Y}]\)、\(c_{\mathrm{MY}}\approx[\mathrm{MY}]\)，得
+\[
+K'_{\mathrm{MY}}
+=\frac{c_{\mathrm{MY}}}{c_{\mathrm{M}}c_{\mathrm{Y}}}
+=\frac{[\mathrm{MY}]}{\alpha_{\mathrm{M}}[\mathrm{M}]\,\alpha_{\mathrm{Y}}[\mathrm{Y}]}
+=\frac{K_{\mathrm{MY}}}{\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}}}.
+\]
+这就是条件稳定常数：在指定 \(\mathrm{pH}\)、指定辅助配体浓度下，主反应“看起来”有多强。\(\mathrm{pH}\) 太低，\(\alpha_{\mathrm{Y}}\) 大，\(K'\) 小；\(\mathrm{pH}\) 太高，\(\alpha_{\mathrm{M(OH)}}\) 大，\(K'\) 也小。两者之间存在使 \(K'\) 最大的 \(\mathrm{pH}\) 窗口，这就是配位滴定必须控制酸度的根本原因。
+
+\begin{table}[H]
+\centering
+\caption{四类滴定的条件常数}
+\begin{tabular}{p{2.2cm}p{4.2cm}p{4.2cm}p{3.6cm}}
+\toprule
+类型 & 主反应 & 条件常数 & 主要副反应 \\
+\midrule
+酸碱 & \(\mathrm{HA}+\mathrm{OH^-}\rightleftharpoons\mathrm{A^-}+\mathrm{H_2O}\) & \(K_t=K_{\mathrm{a}}/K_{\mathrm{w}}\) & 溶剂的拉平与区分 \\
+配位 & \(\mathrm{M}+\mathrm{Y}\rightleftharpoons\mathrm{MY}\) & \(K'_{\mathrm{MY}}=K_{\mathrm{MY}}/(\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}})\) & 酸效应、水解、共存离子 \\
+沉淀 & \(\mathrm{M}+\mathrm{A}\rightleftharpoons\mathrm{MA}\downarrow\) & \(K_{\mathrm{sp}}'=K_{\mathrm{sp}}\alpha_{\mathrm{M}}\alpha_{\mathrm{A}}\) & 配位、水解、同离子 \\
+氧化还原 & \(\mathrm{Ox}_1+\mathrm{Red}_2\rightleftharpoons\mathrm{Red}_1+\mathrm{Ox}_2\) & \(\varphi^{\ominus'}=\varphi^{\ominus}+\dfrac{0.059}{z}\lg\dfrac{\alpha_{\mathrm{Red}}}{\alpha_{\mathrm{Ox}}}\) & 配位、沉淀、酸度 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+氧化还原体系的条件电势是同一思想的应用：把活度换成分析浓度与副反应系数的乘积，与浓度比无关的部分并入常数。至此，处理一个复杂平衡体系的路线可以概括为：先写出所有独立平衡与守恒方程，数清未知数；用分布系数把物种表示成主变量的函数；用耦合规则合并同时存在的反应；把活度与副反应并入条件常数；最后解出主变量并回代。平衡常数告诉我们终点在哪里，却没有告诉我们到达终点需要多久，这正是下一节动力学的任务。
+
+\newpage
 \section{化学反应动力学}
 
 热力学只告诉我们反应的终点在哪里，却不告诉我们到达终点需要多久。动力学的基本假设是碰撞理论：只有能量足够、取向正确的分子相遇，才能越过过渡态，反应物才转化为产物。要把“能量足够”与“取向正确”写成定量表达式，先需要统计分布这个工具。
@@ -758,129 +767,129 @@ $E^{\theta'}$ 称为\textbf{条件电极电势}（conditional potential）。它
 \subsection{配分函数与玻尔兹曼分布}
 
 设有 $M$ 个可区分的系统（例如定域子系统），处于能级 $E_i$ 的系统有 $M_i$ 个，则总系统数与总能量满足
-\begin{equation}
+\[
 \sum_i M_i=M,\qquad \sum_i M_iE_i=E .
-\end{equation}
+\]
 由等概率原理，每一种微观分配方式出现的概率相同。把 $M$ 个可区分的系统分配到各能级，能级 $i$ 上放 $M_i$ 个，分配方式数为
-\begin{equation}
+\[
 \Omega=\frac{M!}{\prod_i M_i!}.
-\end{equation}
+\]
 这里分子上的 $M!$ 是全排列数，分母上的 $M_i!$ 是为了消除同一能级内部交换带来的重复计数——这正是麦克斯韦--玻尔兹曼统计的处理方式。系统处于某一宏观态的概率与该宏观态的 $\Omega$ 成正比：
-\begin{equation}
+\[
 P_i=\frac{\Omega_i}{\Omega_{\mathrm{all}}}.
-\end{equation}
+\]
 
 平衡分布对应 $\Omega$ 最大的那种分配。为此对 $\ln\Omega$ 求极值。当 $x$ 很大时有斯特林近似
-\begin{equation}
+\[
 \ln x!\approx x\ln x-x,
-\end{equation}
+\]
 于是
-\begin{equation}
+\[
 \ln\Omega\approx M\ln M-M-\sum_i\left(M_i\ln M_i-M_i\right)
 =M\ln M-\sum_i M_i\ln M_i .
-\end{equation}
+\]
 其中 $M\ln M$ 为常数，求最大值等价于求 $\sum_i M_i\ln M_i$ 的最小值。约束条件为
-\begin{equation}
+\[
 \varphi_1=\sum_i M_i-M=0,\qquad
 \varphi_2=\sum_i E_iM_i-E=0 .
-\end{equation}
+\]
 引入拉格朗日乘子 $\alpha$、$\beta$，构造
-\begin{equation}
+\[
 L=\ln\Omega-\alpha\left(\sum_i M_i-M\right)
 -\beta\left(\sum_i E_iM_i-E\right).
-\end{equation}
+\]
 把 $M_i$ 当作连续变量求偏导并令其为零：
-\begin{equation}
+\[
 \frac{\partial L}{\partial M_i}
 =-\ln M_i-1-\alpha-\beta E_i=0,
-\end{equation}
+\]
 解得
-\begin{equation}
+\[
 \ln M_i=-1-\alpha-\beta E_i,
 \qquad
 M_i=Ae^{-\beta E_i}.
-\end{equation}
+\]
 由第一个约束定出 $A$：
-\begin{equation}
+\[
 A\sum_i e^{-\beta E_i}=M
 \quad\Longrightarrow\quad
 A=\frac{M}{Z},
-\end{equation}
+\]
 其中定义配分函数
-\begin{equation}
+\[
 Z=\sum_i e^{-\beta E_i}.
-\end{equation}
+\]
 于是平衡分布为
-\begin{equation}
+\[
 M_i=\frac{M}{Z}e^{-\beta E_i}.
-\end{equation}
+\]
 再由第二个约束确定 $\beta$。注意到
-\begin{equation}
+\[
 -\frac{\partial Z}{\partial\beta}=\sum_i E_i e^{-\beta E_i},
-\end{equation}
+\]
 因此
-\begin{equation}
+\[
 -M\frac{\partial\ln Z}{\partial\beta}=E .
-\end{equation}
+\]
 与热力学中内能的统计表达式对比，可定出
-\begin{equation}
+\[
 \beta=\frac{1}{k_{\mathrm B}T}.
-\end{equation}
+\]
 至此得到完整的玻尔兹曼分布
-\begin{equation}
+\[
 M_i=\frac{M}{Z}e^{-E_i/k_{\mathrm B}T},
 \qquad
 Z=\sum_i e^{-E_i/k_{\mathrm B}T}.
-\end{equation}
+\]
 配分函数是统计力学的核心量：系统的所有热力学性质都可以由它导出。
 
 \subsection{碰撞理论与速率方程}
 
 对一般反应 $aA+bB\to cC+dD$，总反应可分解为若干基元反应。以基元反应 $mA+nB\to eE$ 为例，按碰撞理论，速率取决于具有足够活化能的 $A$、$B$ 分子相遇的数目。能级 $E_i$ 上的分子数为 $M_i=Ae^{-E_i/k_{\mathrm B}T}$，而对固定系统配分函数 $Z$ 是常数，因此处于活化态的概率为
-\begin{equation}
+\[
 P=\frac{M}{Z}e^{-E_i/k_{\mathrm B}T}.
-\end{equation}
+\]
 分子相遇还需取向合适，引入取向因子 $f$，则有效碰撞的概率正比于
-\begin{equation}
+\[
 f\,\frac{[A]^m[B]^n}{Z_A^mZ_B^n}\,
 e^{-(mE_A+nE_B)/k_{\mathrm B}T}.
-\end{equation}
+\]
 再引入过渡态的坍缩修正因子 $f^*$，反应速率可写为
-\begin{equation}
+\[
 v=ff^*\,\frac{[A]^m[B]^n}{Z_A^mZ_B^n}\,
 e^{-(mE_A+nE_B)/k_{\mathrm B}T}.
-\end{equation}
+\]
 对固定反应，配分函数可由分子参数算出，温度是唯一可调的变量，活化能则是唯一的未知量。于是上式可简记为
-\begin{equation}
+\[
 v=A\,e^{-E_a/k_{\mathrm B}T}[A]^m[B]^n,
-\end{equation}
+\]
 即
-\begin{equation}
+\[
 v=k[A]^m[B]^n,\qquad
 k=A\,e^{-E_a/k_{\mathrm B}T}.
-\end{equation}
+\]
 这就是质量作用定律。反应级数为 $m+n$，即各反应物浓度幂指数之和。
 
 实验上通常先测不同温度下的速率常数，再求活化能。对速率常数取对数得
-\begin{equation}
+\[
 \ln k=\ln A-\frac{E_a}{k_{\mathrm B}T}.
-\end{equation}
+\]
 用两组数据 $(T_1,k_1)$、$(T_2,k_2)$ 相减，得
-\begin{equation}
+\[
 \ln\frac{k_1}{k_2}
 =-\frac{E_a}{k_{\mathrm B}}\left(\frac{1}{T_1}-\frac{1}{T_2}\right).
-\end{equation}
+\]
 因此以 $\ln k$ 对 $1/T$ 作图，斜率为 $-E_a/k_{\mathrm B}$，由斜率即可求出活化能，截距给出指前因子 $A$。
 
 对 $m+n$ 级反应，速率方程常写成
-\begin{equation}
+\[
 v=-\frac{dc}{dt}=k\,c^{m+n},
-\end{equation}
+\]
 其中 $c$ 为按化学计量关系合并后的统一浓度变量。分离变量并积分，得
-\begin{equation}
+\[
 \frac{c^{1-(m+n)}}{1-(m+n)}=kt+C,
 \qquad (m+n\neq1)
-\end{equation}
+\]
 由此可由浓度随时间的变化反推反应级数与速率常数。对一级反应，积分结果为指数衰减，这是后面讨论放射性衰变与配合物取代反应的基础。
 
 \newpage
@@ -890,6 +899,7 @@ v=-\frac{dc}{dt}=k\,c^{m+n},
 
 
 
+\newpage
 \section{介观物理模型：原子、分子与配合物}
 
 前两节讨论的是宏观的热力学与动力学，本节把尺度缩小到原子与分子，回答三个层层递进的问题：电子在原子核周围如何排布，原子之间如何成键，多个原子与配体又如何组成具有一定空间构型的配合物。这条线索从单个电子的波函数一直延伸到配合物的能级分裂，构成了后面理解各区元素结构性质的理论骨架。
@@ -897,15 +907,15 @@ v=-\frac{dc}{dt}=k\,c^{m+n},
 \subsection{从原子光谱到分子间作用力}
 
 在人类还无法直接观测原子的年代，关于原子结构的知识几乎全部来自光谱。1888 年，里德伯从氢原子光谱的经验规律中总结出
-\begin{equation}
+\[
 \tilde{\nu}=R\left(\frac{1}{n_1^2}-\frac{1}{n_2^2}\right),
-\end{equation}
+\]
 其中 $\tilde{\nu}$ 为波数，$R$ 为里德伯常数，$n_1<n_2$ 为正整数。这条经验公式后来成为玻尔原子模型最有力的证据之一：它说明原子内部只允许某些分立的能量状态。
 
 从原子到分子，首先遇到的是电荷分布是否对称的问题。若分子中正、负电荷中心重合，电偶极矩为零，称为\textbf{非极性分子}；若二者不重合，电偶极矩不为零，称为\textbf{极性分子}。电偶极矩的定义为
-\begin{equation}
+\[
 \boldsymbol{\mu}=q\mathbf{d},
-\end{equation}
+\]
 其中 $q$ 为极上电荷，$\mathbf{d}$ 为正负电荷中心之间的矢量。偶极矩的大小反映分子极性的强弱，方向习惯上由正电荷指向负电荷。
 
 分子靠近时产生的偶极有三种来源。极性分子本身固有的偶极称为\textbf{固有偶极}（永久偶极）；非极性分子相互靠近时，电子与原子核的瞬时相对位移使正负电荷中心暂时分离，产生\textbf{瞬时偶极}；极性分子与非极性分子靠近时，后者的电荷中心在前者的电场中被拉开，产生\textbf{诱导偶极}。三种偶极对应三种分子间作用力，统称范德华引力：
@@ -923,142 +933,142 @@ v=-\frac{dc}{dt}=k\,c^{m+n},
 \subsubsection{基态氢原子轨道波函数}
 
 单电子原子的定态行为由薛定谔方程描述：
-\begin{equation}
+\[
 \frac{\partial^2\psi}{\partial x^2}
 +\frac{\partial^2\psi}{\partial y^2}
 +\frac{\partial^2\psi}{\partial z^2}
 +\frac{2m}{\hbar^2}\left(E-V\right)\psi=0 .
-\end{equation}
+\]
 对中心力场中的电子，直角坐标并不方便，应换到球坐标。拉普拉斯算符在球坐标下写作
-\begin{equation}
+\[
 \nabla^2\psi=\frac{1}{r^2\sin\theta}\left[
 \sin\theta\frac{\partial}{\partial r}\left(r^2\frac{\partial\psi}{\partial r}\right)
 +\frac{\partial}{\partial\theta}\left(\sin\theta\frac{\partial\psi}{\partial\theta}\right)
 +\frac{1}{\sin\theta}\frac{\partial^2\psi}{\partial\varphi^2}\right].
-\end{equation}
+\]
 氢原子核的势能为 $V=-Ze^2/(4\pi\varepsilon_0r)$，代回原方程得
-\begin{equation}
+\[
 \frac{1}{r^2\sin\theta}\left[
 \sin\theta\frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right)
 +\frac{\partial}{\partial\theta}\left(\sin\theta\frac{\partial}{\partial\theta}\right)
 +\frac{1}{\sin\theta}\frac{\partial^2}{\partial\varphi^2}\right]\psi
 +\frac{2m}{\hbar^2}\left(E+\frac{Ze^2}{4\pi\varepsilon_0r}\right)\psi=0 .
-\end{equation}
+\]
 
 由于势场是球对称的，可以尝试分离变量：
-\begin{equation}
+\[
 \psi(r,\theta,\varphi)=R(r)\,\Theta(\theta)\,\Phi(\varphi).
-\end{equation}
+\]
 代入后两边同乘 $r^2\sin^2\theta/(R\Theta\Phi)$，可以把含 $\varphi$ 的项单独移到等式一侧：
-\begin{equation}
+\[
 \frac{1}{R}\frac{1}{r^2}\frac{d}{dr}\left(r^2\frac{dR}{dr}\right)
 +\frac{1}{\Theta}\frac{1}{r^2\sin\theta}\frac{d}{d\theta}\left(\sin\theta\frac{d\Theta}{d\theta}\right)
 +\frac{2m}{\hbar^2}\left(E+\frac{Ze^2}{4\pi\varepsilon_0r}\right)
 =-\frac{1}{\Phi\sin^2\theta}\frac{d^2\Phi}{d\varphi^2}.
-\end{equation}
+\]
 等式左边只含 $r$、$\theta$，右边只含 $\varphi$，故两边必等于同一常数。记为 $m^2$，即得方位角方程
-\begin{equation}
+\[
 \frac{d^2\Phi}{d\varphi^2}+m^2\Phi=0 .
-\end{equation}
+\]
 剩余的径向与极角部分可以再分离一次。把含 $\Theta$ 的项归到一边，令其等于 $l(l+1)$，于是得到极角方程与径向方程：
-\begin{equation}
+\[
 \frac{1}{\sin\theta}\frac{d}{d\theta}\left(\sin\theta\frac{d\Theta}{d\theta}\right)
 +\left[l(l+1)-\frac{m^2}{\sin^2\theta}\right]\Theta=0,
-\end{equation}
-\begin{equation}
+\]
+\[
 \frac{1}{r^2}\frac{d}{dr}\left(r^2\frac{dR}{dr}\right)
 +\left[\frac{2m}{\hbar^2}\left(E+\frac{Ze^2}{4\pi\varepsilon_0r}\right)-\frac{l(l+1)}{r^2}\right]R=0 .
-\end{equation}
+\]
 
 三个方程依次求解。第一个方程最简单，其归一化解为
-\begin{equation}
+\[
 \Phi_m(\varphi)=\frac{1}{\sqrt{2\pi}}e^{im\varphi}.
-\end{equation}
+\]
 单值性要求 $\Phi(\varphi+2\pi)=\Phi(\varphi)$，因此 $m$ 必须为整数。
 
 第二个方程先令 $m=0$，并作代换 $x=\cos\theta$，化为勒让德方程
-\begin{equation}
+\[
 (1-x^2)\frac{d^2\Theta}{dx^2}-2x\frac{d\Theta}{dx}
 +\left[l(l+1)-\frac{m^2}{1-x^2}\right]\Theta=0 .
-\end{equation}
+\]
 设解为幂级数 $\Theta(x)=\sum_{k=0}^{\infty}a_k x^k$，代入后比较同次幂系数，得到递推关系
-\begin{equation}
+\[
 a_{k+2}=\frac{k(k+1)-\lambda}{(k+2)(k+1)}a_k,
-\end{equation}
+\]
 其中 $\lambda$ 是与分离常数有关的参数。若级数在 $k\to\infty$ 时不截断，则 $a_{k+2}\approx a_k$，级数行为近似于 $\sum x^k/k^2$，在 $x=\pm1$（即 $\theta=0,\pi$）处发散，波函数在极点失去物理意义。为保证波函数有限且平方可积，级数必须在某一阶 $k_{\max}$ 之后截断，即存在 $k$ 使 $a_{k+2}=0$。这要求 $\lambda=l(l+1)$，其中 $l$ 为非负整数。截断后 $\Theta(x)$ 退化为多项式，即勒让德多项式 $P_l(x)$。
 
 对于 $m\neq0$ 的情形，需由勒让德多项式构造连带勒让德函数
-\begin{equation}
+\[
 P_l^m(x)=(-1)^m(1-x^2)^{m/2}\frac{d^m}{dx^m}P_l(x),
 \qquad m\geq0 .
-\end{equation}
+\]
 
 第三个是径向方程。先把第一项展开：
-\begin{equation}
+\[
 \frac{1}{r^2}\frac{d}{dr}\left(r^2\frac{dR}{dr}\right)
 =\frac{d^2R}{dr^2}+\frac{2}{r}\frac{dR}{dr},
-\end{equation}
+\]
 代入后引入玻尔半径与里德伯能量
-\begin{equation}
+\[
 a_0=\frac{4\pi\varepsilon_0\hbar^2}{me^2},
 \qquad
 E_0=\frac{me^4}{2(4\pi\varepsilon_0)^2\hbar^2},
-\end{equation}
+\]
 并定义无量纲变量
-\begin{equation}
+\[
 \rho=\frac{Zr}{a_0},\qquad \epsilon=\frac{E}{E_0}.
-\end{equation}
+\]
 径向方程化为
-\begin{equation}
+\[
 \frac{d^2R}{d\rho^2}+\frac{2}{\rho}\frac{dR}{d\rho}
 +\left[\epsilon+\frac{2}{\rho}-\frac{l(l+1)}{\rho^2}\right]R=0 .
-\end{equation}
+\]
 令 $R(\rho)=\rho^l e^{-\rho/n}L(\rho)$，其中 $n$ 为待定的主量子数，代入后可化为拉盖尔方程，其解为连带拉盖尔多项式
-\begin{equation}
+\[
 L_n^{\alpha}(\rho)=\frac{\rho^{-\alpha}e^{\rho}}{n!}
 \frac{d^n}{d\rho^n}\left(\rho^{n+\alpha}e^{-\rho}\right).
-\end{equation}
+\]
 为保证波函数在 $r\to\infty$ 时收敛，能量必须量子化：
-\begin{equation}
+\[
 E_n=-\frac{Z^2E_0}{n^2}
 =-\frac{Z^2}{n^2}\cdot\frac{me^4}{2(4\pi\varepsilon_0)^2\hbar^2},
 \qquad n=l+1,l+2,\dots
-\end{equation}
+\]
 
 综合三部分，完整的轨道波函数为
-\begin{equation}
+\[
 \psi_{n,l,m}(r,\theta,\varphi)
 =R_{n,l}(r)\,\Theta_{l,m}(\theta)\,\Phi_m(\varphi).
-\end{equation}
+\]
 三个量子数的物理意义也随之明确：主量子数 $n$ 决定能层与轨道能量；角量子数 $l=0,1,2,\dots,n-1$ 决定轨道的形状；磁量子数 $m=-l,\dots,+l$ 决定轨道在空间中的取向。
 
 \subsubsection{原子轨道波函数}
 
 把三部分合起来看，
-\begin{equation}
+\[
 \Phi_m(\varphi)=\frac{1}{\sqrt{2\pi}}e^{im\varphi},\qquad
 \Theta_{l,m}(\theta)=P_l^m(\cos\theta),\qquad
 R_{n,l}(r)\propto\rho^l e^{-\rho/n}L_{n-l-1}^{2l+1}(\rho).
-\end{equation}
+\]
 任何单电子原子的轨道都具有相似的形式，因为电子感受到的都是球对称势场；改变原子核电荷或选取不同量子数，只是改变了参数。
 
 多电子原子则不同。电子之间的相互作用使势场不再是严格的球对称场，无法用上述解析解直接描述。常用的处理是引入屏蔽常数 $\sigma$，把内层电子对核电荷的削弱折算进去，用有效核电荷
-\begin{equation}
+\[
 Z^*=Z-\sigma
-\end{equation}
+\]
 代替真实的 $Z$，再把体系近似当作类氢原子处理。这个近似虽然粗糙，却足以解释能级交错、原子半径变化与电离能趋势等大量现象。
 
 \subsection{分子轨道模型}
 
 分子轨道模型是原子轨道模型的自然推广：先写出氢分子的哈密顿量，再设法近似求解。氢分子含两个电子和两个核 $A$、$B$，哈密顿量为
-\begin{equation}
+\[
 \begin{aligned}
 H=&-\frac{\hbar^2}{2m_e}\left(\nabla_1^2+\nabla_2^2\right)
 -\frac{e^2}{4\pi\varepsilon_0}\left(\frac{1}{r_{1A}}+\frac{1}{r_{1B}}+\frac{1}{r_{2A}}+\frac{1}{r_{2B}}\right)\\
 &+\frac{e^2}{4\pi\varepsilon_0 r_{12}}
 +\frac{e^2}{4\pi\varepsilon_0 R_{AB}},
 \end{aligned}
-\end{equation}
+\]
 其中第一行依次是两电子的动能与电子--核吸引势能，第二行是电子--电子排斥与核--核排斥。由于 $1/r_{12}$ 把两个电子的坐标耦合在一起，方程无法精确解析求解，只能借助近似方法。无论采用哪种近似，求解过程大体都遵循四步：
 
 \begin{enumerate}
@@ -1071,25 +1081,25 @@ H=&-\frac{\hbar^2}{2m_e}\left(\nabla_1^2+\nabla_2^2\right)
 \subsubsection{化学键模型}
 
 价键模型假设成键的两个电子分属两个原子，波函数写成两种分配方式的线性组合：
-\begin{equation}
+\[
 \Psi=c_1\,\phi_A(1)\phi_B(2)+c_2\,\phi_A(2)\phi_B(1).
-\end{equation}
+\]
 按变分法，能量泛函为
-\begin{equation}
+\[
 E=\frac{\langle\Psi|H|\Psi\rangle}{\langle\Psi|\Psi\rangle}
 =\frac{\iint\Psi^*H\Psi\,d\tau_1d\tau_2}
 {\iint\Psi^*\Psi\,d\tau_1d\tau_2}.
-\end{equation}
+\]
 由对称性，两种分配方式权重相同，即 $c_1=c_2$。分别代入对称与反对称组合，归一化系数为
-\begin{equation}
+\[
 N_-=\frac{1}{\sqrt{2-2S_{12}}},\qquad
 N_+=\frac{1}{\sqrt{2+2S_{12}}}.
-\end{equation}
+\]
 相应的能量为
-\begin{equation}
+\[
 E_-=\frac{H_{11}-H_{12}}{1-S_{12}},\qquad
 E_+=\frac{H_{11}+H_{12}}{1+S_{12}}.
-\end{equation}
+\]
 其中出现的几个积分各有名称与含义：
 \begin{itemize}
   \item 库仑积分 $Q=H_{11}=\iint\phi_A(1)\phi_B(2)\,H\,\phi_A(1)\phi_B(2)\,d\tau_1d\tau_2$；
@@ -1097,91 +1107,91 @@ E_+=\frac{H_{11}+H_{12}}{1+S_{12}}.
   \item 重叠积分 $S=\int\phi_A\phi_B\,d\tau$，以及 $S_{12}=\iint\phi_A(1)\phi_B(2)\phi_A(2)\phi_B(1)\,d\tau_1d\tau_2$，在简单情形下 $S_{12}=S^2$。
 \end{itemize}
 于是得到一对成键与反键轨道：
-\begin{equation}
+\[
 \Psi_+=\frac{1}{\sqrt{2+2S_{12}}}\left[\phi_A(1)\phi_B(2)+\phi_A(2)\phi_B(1)\right],
 \qquad E_+=\frac{H_{11}+H_{12}}{1+S_{12}},
-\end{equation}
-\begin{equation}
+\]
+\[
 \Psi_-=\frac{1}{\sqrt{2-2S_{12}}}\left[\phi_A(1)\phi_B(2)-\phi_A(2)\phi_B(1)\right],
 \qquad E_-=\frac{H_{11}-H_{12}}{1-S_{12}}.
-\end{equation}
+\]
 两轨道的能量差来自交换积分与重叠积分，前者提供主要的稳定化，后者修正其大小。价键模型因此得到一个重要结论：共价键的稳定化能本质上来源于电子的交换作用。
 
 \subsubsection{杂化轨道模型}
 
 价键模型能解释双原子分子，却难以说明甲烷的正四面体构型。杂化轨道模型的处理是：同一原子中能量相近的原子轨道先线性组合成一组新的等价轨道，再由这些杂化轨道与其它原子成键。以 $\mathrm{sp^3}$ 杂化为例，一个 $s$ 轨道与三个 $p$ 轨道等性混合，每个杂化轨道写作
-\begin{equation}
+\[
 h_i=a_i\phi_{1s}+b_i\phi_{2p_x}+c_i\phi_{2p_y}+d_i\phi_{2p_z}.
-\end{equation}
+\]
 系数由归一化与正交性条件确定：
-\begin{equation}
+\[
 \langle h_i|h_i\rangle=a_i^2+b_i^2+c_i^2+d_i^2=1,
 \qquad
 \langle h_i|h_j\rangle=a_ia_j+b_ib_j+c_ic_j+d_id_j=0 .
-\end{equation}
+\]
 四条等价轨道要彼此正交且完全等价，解为
-\begin{equation}
+\[
 |a_i|=|b_i|=|c_i|=|d_i|=\frac{1}{2},
-\end{equation}
+\]
 正负号的排布决定了四个杂化轨道分别指向正四面体的四个顶点。这就解释了 $\mathrm{CH_4}$ 的键角为 $109.5^\circ$。
 
 \subsubsection{分子轨道模型}
 
 分子轨道模型不预先指定电子属于哪个原子，而是直接把整个分子的波函数写成原子轨道的线性组合。对双原子分子，取两个原子轨道 $\phi_A$、$\phi_B$，组合为
-\begin{equation}
+\[
 \Psi=c_1\phi_A+c_2\phi_B,\qquad
 \Psi^*=c_1\phi_A-c_2\phi_B .
-\end{equation}
+\]
 以氢分子为例，两个基轨道都是 $1s$ 轨道：
-\begin{equation}
+\[
 \phi_A(\mathbf{r})=\frac{1}{\sqrt{\pi a_0^3}}e^{-r_A/a_0},
 \qquad
 \phi_B(\mathbf{r})=\frac{1}{\sqrt{\pi a_0^3}}e^{-r_B/a_0}.
-\end{equation}
+\]
 把试探轨道代入变分能量泛函：
-\begin{equation}
+\[
 E=\frac{\langle\Psi|H|\Psi\rangle}{\langle\Psi|\Psi\rangle}
 =\frac{c_1^2H_{AA}+2c_1c_2H_{AB}+c_2^2H_{BB}}
 {c_1^2S_{AA}+2c_1c_2S_{AB}+c_2^2S_{BB}}.
-\end{equation}
+\]
 各积分的含义为：库仑积分 $H_{AA}=\int\phi_AH\phi_A\,d\tau$、$H_{BB}=\int\phi_BH\phi_B\,d\tau$，由对称性 $H_{AA}=H_{BB}=\alpha$；共振积分 $H_{AB}=\int\phi_AH\phi_B\,d\tau=H_{BA}=\beta$；重叠积分 $S_{AB}=\int\phi_A\phi_B\,d\tau=S$；归一化积分 $S_{AA}=S_{BB}=1$。
 
 令能量对两个系数的偏导为零，
-\begin{equation}
+\[
 \frac{\partial E}{\partial c_1}=\frac{\partial E}{\partial c_2}=0,
-\end{equation}
+\]
 得到久期方程
-\begin{equation}
+\[
 \begin{cases}
 (H_{AA}-E)c_1+(H_{AB}-ES_{AB})c_2=0,\\
 (H_{BA}-ES_{BA})c_1+(H_{BB}-E)c_2=0,
 \end{cases}
-\end{equation}
+\]
 有非零解的条件是系数行列式为零：
-\begin{equation}
+\[
 \begin{vmatrix}
 H_{AA}-E & H_{AB}-ES_{AB}\\
 H_{BA}-ES_{BA} & H_{BB}-E
 \end{vmatrix}=0 .
-\end{equation}
+\]
 代入 $\alpha$、$\beta$、$S$，并利用对称性，行列式化为
-\begin{equation}
+\[
 (\alpha-E)^2-(\beta-ES)^2=0,
-\end{equation}
+\]
 解得
-\begin{equation}
+\[
 E_-=\frac{\alpha-\beta}{1-S},\qquad
 E_+=\frac{\alpha+\beta}{1+S}.
-\end{equation}
+\]
 分别代回久期方程，得
-\begin{equation}
+\[
 \Psi_+=\frac{1}{\sqrt{2+2S}}\left(\phi_A+\phi_B\right),
 \qquad E_+=\frac{\alpha+\beta}{1+S},
-\end{equation}
-\begin{equation}
+\]
+\[
 \Psi_-=\frac{1}{\sqrt{2-2S}}\left(\phi_A-\phi_B\right),
 \qquad E_-=\frac{\alpha-\beta}{1-S}.
-\end{equation}
+\]
 $E_+$ 低于原来的原子轨道能级，对应成键轨道；$E_-$ 高于原能级，对应反键轨道；两者的能量差为 $2\beta/(1-S^2)$。与价键模型相比，分子轨道模型的显著优势在于它允许电子占据非键或反键轨道，因此能自然地解释分子中单电子的存在、以及氧分子的顺磁性等现象。
 
 \subsection{配合物}
@@ -1216,44 +1226,44 @@ $E_+$ 低于原来的原子轨道能级，对应成键轨道；$E_-$ 高于原�
 \end{itemize}
 
 内轨型配合物的分裂能通常大于外轨型，因此内轨型多为低自旋，外轨型多为高自旋。配合物的自旋状态可由磁矩判断：
-\begin{equation}
+\[
 \mu=\sqrt{n(n+2)}\,\mu_{\mathrm B},
-\end{equation}
+\]
 其中 $n$ 为未成对电子数，$\mu_{\mathrm B}$ 为玻尔磁子。测得磁矩即可反推 $n$，从而判断高自旋还是低自旋。
 
 \paragraph{八面体场的对称性分析}
 
 晶体场理论的定量处理是微扰理论的一个漂亮范例。先写出未受微扰的哈密顿算符及其本征方程：
-\begin{equation}
+\[
 H_0\phi=E_0\phi .
-\end{equation}
+\]
 配体场作为微扰加入：
-\begin{equation}
+\[
 H=H_0+V,
-\end{equation}
+\]
 其中 $V$ 是晶体场引起的势能变化。由于晶体场模型是纯静电模型，势能全部来自配体：
-\begin{equation}
+\[
 V=\frac{q}{4\pi\varepsilon_0|\mathbf{r}-\mathbf{R}|},
-\end{equation}
+\]
 $\mathbf{r}$ 为电子位矢，$\mathbf{R}$ 为配体位矢。把 $V$ 按球谐函数展开：
-\begin{equation}
+\[
 V(r,\theta,\varphi)=\sum_{k=0}^{\infty}\sum_{m=-k}^{k}
 A_{k,m}\,r^k\,Y_k^m(\theta,\varphi),
-\end{equation}
+\]
 其中展开系数 $A_{k,m}$ 由配体的几何构型决定，正是它区分了四面体、八面体与平面四边形等不同场。
 
 中心原子的五个简并 $d$ 轨道为
-\begin{equation}
+\[
 \phi_1,\dots,\phi_5=d_{xy},\,d_{xz},\,d_{yz},\,d_{z^2},\,d_{x^2-y^2}.
-\end{equation}
+\]
 微扰后，一级能量修正由久期方程给出：
-\begin{equation}
+\[
 \det\left|\langle\phi_i|V|\phi_j\rangle-E'\delta_{ij}\right|=0 .
-\end{equation}
+\]
 这是五个轨道之间的二十五个矩阵元，直接计算极为繁琐。对称性可以大幅简化：以八面体场 $O_h$ 为例，$O_h$ 群是旋转群 $O$（24 个操作）与反演群 $\{E,i\}$ 的直积，
-\begin{equation}
+\[
 O_h=O\times\{E,i\}.
-\end{equation}
+\]
 其中 $E$ 为恒等操作，$i$ 为中心反演 $(x,y,z)\mapsto(-x,-y,-z)$。$d$ 轨道在反演下为偶函数（记为 $g$），因此只需考虑 $O$ 群的 24 个旋转操作。
 
 对称操作前后物理规律不变，这意味着五个 $d$ 轨道构成 $O$ 群的一个五维表示。若一个矩阵与所有旋转操作对易，则它与整个群的表示矩阵可以同时对角化。我们希望把可约表示分解为不可约表示，也就是把五个轨道分成若干组、每组内部按同一变换规律变化。判据是特征标，即表示矩阵的迹：在该操作下保持自身方向的基函数贡献 1 到对角元，被混入其它轨道的基函数不贡献。
@@ -1267,9 +1277,9 @@ $O$ 群的五类操作及其在 $d$ 轨道基上的特征标为：
   \item $C_2'$：绕对棱中点轴旋转 $180^\circ$，$\chi(C_2')=1$。
 \end{itemize}
 对照 $O$ 群的特征标表（表~\ref{tab:O-character}），可以验证这组特征标恰好分解为 $E_g$ 与 $T_{2g}$ 两个不可约表示之和：
-\begin{equation}
+\[
 \chi=E_g+T_{2g}.
-\end{equation}
+\]
 
 \begin{table}[H]
 \centering
@@ -1290,23 +1300,23 @@ $T_2$ & 3 & 0 & $-1$ & $-1$ & 1 \\
 \end{table}
 
 由舒尔引理，若一个算符与群的所有操作对易，则它在该不可约表示的子空间内只能是常数乘以单位矩阵。于是势能矩阵在 $T_{2g}$ 与 $E_g$ 两个子空间内分别退化为常数，整个矩阵化简为
-\begin{equation}
+\[
 V=\operatorname{diag}\bigl(
 \underbrace{\alpha,\alpha,\alpha}_{T_{2g}},\;
 \underbrace{\beta,\beta}_{E_g}\bigr),
-\end{equation}
+\]
 其中三个 $\alpha$ 对应 $t_{2g}$ 组（$d_{xy}$、$d_{xz}$、$d_{yz}$），两个 $\beta$ 对应 $e_g$ 组（$d_{z^2}$、$d_{x^2-y^2}$）。
 
 现在只需确定 $\alpha$ 与 $\beta$ 之差。定义分裂能
-\begin{equation}
+\[
 \Delta_O=\alpha-\beta=10Dq,
-\end{equation}
+\]
 并把能级重心取为零点，则由重心守恒得
-\begin{equation}
+\[
 E_{t_{2g}}=3\alpha+2\beta=0
 \quad\Longrightarrow\quad
 \alpha=-4Dq,\qquad \beta=+6Dq .
-\end{equation}
+\]
 可见八面体场中五个简并的 $d$ 轨道分裂为两组：$t_{2g}$ 组能量降低 $4Dq$，$e_g$ 组能量升高 $6Dq$，二者相差 $10Dq$。分裂图像如图~\ref{fig:oct-splitting} 所示。
 
 \begin{figure}[H]
@@ -1317,9 +1327,9 @@ E_{t_{2g}}=3\alpha+2\beta=0
 \end{figure}
 
 四面体场与平面四边形场可用同样的方法处理，只是微扰的对称性不同。四面体场中 $t_2$ 组能量升高、$e$ 组能量降低，分裂图像与八面体场上下颠倒，且分裂能小得多（图~\ref{fig:tet-splitting}）；平面四边形场则分裂得更为复杂（图~\ref{fig:quad-splitting}）。三种场的分裂能相对大小为
-\begin{equation}
+\[
 \Delta_p>\Delta_o>\Delta_t ,
-\end{equation}
+\]
 即平面四边形最大、八面体次之、四面体最小。此外，中心离子的电荷数、所在周期以及配体的场强（即电子排布与配位原子的性质）都会影响分裂能的大小。
 
 \begin{figure}[H]
@@ -1339,9 +1349,9 @@ E_{t_{2g}}=3\alpha+2\beta=0
 \paragraph{晶体场稳定化能}
 
 晶体场稳定化能（CFSE）是体系因能级分裂而额外降低的能量，定义为球形场能量与分裂后能量之差：
-\begin{equation}
+\[
 \mathrm{CFSE}=E_{\mathrm{spherical}}-E_{\mathrm{crystal}}=-E_{\mathrm{crystal}} .
-\end{equation}
+\]
 把电子按高、低自旋规则填入 $t_{2g}$ 与 $e_g$ 轨道，再按各自能量求和，即可得到 CFSE。它直接影响配合物的热力学稳定性、磁性与动力学行为，也是比较不同构型稳定性的重要依据。
 
 \paragraph{姜--泰勒效应}
@@ -1421,35 +1431,34 @@ Z_{\mathrm{eff}} = Z - S
 
 
 氢样原子的玻尔能级，以及在玻尔框架下引入有效核电荷修正后的多电子原子近似能级可表示为
-\begin{equation}
+\[
 E_n^{\mathrm{Bohr}}=-\frac{Z^2}{2n^2},\qquad E_n^{\mathrm{Sch}}=-\frac{Z_{\mathrm{eff}}^2}{2n^2},
-\label{eq:bohr_zeff}
-\end{equation}
+\]
 其中$Z_{\mathrm{eff}}$为有效核电荷数，$n$为主量子数，能量单位为$Hartree$（$a.u.$）。
 
 
 
 高精度数值解采用Dirac--Fock方法。多电子原子的相对论近似哈密顿量写作
-\begin{equation}
+\[
 H = \sum_i H_D(i) + \frac{1}{2} \sum_{i,j} \left\{ \frac{1}{r_{ij}} + H_B(i,j) \right\},
-\end{equation}
+\]
 其中$H_D(i)$为单电子Dirac哈密顿量：
-\begin{equation}
+\[
 H_D = i c \, \boldsymbol{\alpha} \cdot \nabla + \beta c^2 + V_N(r).
-\end{equation}
+\]
 
 原子核近似为均匀带电球体，半径为$R$。其核势为
-\begin{equation}
+\[
 V_N(r)=
 \begin{cases}
 -\dfrac{Z}{2R}\left(3-\dfrac{r^2}{R^2}\right), & r<R,\\[0.8em]
 -\dfrac{Z}{r}, & r\ge R.
 \end{cases}
-\end{equation}
+\]
 核半径取
-\begin{equation}
+\[
 R = 2.2677 \times 10^{-5} A^{1/3}\quad \text{(a.u.)},
-\end{equation}
+\]
 其中$A$为原子质量数。
 
 每个径向波函数的Dirac积分微分方程采用迭代求解。自洽迭代收敛条件设为：相邻两次迭代波函数差小于$10^{-5}$，且单电子结合能满足$5\times10^{-6}$的收敛判据，从而保证总能量稳定至六位以上有效数字。
@@ -1457,12 +1466,12 @@ R = 2.2677 \times 10^{-5} A^{1/3}\quad \text{(a.u.)},
 
 
 单电子积分$I$定义为
-\begin{equation}
+\[
 \begin{aligned}
 I = c \int_0^\infty \Bigg\{& Q \frac{dP}{dr} - P \frac{dQ}{dr} + \frac{2K}{r} PQ 
 &- 2c Q^2 + \frac{V_n}{c}(P^2 + Q^2) \Bigg\} dr,
 \end{aligned}
-\end{equation}
+\]
 其中$P$和$Q$分别为Dirac旋量的大、小分量，$K$为相对论量子数。该积分用于刻画数值求解中的能量贡献，包含电子动能、势能及相对论效应。
 
 
@@ -1537,37 +1546,37 @@ I = c \int_0^\infty \Bigg\{& Q \frac{dP}{dr} - P \frac{dQ}{dr} + \frac{2K}{r} PQ
 
 为从解析层面刻画“松紧效应”，考虑氢样能级表达式（见式（\ref{eq:bohr_zeff}））。
 定义相邻周期对应的能级差为
-\begin{equation}
+\[
 \Delta E_n = E_{n+1}(Z+\Delta Z_n) - E_n(Z),
-\end{equation}
+\]
 其中 $\Delta Z_n$ 表示从第 $n$ 层填充至第 $n+1$ 层所需增加的核电荷数。根据电子层容量规则，有
-\begin{equation}
+\[
 \Delta Z_n \approx 2n^2.
-\end{equation}
+\]
 
 将其代入能级表达式，得
-\begin{equation}
+\[
 \Delta E_n = -\frac{(Z+\Delta Z_n)^2}{2(n+1)^2} + \frac{Z^2}{2n^2}.
-\end{equation}
+\]
 
 对 $\Delta Z_n$ 进行展开，并保留主导项，有
-\begin{equation}
+\[
 (Z+\Delta Z_n)^2 = Z^2 + 2Z\Delta Z_n + (\Delta Z_n)^2.
-\end{equation}
+\]
 
 代入后整理得
-\begin{equation}
+\[
 \Delta E_n \approx \frac{Z^2}{2}\left(\frac{1}{n^2} - \frac{1}{(n+1)^2}\right)
 - \frac{Z\Delta Z_n}{(n+1)^2}
 - \frac{(\Delta Z_n)^2}{2(n+1)^2}.
-\end{equation}
+\]
 
 注意到三项分别表现出不同的标度行为：
-\begin{align}
+\[\begin{aligned}
 \text{(i)}\;& \sim \frac{Z^2}{n^3}, \\
 \text{(ii)}\;& \sim \frac{Z\,\Delta Z_n}{n^2} \sim Z, \\
 \text{(iii)}\;& \sim \frac{(\Delta Z_n)^2}{n^2} \sim n^2.
-\end{align}
+\end{aligned}\]
 
 由于 $\Delta Z_n \sim 2n^2$ 呈超线性增长，而 $n$ 仅线性递增，导致上述各项在不同周期区间的主导性发生交替变化：在低 $n$ 区域，第一项占主导，使 $\Delta E_n$ 较大；随着 $n$ 增大，第二、三项迅速增强并产生部分抵消，使 $\Delta E_n$ 减小；进一步增大 $n$ 时，高阶项再次占优，导致差值重新增大。
 
@@ -1580,15 +1589,741 @@ I = c \int_0^\infty \Bigg\{& Q \frac{dP}{dr} - P \frac{dQ}{dr} + \frac{2K}{r} PQ
 \newpage
 
 
-% ===== [源文件缺失 ch2_2：2.1.2 起，源缺失（编译 PDF 存于 out/ch2_2/chapter.pdf）] =====
+\section{离子键理论}
 
-% ===== [源文件缺失 ch2_3：2.2 S区元素] =====
+离子键理论认为，元素间因电子转移形成阳离子与阴离子，二者之间通过静电引力结合形成晶体。该理论可解释离子化合物高熔点、高沸点、脆性及熔融或溶液导电等性质。离子键强度通常与离子电荷数成正比、与离子间距成反比。
 
-% ===== [源文件缺失 ch2_4：源缺失] =====
+离子间静电势能可写为（库仑项）：
+\[
+U(r)=-\frac{1}{4\pi\varepsilon_0}\frac{z_{+}z_{-}e^2}{r}
+\]
 
-% ===== [源文件缺失 ch2_5：源缺失] =====
+考虑短程排斥后，常用 Born--Land\'e 形式表示离子晶体每摩尔晶格能：
+\[
+U=-\frac{N_A M z_{+}z_{-}e^2}{4\pi\varepsilon_0 r_0}\left(1-\frac{1}{n}\right)
+\]
+其中，$M$ 为 Madelung 常数，$r_0$ 为最近邻离子间距，$n$ 为 Born 指数。该式表明：\textbf{电荷数越大、离子间距越小，晶格能绝对值越大，离子键越强。}
 
-% ===== [源文件缺失 ch2_6：源缺失] =====
+
+\subsection{离子极化理论（Fajans 规则）}
+
+离子极化理论指出，阳离子会使阴离子电子云发生形变，从而使化学键带有一定共价性。极化强弱主要取决于阳离子的极化能力和阴离子的可极化性，规律如下：
+
+\begin{enumerate}
+  \item 阳离子极化能力：阳离子半径越小、电荷越高，极化能力越强。常见顺序：
+\[
+\mathrm{Al^{3+} > Mg^{2+} > Na^{+}}
+\]
+
+\item 阴离子变形性：阴离子半径越大、电子云越松散，可极化性越强。常见顺序：
+\[
+\mathrm{I^{-} > Br^{-} > Cl^{-} > F^{-}}
+\]
+\item 电子构型影响：电子构型也会通过屏蔽效应和有效核电荷影响极化能力。在\textbf{相同电荷与近似半径}条件下，常可概括为：
+\[
+  ds > d > p > s
+\]
+\item 总体趋势：\textbf{极化作用越强，键的共价性越明显}；极化作用越弱，键越接近理想离子键。
+
+\end{enumerate}
+
+
+
+按 Fajans 规则，碱土金属离子的极化能力主要由电荷密度决定，经验顺序为：
+\[
+\mathrm{Be^{2+} > Mg^{2+} > Ca^{2+} > Sr^{2+} > Ba^{2+}}
+\]
+
+其后果可总结为：
+\begin{enumerate}
+  \item 极化能力越强，键的共价性越明显。
+  \item 共价性增强常导致盐类熔点下降、热稳定性与溶解行为出现“反常”。
+  \item 因此 $\mathrm{Be}$、$\mathrm{Mg}$ 的部分盐类与重碱土金属盐相比更易偏离“典型离子盐”规律。
+\end{enumerate}
+
+此外，还可补充两种特殊情形：附加极化作用与反极化作用。
+
+\begin{itemize}
+
+\item \textbf{附加极化作用}：
+在实际化合物中，极化往往是双向的。对半径较大、电子构型特殊（18或者18+2）的离子，原有极化会因对方电子分布被改变而进一步增强，这种附加贡献可视为对固有极化的放大。
+
+\item \textbf{反极化作用}：
+在强极化体系中，被极化的阴离子电子云并非单向位移，而会对邻近阳离子电子分布产生反馈效应，使阳离子电子云出现反向畸变或屏蔽重排。这种“相互反馈极化”会改变有效离子势。这种现象普遍发生于强变形性，高电荷和含π电子体系的复杂离子的阴离子身上。
+
+\end{itemize}
+
+此外\textbf{离子极化对化合物性质}也会产生不同影响。
+
+\begin{enumerate}
+  \item 颜色：极化增强时，阴离子电子向阳离子方向转移（电荷迁移）更容易，常使可见光区吸收增强或红移，材料颜色往往加深。 
+  \item 熔点与沸点：极化增强会提高键的共价成分，削弱纯静电作用主导的晶格稳定性，因此许多化合物表现为熔沸点降低、热稳定性下降。
+  \item 溶解度：当共价性增加时，化合物在强极性溶剂（如水）中的离解倾向通常减弱，水溶性可能下降；但在有机溶剂中的溶解性往往上升。
+  \item 其他可观测效应：极化还可影响晶体类型、键长键角、介电性质与光谱特征，是解释“同族化合物性质异常变化”的重要因素。
+
+\end{enumerate}
+
+总之，\textbf{离子极化越强，化合物的共价性通常越明显}；许多熔点、溶解度和热稳定性的“反常”都可从这里得到解释。
+
+不过离子极化理论固然十分有道理，但是在现实中，总会有些莫名其妙的因素带来若干修正，所以一个简易版拿来就可以用的经验性定理是十分必要的。
+
+离子极化理论对应的经验性定理就是软硬酸碱理论HASB，所谓酸碱的软硬读描述的其实就是电子云的变形性。对于阴离子而言，软碱的外层电子松，变形性强，离子极化作用强；对于阳离子而言，软酸的外层d电子松（电子构型本质），极化力强，离子极化作用强。
+
+\begin{center}
+  \includegraphics[width=0.8\textwidth]{HASB.png}
+\end{center}
+
+软硬酸碱理论的基本规律可以概括为“硬亲硬，软亲软”。其中，“硬”指那些体积小、电荷高、电子云紧密、不易变形的离子或分子（如H⁺、Na⁺、F⁻），“软”则指体积大、电荷低或分布松散、电子云容易变形的离子或分子（如Ag⁺、I⁻）。该理论指出，\textbf{硬酸优先与硬碱结合通过静电引力形成强离子键}，生成的化合物稳定性高、离子性强；而\textbf{软酸优先与软碱结合通过强烈的相互极化作用形成强共价键}，生成的化合物共价性显著。相反，硬酸与软碱或软酸与硬碱的结合则较弱，容易发生取代反应。这一规律为预测化合物稳定性、溶解性及反应方向提供了简洁有效的经验框架。
+
+\section{S区元素}
+
+S 区最适合用来练习“原理怎样长成现象”。因为其价层结构较简单，多数性质都可归结为两个问题：最外层 $ns$ 电子是否容易失去，以及形成阳离子后晶格能、水合能和极化能力谁占主导。电极电势、溶解度、热稳定性、离子半径和氧化物碱性，基本都围绕这几项因素展开。
+
+对 S 区元素，可先抓住四条主线：
+\begin{itemize}
+  \item 价层电子少，因此金属性和还原性通常较强。
+  \item 阳离子形成后，晶格能与水合能的竞争直接影响溶解、热稳定和电极电势。
+  \item 阳离子电荷密度越大，极化越强，共价性偏离越明显，所以 Li、Be、Mg 往往比同族重元素更“反常”。
+  \item  S 区配位化学在冠醚、穴醚和溶剂化体系中有清楚的尺寸匹配与硬酸硬碱规律。
+\end{itemize}
+
+
+\subsection{氢}
+
+
+
+\noindent\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc@{}}
+\toprule
+同位素 & 符号 & 质子数 & 中子数 & 天然丰度/(半衰期) \\
+\midrule
+氕 & $^{1}\mathrm{H}$ & 1 & 0 & 约99.985\% \\
+氘 & $^{2}\mathrm{H}$ (D) & 1 & 1 & 约0.015\% \\
+氚 & $^{3}\mathrm{H}$ (T) & 1 & 2 & 放射性，半衰期约12.32年 \\
+\bottomrule
+\end{tabular*}
+
+氢有三种同位素，其中氘和氚被视为核聚变的核心材料，服从核聚变方程：
+\[
+{}^{2}_{1}\mathrm{H}+{}^{3}_{1}\mathrm{H}\rightarrow{}^{4}_{2}\mathrm{He}+{}^{1}_{0}\mathrm{n}+17.6\,\mathrm{MeV}
+\]
+
+氢原子的量子力学能级为：
+\[
+E_n=-\frac{\mu e^4}{2(4\pi\varepsilon_0)^2\hbar^2}\frac{1}{n^2}=-\frac{13.6\,\mathrm{eV}}{n^2},\quad n=1,2,3,\dots
+\]
+基态氢原子（$n=1,l=0,m=0$）波函数：
+\[
+\psi_{100}(r)=\frac{1}{\sqrt{\pi a_0^3}}e^{-r/a_0}.
+\]
+
+氢原子可参与离子键、共价键、间隙型作用和氢键：
+
+\begin{enumerate}
+  \item \textbf{离子键}：氢可与电负性较低、易失电子的活泼金属形成离子型氢化物（如 $\mathrm{NaH}$、$\mathrm{CaH_2}$）。在这类化合物中，氢通常以 $\mathrm{H^-}$（氢化物离子）形式存在，晶体多具有较高熔点，并可与水反应放出氢气。
+  \item \textbf{共价键}：氢最常见的是与非金属形成共价键（如 $\mathrm{H_2}$、$\mathrm{HCl}$、$\mathrm{CH_4}$、$\mathrm{H_2O}$）。由于氢只有一个价电子，通常形成单键；当成键原子电负性差异较大时，共价键会表现出明显极性。
+  \item \textbf{间隙型作用（间隙氢）}：在部分金属或合金中，氢原子可进入金属晶格间隙形成间隙固溶体（如 Pd--H 体系）。这种“间隙氢”会改变材料的体积、导电性与力学性能，并与储氢材料和氢脆现象密切相关。
+  \item \textbf{氢键}：氢原子可以形成氢键。氢键通常发生在与高电负性原子（如 N、O、F）相连的氢原子与另一分子孤对电子之间，属于较强的分子间作用力。
+\end{enumerate}
+
+
+\newpage
+\subsection{碱土金属和碱金属的性质}
+
+
+
+\noindent\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+元素 & Li & Na & K & Rb & Cs \\
+\midrule
+金属半径/pm & 152 & 186 & 231 & 244 & 262 \\
+离子半径/配位数 & 59(4) & 102(6) & 138(6) & 148(6) & 174(8) \\
+电离能/\(\mathrm{kJ\cdot mol^{-1}}\) & 519 & 494 & 418 & 402 & 376 \\
+\(E^{\circ}(\mathrm{M^{+}/M})/\mathrm{V}\) & -3.04 & -2.71 & -2.94 & -2.92 & -3.03 \\
+密度/\(\mathrm{g\cdot cm^{-3}}\) & 0.53 & 0.97 & 0.86 & 1.53 & 1.90 \\
+熔点/\(^{\circ}\mathrm{C}\) & 180 & 98 & 64 & 39 & 29 \\
+\(\Delta_{\mathrm{hyd}}H^{\circ}(\mathrm{M^{+}})/\mathrm{kJ\cdot mol^{-1}}\)（水合能） & -519 & -406 & -322 & -301 & -276 \\
+\(\Delta_{\mathrm{sub}}H^{\circ}/\mathrm{kJ\cdot mol^{-1}}\)（升华焓） & 161 & 109 & 90 & 86 & 79 \\
+\bottomrule
+\end{tabular*}
+
+先看\textbf{IA 族碱金属部分物性参数（Li--Cs）}。除电极电势外，各项基本都呈单调变化；其中 Li 的电极电势表现出明显反常。解释这一现象时，可借助\textbf{Born--Haber 循环}的热力学分解：
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    scale=0.5,  
+    every node/.append style={transform shape},  
+    node distance=2cm,
+    >=Stealth,
+    box/.style={rectangle, draw=black, thick, minimum width=3cm, minimum height=0.8cm, align=center},
+    arrow/.style={->, thick, >=Stealth}
+]
+
+% 定义节点坐标
+\node (start) [box] {$\mathrm{M(s) + \frac{1}{2}X_2(g)}$};
+\node (M_gas) [box, above right=2.5cm and 3cm of start] {$\mathrm{M(g) + \frac{1}{2}X_2(g)}$};
+\node (M_ion) [box, right=4cm of M_gas] {$\mathrm{M^+(g) + \frac{1}{2}X_2(g)}$};
+\node (X_ion) [box, below right=2.5cm and 3cm of M_ion] {$\mathrm{M^+(g) + X^-(g)}$};
+\node (product) [box, below left=2.5cm and 3cm of X_ion] {$\mathrm{MX(s)}$};
+
+% 箭头：M(s) → M(g)
+\draw[arrow] (start.north east) -- (M_gas.south west)
+    node[midway, above, sloped] {$+V$ (升华焓)};
+
+% 箭头：M(g) + 1/2X₂(g) → M⁺(g) + 1/2X₂(g)
+\draw[arrow] (M_gas.east) -- (M_ion.west)
+    node[midway, above] {$+\mathrm{IE_M}$ (电离能)};
+
+% 箭头：M⁺(g) + 1/2X₂(g) → M⁺(g) + X⁻(g)
+\draw[arrow] (M_ion.south east) -- (X_ion.north west)
+    node[midway, above, sloped] {$-\mathrm{EA_X}$ (电子亲和能)};
+
+% 箭头：M⁺(g) + X⁻(g) → MX(s)
+\draw[arrow] (X_ion.south west) -- (product.north east)
+    node[midway, above, sloped] {$-U_{\mathrm{L}}$ (晶格能)};
+
+% 虚线箭头：起始到终点的直接路径（生成焓）
+\draw[arrow, dashed, black] (start.south west) to[out=-135, in=-45, looseness=1.5] (product.south east)
+    node[pos=0.5, below=0.3cm, black] {$\Delta H_{\mathrm{f}}$ (生成焓)};
+
+% 标注：1/2B 的位置（解离焓放在中间顶部）
+\node (diss) [above=1.8cm of $(M_gas.north)!0.5!(M_ion.north)$] {$\frac{1}{2}B$ (半解离焓)};
+\draw[arrow] (diss) -- ($(M_gas.north)!0.5!(M_ion.north)$);
+
+\end{tikzpicture}
+\caption{Born-Haber 循环示意图}
+\label{fig:bornhaber}
+\end{figure}
+
+值得注意的是，图~\ref{fig:bornhaber} 所示的经典 Born-Haber 循环描述的是\textbf{固体离子化合物}（$\mathrm{MX(s)}$）的生成过程，其中\textbf{不包含水合能}项。因此，该循环及其对应的焓变公式：
+
+\[
+\Delta H_{\mathrm f}=V+\frac{1}{2}B+\mathrm{IE}_{\mathrm M}-\mathrm{EA}_{\mathrm X}-U_{\mathrm L}
+\]
+
+适用于解释 $\mathrm{MX(s)}$ 的晶格能或热稳定性，但\textbf{无法直接用于分析水溶液中的电极电势}。
+
+对于金属电极反应：$\mathrm{M(s) \rightarrow M^+(aq) + e^-}$，总过程的焓变可分解为三个步骤：
+
+\begin{enumerate}
+    \item \textbf{金属升华}：$\mathrm{M(s) \rightarrow M(g)}$，焓变 $+V$（吸热）
+    \item \textbf{气态原子电离}：$\mathrm{M(g) \rightarrow M^+(g) + e^-}$，焓变 $+\mathrm{IE_M}$（吸热）
+    \item \textbf{气态离子水合}：$\mathrm{M^+(g) \rightarrow M^+(aq)}$，焓变 $\Delta H_{\text{hyd}}$（\textbf{放热，负值}）
+\end{enumerate}
+
+因此，总反应的近似焓变为：
+
+\[
+\Delta H_{\text{总}} \approx V + \mathrm{IE_M} + \Delta H_{\text{hyd}}
+\]
+其中各物理量的含义为：
+
+\begin{itemize}
+    \item $V$——晶格能（取正值），指将1 mol离子晶体解离为气态阴、阳离子时所需吸收的能量。该步骤为吸热过程，故在焓变表达式中符号为“$+V$”。
+    
+    \item $\mathrm{IE_M}$——金属原子的电离能，指将1 mol气态金属原子$\mathrm{M(g)}$电离为气态阳离子$\mathrm{M^{+}(g)}$时所需吸收的能量。该步骤亦为吸热过程。
+    
+    \item $\Delta H_{\text{hyd}}$——离子的水合焓，指气态阴、阳离子与水分子结合形成水合离子时释放的能量。该步骤为放热过程，其数值为负值，故在表达式中以“$+\Delta H_{\text{hyd}}$”形式出现。
+\end{itemize}
+
+该简化模型通过这三项能量的代数和，可近似判断离子晶体溶解过程的总热效应。
+$\Delta H_{\text{hyd}}$ 可通过 \textbf{Born 水化模型}估算：
+
+\[
+\Delta H_{\mathrm{hyd}} \approx -\frac{N_A z^2 e^2}{8\pi\varepsilon_0 r} \left(1-\frac{1}{\varepsilon_r}\right)
+\]
+
+该式表明：水合焓的绝对值 $\left| \Delta H_{\text{hyd}} \right|$ 主要由阳离子的离子势 $\phi = z/r$ 决定——$\phi$ 越大，离子对周围水分子的静电取向与近程极化越强，水合越剧烈，释能越多（$\Delta H_{\text{hyd}}$ 更负）。
+
+\begin{itemize}
+    \item 从 Na 到 K，离子势递减，导致晶格能 $V$ 和电离能 $\mathrm{IE}$ 下降（有利），但同时水合焓绝对值也下降（不利）。总效应取决于两项相反趋势的竞争。
+    
+    \item 对 Li 而言：半径 $r$ 极小 $\rightarrow$ $\phi$ 显著偏高 $\rightarrow$ $\left| \Delta H_{\text{hyd}} \right|$ \textbf{异常大}（强放热）。因 $\Delta H_{\text{hyd}}$ 近似正比于 $\phi^{2}$，故 Li$^{+}$ 的水合释能对 $\phi$ 的敏感度远高于固态晶格项 $V$。这一超常的水合焓优势足以补偿其较高的 $V$ 和 $\mathrm{IE}$，使得 Li 的总焓变 $\Delta H_{\text{总}}$ 在碱金属中最小（或接近最小）。
+    
+    \item 更负的 $\Delta H_{\text{总}}$ 对应热力学上更强的还原趋势，这正是 Li 的电极电势（$E^\circ = -3.04\,\mathrm{V}$）反常识地比 Na（$-2.71\,\mathrm{V}$）更负的\textbf{热力学根源}。
+\end{itemize}
+
+因此，虽然图~\ref{fig:bornhaber} 中没有水合能，但分析溶液体系时，必须引入 $\Delta H_{\text{hyd}}$ 并明确其主导作用。
+
+
+再看\textbf{IIA 族碱土金属部分物性参数（Be--Ba）}，整体上呈单调趋势。第二主族金属的标准电极电势 \(E^\circ(\mathrm{M^{2+}/M})\) 呈现出从 Be 到 Ba 逐渐变负（还原性增强）的总体趋势，但 Be 的数据明显反常：其电极电势（\(-1.85\,\mathrm{V}\)）反而比 Mg（\(-2.38\,\mathrm{V}\)）更正。通过热力学循环同样可以解释这一现象。
+
+\begin{table}[htbp]
+\centering
+\caption{第二主族金属的物理化学性质数据}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+元素 & Be & Mg & Ca & Sr & Ba \\
+\midrule
+金属半径/pm & 112 & 150 & 197 & 215 & 217 \\
+离子半径/pm（配位数） & 27(4) & 72(6) & 100(6) & 128(8) & 142(8) \\
+\(1^{\mathrm{st}}/2^{\mathrm{nd}}\)电离能/\(\mathrm{kJ\cdot mol^{-1}}\) & 900/1757 & 736/1451 & 590/1145 & 548/1064 & 502/965 \\
+\(E^{\circ}(\mathrm{M^{2+}/M})/\mathrm{V}\) & -1.85 & -2.38 & -2.87 & -2.89 & -2.90 \\
+密度/\(\mathrm{g\cdot cm^{-3}}\) & 1.85 & 1.74 & 1.54 & 2.62 & 3.51 \\
+熔点/\(^{\circ}\mathrm{C}\) & 1280 & 650 & 850 & 768 & 714 \\
+\(\Delta_{\mathrm{hyd}}H^{\circ}(\mathrm{M^{2+}})/\mathrm{kJ\cdot mol^{-1}}\) & -2500 & -1920 & -1650 & -1480 & -1360 \\
+\(\Delta_{\mathrm{sub}}H^{\circ}/\mathrm{kJ\cdot mol^{-1}}\) & 321 & 150 & 193 & 164 & 176 \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+
+对于反应 \(\mathrm{M(s) \rightarrow M^{2+}(aq) + 2e^-}\)，总过程的焓变可分解为：
+
+\[
+\Delta H_{\text{总}} = \Delta_{\mathrm{sub}}H^{\circ} \;+\; (\mathrm{IE_1 + IE_2}) \;+\; \Delta_{\mathrm{hyd}}H^{\circ}(\mathrm{M^{2+}})
+\]
+
+其中各项含义：
+\begin{itemize}
+    \item \(\Delta_{\mathrm{sub}}H^{\circ}\)：金属升华焓（吸热，正值）
+    \item \(\mathrm{IE_1 + IE_2}\)：第一、第二电离能之和（吸热，正值）
+    \item \(\Delta_{\mathrm{hyd}}H^{\circ}(\mathrm{M^{2+}})\)：二价离子的水合焓（放热，负值）
+\end{itemize}
+
+
+从 Mg 到 Ba，电极电势逐渐变负（还原性增强），符合半径增大、电离能降低的预期。但 Be 的电极电势（\(-1.85\,\mathrm{V}\)）反而不如 Mg（\(-2.38\,\mathrm{V}\)）负，即还原性弱于镁。这一“反常”源于以下竞争：
+
+\begin{enumerate}
+    \item \textbf{不利因素}：Be 具有异常高的升华焓（\(321\,\mathrm{kJ\cdot mol^{-1}}\)）和极高的第一、第二电离能之和（\(900+1757=2657\,\mathrm{kJ\cdot mol^{-1}}\)），远高于 Mg（\(150+736+1451=2337\,\mathrm{kJ\cdot mol^{-1}}\)）。
+    \item \textbf{有利因素}：Be\(^{2+}\) 的半径极小（27 pm），导致其水合焓异常负（\(-2500\,\mathrm{kJ\cdot mol^{-1}}\)），显著强于 Mg\(^{2+}\)（\(-1920\,\mathrm{kJ\cdot mol^{-1}}\)）。
+    \item \textbf{综合效果}：将各项代入总焓变公式：
+    \[
+    \begin{aligned}
+    \Delta H_{\text{总}}(\text{Be}) &\approx 321 + 2657 + (-2500) = 478\,\mathrm{kJ\cdot mol^{-1}} \\
+    \Delta H_{\text{总}}(\text{Mg}) &\approx 150 + 2337 + (-1920) = 567\,\mathrm{kJ\cdot mol^{-1}}
+    \end{aligned}
+    \]
+    虽然 Be 的升华和电离能远高于 Mg，但其极其负的水合能抵消了大部分不利贡献，使得总焓变反而低于 Mg。
+\end{enumerate}
+
+解释电极电势 $E^\circ$ 的本质，是解释由标准氢电极（SHE）定义的半反应：
+\[
+\mathrm{M}^{z+}(\mathrm{aq}) + z\mathrm{e}^{-} \rightarrow \mathrm{M}(\mathrm{s})
+\]
+的标准吉布斯自由能变 $\Delta G^\circ = -zF E^\circ$。
+
+而 $\Delta G^\circ$ 无法直接测量，必须将其分解为一系列基元步骤的能量变化之和。
+这就是\textbf{波恩-哈伯型热力学循环}在此处的应用。
+这个循环将宏观的 $E^\circ$ 与微观的原子、离子性质联系了起来。
+
+对于 $\mathrm{M} \rightarrow \mathrm{M}^{z+}(\mathrm{aq}) + z\mathrm{e}^{-}$ 这个过程，
+建立循环后，$\Delta G^\circ$ 或 $\Delta H^\circ$ 主要被拆解为以下三个核心的、有明确实验值的能量项：
+
+\begin{enumerate}
+    \item \textbf{原子电离能} $\sum \mathrm{IE}$：
+    总电离能，是 $\mathrm{IE}_1 + \mathrm{IE}_2 + \cdots + \mathrm{IE}_z$，
+    表示从气态原子 $\mathrm{M(g)}$ 剥离电子形成气态离子 $\mathrm{M}^{z+}(\mathrm{g})$ 所需的总能量。
+    它是一个绝对值很大的正值。
+    绝对值越大，对生成离子越不利，会使电极电势往正值方向移动（更难被氧化，还原性越弱）。
+
+    \item \textbf{离子水合能} $\Delta H_{\mathrm{hyd}}$：
+    水合焓，是气态离子 $\mathrm{M}^{z+}(\mathrm{g})$ 被水分子包围形成水合离子 $\mathrm{M}^{z+}(\mathrm{aq})$ 时释放的能量。
+    它是一个负值。
+    绝对值越大，对生成水合离子越有利，会极大地补偿电离能和升华能，使电极电势往负值方向移动（更易被氧化，还原性越强）。
+    这是解释 $\mathrm{Li}$ 反常行为的核心项。
+
+    \item \textbf{金属原子化焓} $\Delta H_{\mathrm{atm}}$：
+    也叫升华焓，是将固态金属 $\mathrm{M(s)}$ 变为气态原子 $\mathrm{M(g)}$ 所吸收的能量。
+    它是一个正值。
+    数值越小，越容易形成气态原子，有利于后续电离，会使电极电势往负值方向移动。
+\end{enumerate}
+
+\noindent\textbf{在实践中的精炼归纳为：}
+
+对于主族金属（如碱金属）：
+\[
+\Delta H_{\text{总}} (\mathrm{M} \rightarrow \mathrm{M}^{+}) \approx \Delta H_{\mathrm{atm}} + \mathrm{IE} + \Delta H_{\mathrm{hyd}}
+\]
+判断的逻辑是：谁的总焓变更负（或更小正值），谁的 $E^\circ$ 就更负，还原性就更强。
+
+$\mathrm{Li}$ 的反常，正是因为 $\mathrm{Li}^{+}$ 的离子势 $\phi = z/r$ 异常大，
+导致其 $\Delta H_{\mathrm{hyd}}$ 异常负。
+这项水合能增益完全盖过了 $\mathrm{Li}$ 极高的 $\mathrm{IE}$ 和 $\Delta H_{\mathrm{atm}}$ 的损失，
+最终使 $\Delta H_{\text{总}}$ 在碱金属中最小（最负），因此 $E^\circ$ 最负。
+
+对于过渡金属，由于 $d$ 电子的存在，还必须额外关注两个可测量量：
+\begin{enumerate}
+    \item \textbf{晶体场稳定化能 (CFSE)}：
+    极大地贡献于水合能，使 $\mathrm{Cu}^{2+}$、$\mathrm{Ni}^{2+}$ 等离子的水合能比纯静电模型预测的更负。
+
+    \item \textbf{金属原子内聚能 (Cohesive Energy)}：
+    过渡金属因 $d$ 轨道参与金属键，其原子化焓（可近似看作内聚能的度量）远高于主族金属。
+    例如铜的升华焓很高，这显著不利于被氧化成 $\mathrm{Cu}^{+}(\mathrm{aq})$，
+    是其 $E^\circ(\mathrm{Cu}^{+}/\mathrm{Cu})$ 为正值的重要原因。
+\end{enumerate}
+
+\noindent\textbf{总结：}
+解释这类问题时，只需牢牢记住循环的三个支柱：
+固体 $\rightarrow$ 气体（原子化焓）、
+气体原子 $\rightarrow$ 气体离子（电离能）、
+气体离子 $\rightarrow$ 水合离子（水合能）。
+电极电势的差异，就是这几项能量此消彼长的最终体现。
+其中，水合能随离子势 $z/r$ 的剧烈变化，往往是造成“反常”趋势的核心操纵变量。
+
+现在再回来看看我们对第一第二主族的讨论：
+
+\begin{itemize}
+    \item 第一主族（Li）的反常主要依赖 \(\Delta_{\mathrm{hyd}}H^{\circ}(\mathrm{M^+})\) 的补偿，且只需克服一个电离能。
+    \item 第二主族（Be）的补偿需求更强：需克服 \(\mathrm{IE_1+IE_2}\) 两个电离能之和，因此对水合能的依赖性更高。Be\(^{2+}\) 的电荷密度极高（\(z/r\) 很大），水合能绝对值极大（\(-2500\,\mathrm{kJ\cdot mol^{-1}}\)），这是其能够实现“逆转”总焓变趋势的关键。
+    \item 从 Ca 到 Ba，半径增大，水合能绝对值下降，但电离能之和下降更为显著，因此电极电势继续变负（还原性增强），趋势正常。
+\end{itemize}
+
+由此可见，第二主族中 Be 的电极电势“反常”同样可通过包含水合能的热力学循环得到合理解释，且进一步验证了 \textbf{Born 水化模型} 的核心结论：\textbf{离子半径越小、电荷越高，水合能绝对值越大，对总焓变的补偿能力越强。}
+
+下图是只考虑热力学稳定性计算出来的金属单质到最稳定价态的结果：
+\begin{center}
+  \includegraphics[width=0.7\textwidth]{E.png}
+\end{center}
+
+\newpage
+% 单质的制备
+\subsection{碱金属和碱土金属形成的物质}
+
+\subsubsection{金属单质的制备}
+我们首先要问一个简单的问题：怎么从矿石里得到亮闪闪的金属单质？自然界中的碱金属和碱土金属从不以游离态存在，它们总是以化合物的形式躲藏起来。要想把它们“解救”出来，我们得想些办法。
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llp{0.62\textwidth}@{}}
+\midrule
+电解法 & 熔盐电解制备碱金属 &  $\mathrm{Li^+,Na^+,K^+}$——把这些离子的熔融盐通上强电流，金属就在阴极析出了。这就像用电把离子“拽”回原子形态。 \\
+电解法 & 熔盐电解制备碱土金属 & $\mathrm{Mg}$、$\mathrm{Ca}$ 等也是这样：掏出它们的熔融氯化物，电解，搞定。 \\
+\midrule
+热还原法 & 金属热还原 & 用一个更活泼的金属当“牺牲品”，在高温下把目标金属从氧化物里置换出来。\\
+热还原法 & 真空还原蒸馏 & 制备 Ca、Sr、Ba 时，我们还可以加点巧劲儿：一边在高温下用还原剂反应，一边抽真空。金属蒸气压低，一生成就变成气体跑出来，反应就被推着往前走——这招在热力学上聪明得很。\\
+\midrule
+实验室制备 & 强还原剂还原无水盐 & 搞科研时想弄点小量样品？用金属还原剂对付无水卤化物，就能得到少量纯金属。\\
+\bottomrule
+\end{tabular*}
+\renewcommand{\arraystretch}{1.0}
+
+总结起来，碱金属（Li--Cs）主打熔盐电解；碱土金属中 Mg 常用熔盐电解，而 Ca、Sr、Ba 则往往把热还原和真空蒸馏结合起来——有点像“化学反应加物理搬运”的联合作战。
+
+\subsubsection{金属氧化物}
+
+拿到了金属单质，我们自然而然会想到它们跟氧的反应。金属一烧就变成氧化物，但氧化物里的氧并不总是老老实实的 $O^{2-}$。实际上，金属氧化物中常见的含氧阴离子有 $O^{2-}$、${O_2}^{-}$（超氧根）和 ${O_2}^{2-}$（过氧根）。要理解这些家伙的差别，我们得先看看氧气分子本身的电子结构——毕竟，它们都是从氧气得到电子变来的。下面这幅图展示的就是 $O_2$ 分子的分子轨道能级图，左右两边是单个氧原子的原子轨道，中间是它们组合成的分子轨道：
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,>=stealth]
+  % 标签
+  \node at (-3.8,0.8) {原子};
+  \node at (-3.8,0.0) {轨道};
+  \node at (0,0.8) {分子};
+  \node at (0,0.0) {轨道};
+  \node at (3.8,0.8) {原子};
+  \node at (3.8,0.0) {轨道};
+
+  % 1s 原子轨道（左右）
+  \node[left] at (-3.2,2.2) {1s};
+  \draw (-2.6,2.2) circle (0.32);
+  \draw[->] (-2.68,2.03) -- (-2.68,2.37);
+  \draw[<-] (-2.52,2.03) -- (-2.52,2.37);
+
+  \node[right] at (3.2,2.2) {1s};
+  \draw (2.6,2.2) circle (0.32);
+  \draw[->] (2.52,2.03) -- (2.52,2.37);
+  \draw[<-] (2.68,2.03) -- (2.68,2.37);
+
+  % 2s 原子轨道
+  \node[left] at (-3.2,4.4) {2s};
+  \draw (-2.6,4.4) circle (0.32);
+  \draw[->] (-2.68,4.23) -- (-2.68,4.57);
+  \draw[<-] (-2.52,4.23) -- (-2.52,4.57);
+
+  \node[right] at (3.2,4.4) {2s};
+  \draw (2.6,4.4) circle (0.32);
+  \draw[->] (2.52,4.23) -- (2.52,4.57);
+  \draw[<-] (2.68,4.23) -- (2.68,4.57);
+
+  % 2p 原子轨道（左右三条）
+   \node[left] at (-5.2,7) {2p};
+  \draw (-2.6,7) circle (0.32);
+  \draw (-3.6,7) circle (0.32);
+  \draw (-4.6,7) circle (0.32);
+  \draw[->] (-2.68,6.82) -- (-2.68,7.18);
+  \draw[<-] (-2.52,6.82) -- (-2.52,7.18);
+  \draw[->] (-3.6,6.82) -- (-3.6,7.18);
+  \draw[->] (-4.6,6.82) -- (-4.6,7.18);
+
+  \node[right] at (5.2,7) {2p};
+  \draw (2.6,7) circle (0.32);
+  \draw (3.6,7) circle (0.32);
+  \draw (4.6,7) circle (0.32);
+  \draw[->] (2.68,6.82) -- (2.68,7.18);
+  \draw[<-] (2.52,6.82) -- (2.52,7.18);
+  \draw[->] (3.6,6.82) -- (3.6,7.18);
+  \draw[->] (4.6,6.82) -- (4.6,7.18);
+
+
+  % 分子轨道能级线 - 调整位置避免重叠
+  \draw (-0.6,1.5) -- (0.6,1.5); % sigma1s
+  \draw (-0.6,2.9) -- (0.6,2.9); % sigma*1s
+  \draw (-0.6,3.7) -- (0.6,3.7); % sigma2s
+  \draw (-0.6,5.1) -- (0.6,5.1); % sigma*2s
+
+  \draw (-0.6,6.6) -- (-0.1,6.6); % pi2p (左段)
+  \draw (0.1,6.6) -- (0.6,6.6);  % pi2p (右段)
+
+  \draw (-0.6,6.2) -- (0.6,6.2); % sigma2p
+
+  \draw (-0.6,7.4) -- (-0.1,7.4); % pi*2p (左段)
+  \draw (0.1,7.4) -- (0.6,7.4);  % pi*2p (右段)
+
+  \draw (-0.6,7.8) -- (0.6,7.8); % sigma*2p
+
+  % 虚线连接
+  % 1s 轨道连接
+  \draw[dashed] (-2.28,2.2) -- (-0.65,1.5);
+  \draw[dashed] (2.28,2.2) -- (0.65,1.5);
+  \draw[dashed] (-2.28,2.2) -- (-0.65,2.9);
+  \draw[dashed] (2.28,2.2) -- (0.65,2.9);
+  
+  % 2s 轨道连接
+  \draw[dashed] (-2.28,4.4) -- (-0.65,3.7);
+  \draw[dashed] (2.28,4.4) -- (0.65,3.7);
+  \draw[dashed] (-2.28,4.4) -- (-0.65,5.1);
+  \draw[dashed] (2.28,4.4) -- (0.65,5.1);
+  
+  % 2p 轨道连接
+  \draw[dashed] (-2.28,7) -- (-0.5,6.2);
+  \draw[dashed] (2.28,7) -- (0.5,6.2);
+
+  \draw[dashed] (-2.28,7.0) -- (-0.65,6.6);
+  \draw[dashed] (-2.28,7.0) -- (-0.65,7.4);
+  \draw[dashed] (2.28,7.0) -- (0.65,6.6);
+  \draw[dashed] (2.28,7.0) -- (0.65,7.4);
+
+  \draw[dashed] (-2.28,7) -- (-0.5,7.8);
+  \draw[dashed] (2.28,7) -- (0.5,7.8);
+
+  % 电子填充箭头
+  \draw[->] (0.1,2.73) -- (0.1,3.07);
+  \draw[<-] (-0.1,2.73) -- (-0.1,3.07);
+  \draw[->] (0.1,1.33) -- (0.1,1.67);
+  \draw[<-] (-0.1,1.33) -- (-0.1,1.67);
+
+  \draw[->] (0.1,3.53) -- (0.1,3.87);
+  \draw[<-] (-0.1,3.53) -- (-0.1,3.87);
+  \draw[->] (0.1,4.93) -- (0.1,5.27);
+  \draw[<-] (-0.1,4.93) -- (-0.1,5.27);
+  
+  \draw[->] (0.1,6.03) -- (0.1,6.37);
+  \draw[<-] (-0.1,6.03) -- (-0.1,6.37);
+
+  \draw[->] (0.3,6.43) -- (0.3,6.77);
+  \draw[->] (-0.3,6.43) -- (-0.3,6.77);
+
+  \draw[<-] (0.4,6.43) -- (0.4,6.77);
+  \draw[<-] (-0.4,6.43) -- (-0.4,6.77);
+
+  \draw[->] (0.35,7.23) -- (0.35,7.57);
+  \draw[->] (-0.35,7.23) -- (-0.35,7.57);  
+  
+\end{tikzpicture}
+\caption{氧气分子的分子轨道能级图。注意最高占据轨道是那个反键的 $1\pi_g^{*}$，里面装着两个自旋平行的孤电子——这就是氧气有磁性的原因。}
+\end{figure}
+
+这幅图告诉我们一个关键信息：$O_2$ 分子的最高占据轨道是反键的 $1\pi_g^{*}$，里面有两个自旋平行的未成对电子。这就解释了为什么液氧能被磁铁吸住——它是顺磁性的。现在来想一个有意思的事：如果我们往 $O_2$ 分子里依次灌电子，会发生什么？每灌一个电子，它就钻进那个反键的 $1\pi_g^{*}$ 轨道，削弱 O--O 之间的化学键。结果如下表所示：
+
+\medskip
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+物种 & 分子轨道记号（KK 记法） & 键级 & 孤电子数目 & 磁性 \\
+\midrule
+$\mathrm{O_2}$ & $KK(2\sigma_g)^2(2\sigma_u^{*})^2(3\sigma_g)^2(1\pi_u)^4(1\pi_g^{*})^2$ & $BO=2$ & 2  & 顺磁性 \\
+$\mathrm{O_2^-}$ & $KK(2\sigma_g)^2(2\sigma_u^{*})^2(3\sigma_g)^2(1\pi_u)^4(1\pi_g^{*})^3$ & $BO=1.5$ & 1  & 顺磁性 \\
+$\mathrm{O_2^{2-}}$ & $KK(2\sigma_g)^2(2\sigma_u^{*})^2(3\sigma_g)^2(1\pi_u)^4(1\pi_g^{*})^4$ & $BO=1$ & 0 & 抗磁性 \\
+\bottomrule
+\end{tabular*}
+\renewcommand{\arraystretch}{1.0}
+
+你看，从 $O_2$ 到 $O_2^-$ 再到 $O_2^{2-}$，反键轨道 $1\pi_g^{*}$ 上的电子从两个涨到四个。键级从 2 跌到 1，O--O 键越来越长、越来越弱。这趋势在物理图像上是透彻的：你在反键轨道上加电子，等于在拆化学键的台。
+
+
+那么这些含氧阴离子跟金属离子结合成离子晶体后，晶体的熔点会怎么变？我们来看看碱金属氧化物和过氧化物的数据：
+
+\medskip
+\noindent
+\begin{minipage}[t]{0.48\textwidth}
+\textbf{碱金属氧化物（Oxides）}
+\vspace{0.4em}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcc@{}}
+\toprule
+金属元素 & 化学式 & 熔点（$^{\circ}\mathrm{C}$）\\
+\midrule
+锂 & $\mathrm{Li_2O}$ & 1438 \\
+钠 & $\mathrm{Na_2O}$ & 1132 \\
+钾 & $\mathrm{K_2O}$ & 740（分解点约 350$^{\circ}\mathrm{C}$）\\
+铷 & $\mathrm{Rb_2O}$ & 400（分解点）\\
+铯 & $\mathrm{Cs_2O}$ & 490 \\
+\bottomrule
+\end{tabular*}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\textbf{碱金属过氧化物（Peroxides）}
+\vspace{0.4em}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcc@{}}
+\toprule
+金属元素 & 化学式 & 熔点（$^{\circ}\mathrm{C}$）\\
+\midrule
+锂 & $\mathrm{Li_2O_2}$ & 340（分解）\\
+钠 & $\mathrm{Na_2O_2}$ & 460（分解）\\
+钾 & $\mathrm{K_2O_2}$ & 655 \\
+铷 & $\mathrm{Rb_2O_2}$ & $\approx 410$（分解）\\
+铯 & $\mathrm{Cs_2O_2}$ & 590 \\
+\bottomrule
+\end{tabular*}
+\end{minipage}
+
+\medskip
+
+
+有意思的现象出现了：在碱金属这一列里，从锂往下走，氧化物的熔点大体上在下降。为什么会这样？这引出一条关于离子晶体稳定性非常重要的经验规则——\textbf{巴素洛规则}。它的核心思想是：阴阳离子的大小得匹配。设想你用一个大阳离子去配一个小阴离子，或者反过来，用小阳离子去配大阴离子，结果就像用一个太大的盒子裝一个小球，或者用一个小盒子硬塞一个大球——无论哪种情况，正负离子没法靠得足够近，晶格能就上不去。只有大小适配的阴阳离子对，才能在晶格中紧密堆积，晶格能达到最大。为了对这个“匹配”有一个量的感觉，下面给出一些常见阴离子的有效离子半径。
+
+\medskip
+\begin{center}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+酸根离子 & 化学式 & 典型离子半径（\AA） \\
+\midrule
+氢氧根 & $\mathrm{OH^-}$ & 1.40 \\
+氟化物 & $\mathrm{F^-}$ & 1.36 \\
+氯化物 & $\mathrm{Cl^-}$ & 1.81 \\
+硝酸根 & $\mathrm{NO_3^-}$ & 1.79--2.30 \\
+亚硝酸根 & $\mathrm{NO_2^-}$ & 1.92 \\
+碳酸根 & $\mathrm{CO_3^{2-}}$ & 1.85 \\
+碳酸氢根 & $\mathrm{HCO_3^-}$ & 1.56 \\
+硫酸根 & $\mathrm{SO_4^{2-}}$ & 2.30--2.36 \\
+\bottomrule
+\end{tabular*}
+\renewcommand{\arraystretch}{1.0}
+\end{center}
+
+\medskip
+
+\subsubsection{金属盐与离子势}
+
+掌握了氧化物的基本性质，我们继续往下走，来看看更一般的金属盐。首先要说的是它们的酸碱性。为什么 NaOH 是强碱，而 Al(OH)$_3$ 是两性的？这可以用一个很直观的物理量——离子势 $\phi$ 来判断。离子势定义为离子的电荷数 $z$ 除以其半径 $r$：
+\[
+\phi=\frac{z}{r}
+\]
+你可以这样理解：$\phi$ 衡量的是阳离子对电子云拉扯的“集中程度”。电荷越大、半径越小，这个拉扯就越猛。当阳离子（$\mathrm{M}^{z+}$）和 $\mathrm{OH^-}$ 结合成 $\mathrm{M\!-\!O\!-\!H}$ 时，阳离子在使劲拽氧原子上的电子云。如果 $\phi$ 很大，说明阳离子拉扯得厉害，它会削弱 O--H 键，让 $\mathrm{H^+}$ 容易掉下来——这就是酸式解离：
+\[
+\mathrm{M\!-\!O\!-\!H \longrightarrow MO^{-} + H^{+}}
+\]
+如果 $\phi$ 很小，阳离子没什么力气，O--H 键安安稳稳的，反而是 M--O 键更弱，于是氢氧根整个掉下来——这就是碱式解离：
+\[
+\mathrm{M\!-\!O\!-\!H \longrightarrow M^{+} + OH^{-}}
+\]
+当两种趋势差不多时，物质就表现出两性。经验上，我们常用 $\sqrt{\phi}$ 来做判据：
+\[
+\sqrt{\phi}<0.22\quad \text{碱性；}\qquad
+0.22<\sqrt{\phi}<0.32\quad \text{两性；}\qquad
+\sqrt{\phi}>0.32\quad \text{酸性}
+\]
+
+\renewcommand{\arraystretch}{1.2}
+\noindent\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+MOH & LiOH & NaOH & KOH & RbOH & CsOH \\
+\midrule
+$\sqrt{\phi}$ & 0.13 & 0.10 & 0.085 & 0.081 & 0.077 \\
+\midrule
+$\mathrm{M(OH)_2}$ & $\mathrm{Be(OH)_2}$ & $\mathrm{Mg(OH)_2}$ & $\mathrm{Ca(OH)_2}$ & $\mathrm{Sr(OH)_2}$ & $\mathrm{Ba(OH)_2}$ \\
+\midrule
+$\sqrt{\phi}$ & 0.27 & 0.17 & 0.14 & 0.13 & 0.12 \\
+\bottomrule
+\end{tabular*}
+\renewcommand{\arraystretch}{1.0}
+
+按这个标准，碱金属氢氧化物清一色是碱性（$\sqrt{\phi}$ 都在 0.08--0.13 之间晃悠）。碱土金属这边，除了 $\mathrm{Be(OH)_2}$ 的 $\sqrt{\phi}$ 跳到 0.27 落入两性区间外，其余几位也都是碱性。Be 这个“小个子”的特殊表现，归根到底还是因为它的半径太小、电荷密度太高。
+
+\medskip
+\noindent
+接着看溶解度。碱土金属的盐类有一个总印象：“多难溶”。但这句话需要仔细说清楚。为什么它们普遍比碱金属盐难溶？根本原因是碱土金属离子带的是 $+2$ 电荷。电荷翻倍，晶格能大增——这是静电相互作用的直接后果。盐能不能溶解，取决于晶格能（把离子从晶体里拽出来要花的能量）和水合能（离子被水分子包围后释放的能量）之间的拔河。对碱土金属的 $M^{2+}$ 来说，晶格能增大的幅度常常压过了水合能的补偿，所以溶解度就小了。具体规律大致是：对于 $\mathrm{CO_3^{2-}}$、$\mathrm{PO_4^{3-}}$、$\mathrm{C_2O_4^{2-}}$ 这类带多个负电荷的阴离子，碱土金属盐几乎都难溶；对于 $\mathrm{OH^-}$、$\mathrm{SO_4^{2-}}$，溶解度则沿族有规律地变化。另外，$\mathrm{Be^{2+}}$ 因为半径极小、极化能力极强，又一次成了特立独行的异类，它的部分盐类性质与同族其他成员差别显著。
+
+\medskip
+\noindent
+还有一个重要的话题是含氧酸盐受热分解。很多含氧酸盐一加热就会放出气体——碳酸盐放 $\mathrm{CO_2}$，硝酸盐放 $\mathrm{NO_2}$ 和 $\mathrm{O_2}$，硫酸盐放 $\mathrm{SO_2}$。这种热分解好不好发生，取决于两个因素的较量：一是阴离子本身有多容易裂开，二是阳离子在旁边怎么“扰乱”它。阳离子的极化越强（半径越小、电荷越高），就越能把阴离子里的电子云扯变形，削弱其中的共价键，让分解变得更容易。以碱土金属碳酸盐为例，分解反应是：
+\[
+\mathrm{MCO_3 \stackrel{\Delta}{\longrightarrow} MO + CO_2 \uparrow}
+\]
+热稳定性的顺序是：
+\[
+\mathrm{MgCO_3 < CaCO_3 < SrCO_3 < BaCO_3}
+\]
+从 Mg 到 Ba，阳离子半径逐渐增大，极化能力逐渐减弱，对 $\mathrm{CO_3^{2-}}$ 内部键的扰动越来越小，碳酸根要裂出 $\mathrm{CO_2}$ 就越来越不情愿。所以 MgCO$_3$ 加热不久就分解了，而 BaCO$_3$ 需要更高的温度才肯“松口”。这个从极化角度来解释的思路，也同样适用于硝酸盐、硫酸盐等其他含氧酸盐：阳离子极化越强，热稳定性越差。
+
+\subsubsection{贫瘠的配位化学}
+
+\medskip
+
+最后，我们把目光转向碱金属和碱土金属的配位化学。这一块听起来可能有点生僻，但其实它关乎我们用化学手段“识别”和“搬运”金属离子的能力。冠醚（crown ethers）是一类环状的多齿配体，环上嵌着好几个醚氧原子，它们像一顶皇冠一样扣在金属离子上。冠醚配位化学的精髓是\textbf{空腔尺寸匹配}：冠醚环中间的空腔大小和金属离子半径越接近，络合就越牢固。为什么呢？想象金属离子是一个小球，冠醚环是一个恰好能把它裹进去的箍——如果箍太大，小球在里面晃荡，氧原子够不着它；如果箍太小，小球进不去；只有当大小刚刚好的时候，所有氧原子才能同时有效地配位上去，把离子稳稳扣住。这条规则在碱金属体系里体现得尤其漂亮：12-crown-4 的空腔适合 $\mathrm{Li^+}$，15-crown-5 适合 $\mathrm{Na^+}$，而 18-crown-6 对 $\mathrm{K^+}$ 的识别堪称教科书式的经典。
+
+这个匹配有什么用呢？一个最重要的应用是\textbf{增溶}。碱金属盐在有机溶剂里通常溶解性很差，因为阴阳离子紧紧抱在一起。但如果往体系里加入 18-crown-6，它就会把 $\mathrm{K^+}$ 包起来，变成一个外表面疏水的大阳离子。钾离子被“打包”之后，阴离子就成了相对自由的“裸阴离子”——没有了阳离子的贴身束缚，它的亲核性和反应活性都大幅提升。这个原理被广泛应用在相转移催化中，是合成化学家的利器。对于碱土金属 $\mathrm{M^{2+}}$ 来说，情况稍微复杂些。它们电荷更高，溶剂化更强，简单冠醚的氧配位往往敌不过水分子的竞争。要络合碱土金属离子，通常需要更强力的配体——穴醚或多齿含氮氧的大环——才能获得令人满意的稳定性。
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.1,line width=1pt]
+  \coordinate (A1) at (90:2.0);
+  \coordinate (A2) at (60:2.0);
+  \coordinate (A3) at (30:2.0);
+  \coordinate (A4) at (0:2.0);
+  \coordinate (A5) at (-30:2.0);
+  \coordinate (A6) at (-60:2.0);
+  \coordinate (A7) at (-90:2.0);
+  \coordinate (A8) at (-120:2.0);
+  \coordinate (A9) at (-150:2.0);
+  \coordinate (A10) at (180:2.0);
+  \coordinate (A11) at (150:2.0);
+  \coordinate (A12) at (120:2.0);
+
+  \draw (A1)--(A2)--(A3)--(A4)--(A5)--(A6)--(A7)--(A8)--(A9)--(A10)--(A11)--(A12)--cycle;
+
+  \node[fill=white,inner sep=1.2pt] at (A1) {O};
+  \node[fill=white,inner sep=1.2pt] at (A3) {O};
+  \node[fill=white,inner sep=1.2pt] at (A5) {O};
+  \node[fill=white,inner sep=1.2pt] at (A7) {O};
+  \node[fill=white,inner sep=1.2pt] at (A9) {O};
+  \node[fill=white,inner sep=1.2pt] at (A11) {O};
+\end{tikzpicture}
+\caption{18-crown-6 的结构。六个氧原子（标记为 O）均匀分布在环上，围成一个正好能装下 $\mathrm{K^+}$ 的空腔。}
+\end{figure}
+
+\noindent
+你看，从怎么把金属单质从矿石里提炼出来，到氧化物里氧的电子排布如何决定键的强弱，再到离子大小匹配怎样影响熔点和溶解度，最后到用冠醚这种精巧的分子笼子识别和搬运特定的金属离子——所有这些现象，背后贯穿的都是同样几条基本物理思想：静电相互作用、轨道能量与电子填充、以及几何上的尺寸匹配。一旦从这几个角度去理解，这些看起来零散的知识就能自然地串成一条线。
+
+\section{P区元素}
+
+\subsection{P区的一般原理}
+
+\subsubsection{p区第二周期元素的特殊性}
+
+p区第二周期的各个族首元素（B, C, N, O, F）与其下方同族元素相比，常表现出一组“高紧凑度”特征，可概括为：\textbf{更易形成有效 $p\pi$--$p\pi$ 键、最大配位数受限、电子斥力效应更显著、含氢分子角度受孤对电子控制更强。}
+
+\textbf{（一）$\pi$ 键能力更强：}
+第二周期价层主要使用紧凑的 $2p$ 轨道，侧向重叠效率高，因而更容易形成稳定多重键（如 $\mathrm{C{=}C}$、$\mathrm{C\equiv C}$、$\mathrm{N\equiv N}$、$\mathrm{C{=}O}$）。而第三周期及以下元素的 $3p/4p$ 轨道径向更分散，$p\pi$--$p\pi$ 重叠效率下降，故更倾向形成单键网络或以离域方式分散键级。
+
+\textbf{（二）配位数上限更低：}
+第二周期元素价层仅有 $2s,2p$ 轨道可用于常规成键，不具备可参与成键的低能空 $d$ 轨道，因此“超价”结构受限，典型最大共价配位数通常不超过 4。与之对比，第三周期起（如 P, S, Cl）更常见高配位结构（如 $\mathrm{PF_5}$、$\mathrm{SF_6}$）。
+
+\textbf{（三）电子斥力效应更敏感：}
+第二周期原子半径小、键长短，键对与孤对电子在局域空间中更接近，VSEPR 斥力差异（孤对-孤对 > 孤对-键对 > 键对-键对）对分子几何的压缩效应更明显。因此同类结构中，第二周期中心原子更容易表现出明显的键角偏离。
+
+\textbf{（四）以含氢分子为例的“氢键角度”说明：}
+以 $\mathrm{H_2O}$、$\mathrm{NH_3}$ 为典型，第二周期中心原子的孤对电子定向性强，导致键角显著小于理想四面体角：
+\[
+\angle \mathrm{H{-}O{-}H} \approx 104.5^{\circ},\qquad
+\angle \mathrm{H{-}N{-}H} \approx 107^{\circ}
+\]
+其根本原因是孤对电子占据空间更大并更靠近中心原子，压缩了键对之间夹角。该效应也影响氢键几何：供氢体 X--H 键的极化与受体孤对轨道方向共同决定了优选取向，通常更接近“$\mathrm{X{-}H\cdots Y}$ 近线性”时作用更强。
+
+此外对重元素而言，$ns^2$ 电子对参与成键的能力下降，表现为惰性电子对效应，这本质上是相对论效应导致的$ns$轨道收缩，部分电子云隧穿到核附近区域使得外侧电子云密度降低，因而使低氧化态（如 $+1$）稳定性上升，而高氧化态（如 $+3$）稳定性相对下降。惰电子对效应在第四周期开始出现，第五周期比较显著.
+
+\newpage
 
 % ---- chunk ch2_7 : 2.x 具体元素（P区） ----
 
@@ -2081,6 +2816,7 @@ $\mathrm{H_3PO_3}$（亚磷酸）的情况则值得注意。虽然分子式写�
 
 
 
+\newpage
 \section{D区和DS区}
 
 \subsection{副族元素的一般原理：电子结构、变价与配位}
@@ -2234,10 +2970,90 @@ CFSE的大小直接影响配合物的热力学稳定性和动力学行为，也�
 \newpage
 
 
-% ===== [源文件缺失 ch2_10：源缺失] =====
+% ---- chunk ch3_8 : DS区元素 ----
 
-% ---- chunk ch3_8 : DS区元素（顶替缺失的 ch2_11，标题一致） ----
 
+\subsection{副族元素的特殊键}
+
+在上述框架下，18电子规则可对金属有机配合物的稳定性进行系统说明。首先，该规则源于惰性气体电子构型的类比：当中心金属的价电子数与所有配体提供的电子数之和等于18时，配合物呈现类似稀有气体的稳定电子构型。若配合物满足18电子规则，则其通常具有闭壳层电子结构，表现为抗磁性且热力学稳定性较高。
+
+18电子规则不仅预测配合物的组成，还对反应性和结构类型产生重要影响。对于给定配合物，电子总数可通过中心金属的电子数加上各配体贡献的电子数计算获得。常见配体的电子贡献数如下：末端$\mathrm{CO}$、$\mathrm{CNR}$、$\mathrm{PR}_3$、$\mathrm{NH}_3$为2电子配体；$\eta^5$-$\mathrm{Cp}$（环戊二烯基）为6电子配体；$\eta^6$-$\mathrm{C}_6\mathrm{H}_6$为6电子配体；$\mathrm{H}$、$\mathrm{Cl}$、$\mathrm{CH}_3$等单原子或烷基配体为1电子配体；$\eta^3$-烯丙基为3电子配体；亚烷基卡宾配合物中卡宾碳可贡献2或4电子，取决于其单线态或三线态特征。
+
+18电子计数的准确性直接决定配合物的稳定性和反应活性，也决定了金属中心的氧化态和配体场强度。多数常见的稳定金属有机配合物，如$\mathrm{Ni(CO)_4}$、$\mathrm{Fe(CO)_5}$、$\mathrm{Cr(CO)_6}$、$\mathrm{FeCp_2}$（二茂铁）、$\mathrm{CoCp_2^+}$均满足18电子规则；而16电子配合物（如$\mathrm{Vaska}$配合物$\mathrm{trans\text{-}IrCl(CO)(PPh_3)_2}$）则具有配位不饱和性，可作为催化活性中间体发生氧化加成等反应。强场配体（如$\mathrm{CO}$、$\mathrm{CN^-}$、$\mathrm{C_2H_4}$）通过形成反馈$\pi$键稳定18电子构型，而弱场配体往往导致缺电子配合物（电子数小于18），易于发生配体交换或簇合反应。
+
+\subsubsection{羰基配合物与四羰基合镍}
+
+羰基配合物是以一氧化碳（CO）为配体形成的金属配合物。CO属于典型的强场配体，其与金属中心的成键可用Dewar-Chatt-Duncanson模型描述：碳原子的孤对电子向金属空轨道提供σ电子，同时金属已占据的d轨道向CO的$\pi^*$反键轨道反馈电子，形成π反馈键。这一$\sigma$配位与$\pi$反馈协同作用使M--CO键具有部分双键性质，既增强了配合物的热力学稳定性，也解释了CO配位后C--O伸缩频率向低波数位移的光谱特征。
+
+\begin{center}
+  \includegraphics[width=0.8\textwidth]{Dewar-Chatt-Duncanson.png}
+\end{center}
+
+此类配合物通常呈现以下共同特征：\textbf{金属中心处于低氧化态（常为零价或负氧化态），分子整体为电中性共价分子，具挥发性，热稳定性与配合物可满足的18电子规则密切相关。}
+
+四羰基合镍Ni(CO)$_4$是羰基配合物中最具代表性的实例。Ni的形式氧化态为0，电子构型为3d$^{10}$，四个CO各提供一对电子，总价电子数为$10 + 4 \times 2 = 18$，满足18电子规则。配位数为4，空间构型为正四面体。由于Ni为d$^{10}$构型，不存在d--d跃迁，因而Ni(CO)$_4$为无色液体。分子整体为非极性共价分子，熔点$-25$$^{\circ}\mathrm{C}$，沸点$43$$^{\circ}\mathrm{C}$，挥发性较强，且具有高毒性。
+
+工业上利用Ni(CO)$_4$的挥发性及其热分解性质提炼高纯镍，即Mond法。其原理为：粗镍在常温和常压下与CO反应生成气态Ni(CO)$_4$，与杂质分离后，将Ni(CO)$_4$蒸气导入热分解器，在$180\sim200$~$^{\circ}\mathrm{C}$下分解，在镍球表面上沉积出高纯镍，同时释放的CO循环使用。该方法是获取99.9\%以上纯度镍的重要工艺。
+
+从成键教学角度看，Ni(CO)$_4$集中体现了羰基配合物的多个核心概念：CO的σ给予与π反馈双重成键作用，低氧化态金属的配位稳定化，18电子规则对配合物组成的约束，以及分子型配合物在物理性质上与离子型配合物的系统性差别。
+
+\subsubsection{配位活化与催化：铂催化乙烯加氢}
+
+乙烯催化加氢是阐明过渡金属配位活化原理的经典反应。该反应可在Pt、Pd、Ni等过渡金属表面或均相催化条件下进行，其催化本质并非金属仅提供反应场所，而在于金属中心通过配位作用同时活化烯烃和氢气，降低反应活化能。
+
+从配位化学角度分析，催化过程包含以下关键步骤：
+
+\begin{enumerate}
+    \item \textbf{烯烃的$\pi$ 配位与活化}：乙烯的C=C $\pi$电子向Pt的空d轨道配位，形成金属--烯烃$\pi$配合物。同时Pt已占据的d轨道向乙烯的$\pi^*$反键轨道反馈电子。这一协同作用削弱了C--C $\pi$键，使其键级降低、键长增长，为后续加氢提供了活化条件。
+    
+    \item \textbf{氢气的吸附与解离}：H$_2$在Pt上发生解离化学吸附，H--H键断裂，生成两个表面或配位氢原子，即活性氢物种。
+    
+    \item \textbf{氢转移与插入}：活性氢向已配位活化的乙烯逐步转移，依次形成Pt--C$_2$H$_5$中间体，最终完成第二个C--H键的形成并释放乙烷。
+    
+    \item \textbf{产物脱附与活性位再生}：乙烷与金属中心的配位作用较弱，易于脱附，Pt的活性位重新暴露，催化循环得以继续。
+\end{enumerate}
+
+上述分析表明，该催化过程的本质可归纳为：Pt通过配位作用将烯烃和氢两个反应物同时组织在同一个金属中心附近，在配位层内完成键的断裂与重组。这揭示了过渡金属催化与配位化学之间的深层联系——许多催化反应在机理层面可理解为配位导致的键活化过程。
+
+与前述羰基配合物化学形成对照：羰基配合物展示的是配位对低氧化态金属的稳定化作用；而催化加氢则展示的是配位改变化学键反应活性的动态效应。二者从不同侧面共同构成了过渡金属配位化学在分子科学中的核心应用基础。
+
+\subsubsection{金属--金属多重键}
+
+除金属--配体配位键外，部分过渡金属之间可直接形成金属--金属键，且可达双键、三键甚至四重键的键级。这一成键模式说明，过渡金属的d轨道不仅可与配体作用，也可在合适条件下与另一金属中心的d轨道发生有效的重叠成键。
+
+形成金属--金属多重键通常需要满足三个条件：金属处于较低氧化态，拥有适当数目的d电子；配体不饱和配位，预留轨道的成键取向；两个金属中心空间位置足够靠近且轨道取向匹配。多重键的构成在四重键情况下可解析为一个$\sigma$键、两个$\pi$键和一个$\delta$键的叠加，其中$\delta$键源于两个d轨道沿键轴的侧向重叠，是金属多重键化学中最具特色的结构要素。
+
+八氯二铼酸根[Re$_2$Cl$_8$]$^{2-}$是金属--金属四重键最经典的实例。该离子中两个Re原子间距显著短于金属铼中的Re--Re距离，X射线晶体学研究表明其具有重叠式构象，与δ键的存在一致。键级常表述为4，是实验上确证金属间多重键存在的标志性结构。该体系说明，金属--金属多重键并非理论推测，而是能够被结构测定、磁性和光谱数据共同支持的真实成键方式。与有机分子中p轨道参与的多重键相比，金属--金属多重键更多依赖d轨道参与，是D区元素特有的成键现象。
+
+在这一成键模式中，配体的作用仍然关键：配体既稳定了金属中心的适当氧化态，又通过自身的立体和电子效应调控两个金属中心的间距和取向。因此，金属--金属多重键并非脱离配位环境的孤立成键，而可看作特定配位场中金属中心之间进一步相互作用形成的高级共价键。
+
+这一概念可与前述羰基配合物和催化活化并列理解。羰基配合物强调的是金属与配体之间的反馈成键，催化活化强调的是配位对键的反应性调控，而金属--金属多重键则进一步揭示出过渡金属自身之间通过d轨道形成高阶共价键的能力。三者在概念上共同构成了过渡金属配位化学中成键方式的结构层次。
+
+\subsubsection{经典实验——棕色环反应：氧化还原与配位耦合}
+
+棕色环反应是检验硝酸根的经典方法，其实验操作与现象可简洁描述为：向含NO$_3^-$的试样溶液中加入新配制的FeSO$_4$溶液，混合后沿试管壁缓慢注入浓H$_2$SO$_4$，在浓硫酸与上层水溶液的交界面处形成一圈棕色环。这一颜色现象并非Fe$^{2+}$与NO$_3^-$直接结合所致，而是经历氧化还原和配位成键两个连续过程。
+
+反应机理可分为两步加以解析：
+
+第一步为氧化还原过程。在浓硫酸提供的强酸性条件下，NO$_3^-$表现氧化性，将部分Fe$^{2+}$氧化为Fe$^{3+}$，自身被还原为NO：
+\[
+\mathrm{NO_3^- + 3Fe^{2+} + 4H^+ \rightarrow NO\uparrow + 3Fe^{3+} + 2H_2O}
+\]
+该步骤的意义在于将分析对象NO$_3^-$转化为具备配位能力的中性小分子NO，为后续的配位显色提供有效配体。
+
+第二步为配位成键过程。生成的NO未被完全排出即与溶液中仍存在的Fe$^{2+}$水合离子发生配位，形成棕色的亚硝酰配合物，即显色物种：
+\[
+\mathrm{[Fe(H_2O)_5(NO)]^{2+}}
+\]
+该离子可看作是八面体型配合物，中心为Fe，赤道面和轴向一端由五个水分子占据，另一端由NO以亚硝酰形式配位。
+
+该配合物呈棕色的物理来源值得结合电子结构加以理解。NO作为配体具有特殊的电子性质：它既可视为中性NO分子向金属提供σ电子，又可从金属接受反馈π电子，并可能以弯曲或线型配位方式存在。在[Fe(H$_2$O)$_5$(NO)]$^{2+}$中，NO配位后与Fe$^{2+}$的d轨道之间发生显著的电荷转移和成键重组，其电子吸收并非典型的d--d跃迁，而产生的棕色本质上涉及金属与配体之间的电荷转移跃迁。因此，该体系在配合物电子结构教学中具有特殊的案例价值，即显色机制不完全等同于第一部分所讨论的晶体场d--d跃迁，而展示了配体电子结构主动参与光谱现象的另一种重要途径。
+
+实验操作中要求沿试管壁缓慢加入浓硫酸，目的在于形成清晰的密度分层，使NO$_3^-$的还原和[Fe(H$_2$O)$_5$(NO)]$^{2+}$的形成集中发生在两液界面处，从而获得高浓度局部显色而呈现明显的环状外观。
+
+该反应的教学意义可归纳为两点：第一，它说明了在分析化学中，特征鉴定反应往往涉及的不仅是简单的离子结合，而是包括氧化还原在内的多步化学转化与配位化学的耦合；第二，它从显色机制角度对前述晶体场颜色规律构成了补充——配合物的颜色可来源于d--d跃迁，也可来源于金属--配体间的电荷转移，后者在特殊配体如NO、CO、CN$^-$参与时尤为重要。
+
+\newpage
 
 \subsection{DS区元素}
 
@@ -2628,6 +3444,7 @@ Fischer 投影式有两条操作规则：在纸面内旋转 $180^\circ$ 不改�
 % ---- chunk ch9_3 : 3.x 有机反应类型 ----
 
 
+\newpage
 \section{有机反应机理}
 
 基本上所有的有机反应都离不开电性分子，也就是如下的三类分子：
@@ -2693,6 +3510,7 @@ Fischer 投影式有两条操作规则：在纸面内旋转 $180^\circ$ 不改�
 % ---- chunk ch9_4 : 3.x 不饱和键亲电加成 ----
 
 
+\newpage
 \section{不饱和键的亲电加成：正离子机理}
 
 烯烃的 $\pi$ 电子是富电子的，是个极活跃的基团，容易被亲电试剂进攻。加成的第一步总是亲电试剂与 $\pi$ 键作用，区别在于中间体是“开放”的碳正离子，还是“桥连”的鎓离子。不过值得说明的是，虽然我们说是“容易被亲电试剂进攻”，但是其实一般都是电子去进攻正电荷，这是显然的，因为电子是“电子云”，是弥散在空间中的，变形性相比正电荷更好。
@@ -2812,7 +3630,23 @@ Fischer 投影式有两条操作规则：在纸面内旋转 $180^\circ$ 不改�
 \schemestop
 \end{center}
 
-环氧化物是三元环，张力大，容易被亲核试剂开环。碱性条件下亲核试剂进攻取代较少的碳（\ce{S_N2}，位阻控制）；酸性条件下环氧先质子化，亲核试剂进攻取代较多的碳（正电荷更集中）。这一取向差异在合成中非常有用。
+环氧化物是三元环，张力大，容易被亲核试剂开环。开环的取向由催化条件决定：同一底物在碱性与酸性条件下得到构造不同的产物，这是有机化学里“换条件就换产物”的典型例子。
+
+碱性或中性条件下，亲核试剂直接进攻环氧碳，走 \ce{S_N2}。位阻决定区域选择性：试剂进攻取代较少、位阻较小的碳，羟基留在取代较多的碳上。醇钠、氨、硫醇与格氏试剂都属于这一类。由于是背面进攻，开环是反式的，手性碳的构型反转。
+
+酸性条件下，环氧氧先被质子化，\ce{C-O} 键极化，过渡态带部分正电荷。正电荷在取代较多的碳上更稳定，因此亲核试剂（水、醇、卤离子）转而进攻取代较多的碳，得到支链产物。若该碳能形成稳定的碳正离子（苄基、烯丙基），反应甚至走 \ce{S_N1}，可能伴随重排。
+
+以 2,2-二甲基环氧乙烷为例，两条路线的产物是构造异构体：
+\[
+\mathrm{(CH_3)_2C{-}CH_2{-}O}\ \text{(环氧)}
+\xrightarrow[\text{进攻 } \mathrm{CH_2}]{\mathrm{CH_3O^-/CH_3OH}}
+\mathrm{(CH_3)_2C(OH)CH_2OCH_3},
+\]
+\[
+\xrightarrow[\text{进攻叔碳}]{\mathrm{CH_3OH/H^+}}
+\mathrm{(CH_3)_2C(OCH_3)CH_2OH}.
+\]
+无论酸碱，开环都按反式加成进行：亲核试剂从离去基团的背面进入，因此环己烯氧化物开环得到反式-1,2-双取代环己烷。记住这两条规则——碱性看位阻，酸性看正电荷稳定性；立体上总是反式——环氧开环的产物就不难预测。
 
 \begin{center}
 \schemestart
@@ -2920,6 +3754,7 @@ Diels--Alder 反应是共轭二烯与亲双烯体之间的 [4+2] 环加成。它
 % ---- chunk ch9_5 : 3.x 取代与消除 ----
 
 
+\newpage
 \section{取代与消去}
 
 同一底物在不同条件下可以得到取代或消除产物。经验规律是：强亲核弱碱（如 \ce{I^-}、\ce{CN^-}）利于取代；强碱大位阻（如 \ce{t-BuO^-}）利于消除；高温利于消除（熵增）；叔底物利于 \ce{S_N1}/E1，伯底物利于 \ce{S_N2}。
@@ -3051,6 +3886,7 @@ Williamson 醚合成是醇钠（或酚钠）与伯卤代烷的 \ce{S_N2} 反应�
 % ---- chunk ch9_6 : 3.x 芳香亲电取代 ----
 
 
+\newpage
 \section{芳烃的亲电取代}
 
 苯环的 $\pi$ 电子同样是富电子的，但苯不与溴水加成，也不与高锰酸钾反应。原因在于芳香性：六个 $\pi$ 电子离域在环上，整体能量很低，加成会破坏这个离域体系。因此芳烃的典型反应不是加成，而是取代——用一个亲电试剂替换环上的氢，芳香性得以保留。
@@ -3207,6 +4043,56 @@ Friedel--Crafts 反应分烷基化与酰化两种。烷基化用卤代烷加 \ce
 % ---- chunk ch9_7 : 3.x 羰基化学 ----
 
 
+\newpage
+\section{酚与醌}
+
+酚是羟基直接连在芳环上的化合物。前面只在 Williamson 醚合成里提过酚钠，这一节把酚的化学补齐。酚与醇的区别不只是“羟基连在什么上”：氧的孤对电子与芳环共轭，使 C--O 键带部分双键性质，O--H 键更容易电离，酚因此有弱酸性；共轭也把电子密度送进环的邻、对位，使酚比苯更容易发生亲电取代。
+
+\subsection{结构与酸性}
+
+苯酚的 $\mathrm{p}K_{\mathrm{a}}$ 约为 $10$。对比来看，乙醇约 $16$，乙酸约 $4.76$。酚的酸性来自苯氧负离子：负电荷可以离域到环上的邻、对位，离子被显著稳定，而醇盐的负电荷只能局限在氧上。这个顺序决定了两条实用的鉴别规则：酚能溶于 \ce{NaOH} 而不溶于 \ce{NaHCO_3}；羧酸两者都溶。碳酸的 $\mathrm{p}K_{\mathrm{a1}}$ 约 $6.4$，酸性强于酚，所以酚不能把 \ce{NaHCO_3} 变成 \ce{CO_2}。
+
+环上的取代基通过共轭与诱导改变酸性。硝基等吸电子基在邻、对位时把负电荷进一步拉走，酸性增强（对硝基苯酚 $\mathrm{p}K_{\mathrm{a}}\approx7.2$）；烷基等给电子基则削弱酸性。羟基的给电子共轭效应还会让环上电子密度升高，这与酸性是两个方向的作用，判断时要分开看。
+
+酚与三氯化铁溶液生成有颜色的配合物，这是检验酚羟基的经典方法。酚也容易被氧化，久置的苯酚常带粉红色，保存时应避光、密封。
+
+\subsection{芳环上的亲电取代}
+
+羟基是强活化基、邻对位定位基。苯酚与溴水在室温下不需催化剂就生成 2,4,6-三溴苯酚的白色沉淀，这个反应灵敏度高，可用于检验。硝化、磺化也都可以在温和条件下进行；亚硝化用 \ce{NaNO_2} 与稀酸，主要得到对亚硝基苯酚。
+
+活化太强也带来限制：傅克烷基化与酰基化在酚上常因 \ce{AlCl_3} 与羟基络合而失败，需要先把羟基保护成醚或酯。这与苯胺的情况类似——强活化基让环太活泼，反而使某些反应难以控制。
+
+\subsection{成醚、成酯与两类重排}
+
+酚羟基可以按醇的方式成醚、成酯。Williamson 合成用酚钠与伯卤代烷，酚的酸性足够强，甚至可以用 \ce{NaOH} 生成酚钠。酯化常用乙酸酐在吡啶中完成，生成的乙酸苯酯既是保护基，也是 Fries 重排的底物。
+
+\textbf{Claisen 重排}：烯丙基苯基醚加热到约 $200^\circ\mathrm{C}$，烯丙基迁移到邻位，得到邻烯丙基苯酚。机理是 $[3,3]$-$\sigma$ 迁移，经过一个六元环状过渡态；若两个邻位都被占据，则迁移到对位。这是把烯丙基“定向”装到酚邻位的标准方法。
+
+\textbf{Fries 重排}：酚酯在 \ce{AlCl_3} 或 \ce{BF_3} 作用下，酰基迁移到环上，低温利于邻位、高温利于对位。它相当于把“酯”翻成“羟基芳酮”，是制备邻羟基苯乙酮一类化合物的常用路线。
+
+\subsection{Kolbe--Schmitt 反应与 Reimer--Tiemann 反应}
+
+酚环上的羧化是工业上最重要的酚反应之一。酚钠在加压、约 $125^\circ\mathrm{C}$ 下与 \ce{CO_2} 反应，羧基进入羟基的邻位，酸化后得到水杨酸（邻羟基苯甲酸）：
+\[
+\mathrm{C_6H_5ONa}+\mathrm{CO_2}\longrightarrow
+\mathrm{2-HOC_6H_4COONa}\xrightarrow{\mathrm{H^+}}
+\mathrm{2-HOC_6H_4COOH}.
+\]
+酚氧负离子把电子密度推到邻、对位，\ce{CO_2} 作为亲电体进攻；钠盐、较低温度利于邻位产物，钾盐、较高温度则利于对位。水杨酸乙酰化就是阿司匹林，这条路线把简单的酚变成了药物。
+
+类似的甲酰化是 Reimer--Tiemann 反应：苯酚与氯仿、氢氧化钠水溶液加热，主要得到邻位产物水杨醛。活性物种是二氯卡宾，它进攻酚氧负离子所活化的环。产量通常不高，但一步引入醛基，仍有合成价值。
+
+需要区分的是 Schmidt 反应：那是羧酸或酮与叠氮酸（\ce{HN_3}）作用，分别生成胺或酰胺，与酚没有直接关系；酚化学里常说的“施密特”指的是上面的 Kolbe--Schmitt 羧化。
+
+\subsection{氧化与醌}
+
+酚容易被氧化。苯酚氧化得到对苯醌，它是一个 $\alpha,\beta$-不饱和二酮：环上两个羰基与两个双键共轭，颜色为黄色。对苯醌可以被还原回对苯二酚，二者构成一个可逆的氧化还原对：
+\[
+\mathrm{C_6H_4(OH)_2}\rightleftharpoons \mathrm{C_6H_4O_2}+2\mathrm{H^+}+2\mathrm{e^-}.
+\]
+醌不是芳香化合物，它更像共轭烯酮，能发生 1,4-加成；同时羰基又可被亲核试剂加成。这两个反应位点让醌成为合成中的多面中间体。自然界中不少色素与辅酶含有醌结构，其氧化还原能力正来自这个可逆的两电子/两质子转换。
+
+\newpage
 \section{羰基化学}
 
 羰基是有机化学的中心。碳氧双键强极化，碳带部分正电荷，几乎所有的亲核试剂都盯着这个碳。羰基化学的骨架只有一句话：亲核试剂加到碳上，$\pi$ 键打开，氧带负电，随后质子化。
@@ -3264,6 +4150,92 @@ Friedel--Crafts 反应分烷基化与酰化两种。烷基化用卤代烷加 \ce
 格氏试剂有两怕：水（会淬灭）和活泼氢（醇、胺、羧酸都行）。因此反应必须在无水醚类溶剂中进行，原料中不能带活泼氢。
 
 氢化物（\ce{LiAlH_4}、\ce{NaBH_4}）把羰基还原成醇。\ce{LiAlH_4} 更强，能还原羧酸、酯、酰胺；\ce{NaBH_4} 温和，只还原醛酮。这个差别在选择性还原中很有用。
+
+\subsection{羰基的氧化：Fehling 试剂与 Baeyer--Villiger 氧化}
+
+醛容易被氧化成羧酸，酮则难，这条差别可以用来区分醛与酮。Fehling 试剂是硫酸铜与酒石酸钾钠的碱性溶液，$\mathrm{Cu^{2+}}$ 被酒石酸根络合成深蓝色配合物，与脂肪醛共热时被还原为砖红色的氧化亚铜：
+\[
+\mathrm{RCHO}+2\mathrm{Cu^{2+}}+5\mathrm{OH^-}\longrightarrow
+\mathrm{RCOO^-}+\mathrm{Cu_2O}\downarrow+3\mathrm{H_2O}.
+\]
+酮不能还原 Fehling 试剂，芳香醛也不反应（苯甲醛只能被 Tollens 试剂、即银氨溶液氧化，生成银镜）。因此 Fehling 试验阳性说明是脂肪醛；Tollens 试验则对脂肪醛与芳香醛都敏感。
+
+更强的氧化是过氧酸对酮的插入反应，即 Baeyer--Villiger 氧化。过氧酸把一个氧原子插进羰基碳与相邻碳之间，酮变成酯，环酮变成内酯：
+\[
+\mathrm{R^1COR^2}+\mathrm{R^3COOOH}\longrightarrow
+\mathrm{R^1COOR^2}+\mathrm{R^3COOH}.
+\]
+哪一侧迁移由迁移能力决定：$\mathrm{H>}$ 三级烷基 $>$ 二级烷基 $>$ 苯基 $>$ 一级烷基 $>$ 甲基。迁移基团的构型在迁移过程中保持，因此这个反应可以从环酮立体专一地得到内酯。机理上，过氧酸先加成到羰基碳上形成 Criegee 中间体，随后迁移基团带着成键电子转移到氧上，同时 O--O 键断裂。
+
+\subsection{醇的选择性氧化：Swern、PCC 与 Dess--Martin}
+
+伯醇氧化成醛时，难点是让反应停在醛。醛在水或强酸中会生成半缩醛、缩醛（偕二醇），后者继续被氧化成羧酸；因此“温和、非水、弱酸碱性”是这类试剂的设计原则。
+
+PCC（氯铬酸吡啶鎓）在二氯甲烷中把伯醇氧化到醛、仲醇氧化到酮，酸性弱、操作简单，缺点是铬试剂有毒且后处理麻烦。PDC 是它的水溶性版本，氧化力更强。Swern 氧化用草酰氯与 DMSO 在低温下生成活泼的烷氧基锍盐，再加醇与三乙胺完成消除，全程不用金属、酸碱条件温和，适合对酸敏感或含易氧化基团的底物：
+\[
+\mathrm{RCH_2OH}\xrightarrow[\text{2.}\ \mathrm{Et_3N}]{\text{1.}\ \mathrm{(COCl)_2/DMSO},\ -78^\circ\mathrm{C}}
+\mathrm{RCHO}.
+\]
+Dess--Martin 高碘烷是另一类温和试剂，选择性好，可以只氧化多元醇中的伯醇而不碰仲醇。Jones 试剂（$\mathrm{CrO_3/H_2SO_4}$/丙酮）氧化力强，有水存在时伯醇一路氧化到羧酸，并会氧化碳碳双键；它适合制备羧酸，不适合停留在醛。二氧化锰则专一得多：只氧化烯丙醇与苄醇，其他醇基本不动，常用于选择性氧化。
+
+选择哪一种，仍然回到三个问题：目标氧化态、底物中其他基团是否耐受、反应后是否容易除去试剂与副产物。
+
+\subsection{邻二醇的氧化裂解：高碘酸与四乙酸铅}
+
+邻二醇的碳碳键可以被高碘酸选择性地切断，生成两分子羰基化合物：
+\[
+\mathrm{R^1R^2C(OH){-}C(OH)R^3R^4}+\mathrm{HIO_4}
+\longrightarrow \mathrm{R^1R^2C=O}+\mathrm{R^3R^4C=O}+\mathrm{HIO_3}+\mathrm{H_2O}.
+\]
+反应先形成环状高碘酸酯，随后 C--C 键与 I--O 键协同断裂，因此只需要邻位有两个羟基（或一个羟基加一个羰基、氨基）。孤立的碳碳双键与普通醇都不受影响，这使它成为定位邻二醇、测定糖环结构的经典手段：环状邻二醇开环成二醛，从产物就能读出原来的连接方式。
+
+四乙酸铅（\ce{Pb(OAc)_4}）完成同样的裂解，但它是非水、非极性的有机试剂，适合不溶于水的底物；它还能氧化 $\alpha$-羟基酸并脱羧。两者分工通常按溶解性选：水溶性底物用高碘酸，脂溶性底物用四乙酸铅。
+
+\subsection{羰基的还原：MPV 还原、单电子还原与 Cannizzaro 歧化}
+
+除氢化物外，还有三类值得记住的还原方式，它们各自解决不同的问题。
+
+\textbf{Meerwein--Ponndorf--Verley 还原}是氢转移反应：异丙醇在异丙醇铝催化下把氢负转移给醛酮，自身变成丙酮：
+\[
+\mathrm{R^1R^2C=O}+\mathrm{(CH_3)_2CHOH}
+\xrightarrow{\mathrm{Al(OiPr)_3}}
+\mathrm{R^1R^2CHOH}+\mathrm{(CH_3)_2C=O}.
+\]
+它只还原羰基，不碰碳碳双键、酯、硝基，选择性比催化加氢好；反应可逆，逆过程（用丙酮氧化醇）叫 Oppenauer 氧化。
+
+\textbf{活泼金属的单电子还原}走另一条路。酮在镁汞齐、钠或低价钛（McMurry 反应）作用下得到一个电子，生成羰自由基（ketyl），两个自由基偶联即得邻二醇：
+\[
+2\,\mathrm{R^1R^2C=O}+2\mathrm{e^-}+2\mathrm{H^+}\longrightarrow
+\mathrm{R^1R^2C(OH){-}C(OH)R^1R^2}.
+\]
+这就是频哪醇偶联。分子内版本可以把二酮关成环状邻二醇，是构建环状骨架的一条捷径。
+
+\textbf{Cannizzaro 歧化}适用于没有 $\alpha$-氢的醛。浓碱中两分子醛发生氢负转移：一分子被氧化成羧酸盐，另一分子被还原成醇：
+\[
+2\,\mathrm{ArCHO}+\mathrm{OH^-}\longrightarrow
+\mathrm{ArCH_2OH}+\mathrm{ArCOO^-}.
+\]
+有 $\alpha$-氢的醛在同样条件下走羟醛缩合，轮不到歧化。交叉 Cannizzaro 中甲醛的羰基最活泼，总是被氧化成甲酸，另一种醛则被还原成醇，因此可以用来制备那些不易直接还原的醇。
+
+\subsection{$\alpha,\beta$-不饱和羰基：1,2-与 1,4-加成}
+
+$\alpha,\beta$-不饱和醛酮有两个亲电位点：羰基碳（1,2-位）与 $\beta$ 碳（1,4-位）。选择哪一个，取决于亲核试剂的“软硬”和反应条件。
+
+硬亲核试剂进攻羰基碳，给出烯丙醇。格氏试剂、有机锂试剂、\ce{LiAlH_4} 通常走 1,2-加成：
+\[
+\mathrm{R^1R^2C=CH{-}CHO}+\mathrm{R^3MgX}
+\longrightarrow \mathrm{R^1R^2C=CH{-}CH(OH)R^3}.
+\]
+软亲核试剂则加到 $\beta$ 碳上，双键移位、氧负离子质子化后得到饱和羰基化合物，这是共轭加成（1,4-加成）。烯醇负离子、硫醇与有机铜试剂属于这一类。
+
+有机锂试剂与铜锂试剂的分工正是软硬的体现。烷基锂（\ce{RLi}）是强而硬的碱/亲核体，对 $\alpha,\beta$-不饱和酮主要给 1,2-加成；二烷基铜锂（\ce{R_2CuLi}，Gilman 试剂）的铜碳键更共价、亲核性更软，专一地给 1,4-加成：
+\[
+\mathrm{R^1R^2C=CH{-}COR^3}+\mathrm{R_2CuLi}
+\longrightarrow \mathrm{R^1R^2CH{-}CHR{-}COR^3}\quad(\text{经烯醇互变}).
+\]
+铜锂试剂还能与酰氯偶联成酮，这是它另一项常用本领。
+
+还原也遵循同样的选择性。催化加氢（$\mathrm{H_2/Pd}$）优先还原碳碳双键，得到饱和醛酮；\ce{NaBH_4} 一般给 1,2-还原，得到烯丙醇；加入 \ce{CeCl_3} 的 Luche 还原把这一选择性推到近乎专一。若要只还原双键而保留羰基，就用催化氢化或 $\mathrm{Li/NH_3}$ 的溶解金属还原。
 
 \subsection{$\alpha$-氢的酸性：烯醇与烯醇负离子}
 
@@ -3335,6 +4307,34 @@ Michael 加成是烯醇负离子对 $\alpha,\beta$-不饱和羰基的共轭加�
 
 把 Michael 加成与羟醛缩合串起来，就是 Robinson 环化：先共轭加成，再分子内羟醛缩合，一步构建六元环。这是甾体合成的经典入口。
 
+\subsection{醇的卤代：三卤化磷与三氯氧磷}
+
+把醇的羟基换成卤素，最直接的一类试剂是磷的卤化物。三氯化磷与醇反应，磷先被醇氧进攻，生成烷氧基磷中间体，随后氯离子从背面进攻碳，按 $S_N2$ 机理取代羟基：
+\[
+3\,\mathrm{ROH}+\mathrm{PCl_3}\longrightarrow 3\,\mathrm{RCl}+\mathrm{H_3PO_3}.
+\]
+三溴化磷同理得到溴代烃。三氯氧磷（\ce{POCl_3}）也能完成同样的转化，副产物是磷酸：
+\[
+3\,\mathrm{ROH}+\mathrm{POCl_3}\longrightarrow 3\,\mathrm{RCl}+\mathrm{H_3PO_4}.
+\]
+实际操作中常加吡啶吸收生成的氯化氢。由于走 $S_N2$，伯醇反应干净且构型反转；仲醇变慢并可能伴随消除；叔醇几乎只消除，不宜用这类试剂，改用 $\mathrm{HCl/ZnCl_2}$。烯丙醇与苄醇容易走 $S_N1$，可能发生重排。与 \ce{SOCl_2} 相比，磷试剂不产生气体副产物，适合小规模或需要保留低沸点产物的场合；\ce{SOCl_2} 的好处是副产物 \ce{SO_2} 与 \ce{HCl} 都是气体，产物易于纯化。
+
+\subsection{频哪醇重排与 Beckmann 重排}
+
+频哪醇重排是邻二醇在酸催化下的骨架重排。以 2,3-二甲基-2,3-丁二醇为例，一个羟基质子化后以水离去，形成三级碳正离子；相邻碳上的甲基带着成键电子迁移过来，同时另一个氧的孤对电子形成羰基，去质子后得到 3,3-二甲基-2-丁酮（频哪酮）：
+\[
+\mathrm{(CH_3)_2C(OH){-}C(OH)(CH_3)_2}
+\xrightarrow{\mathrm{H^+}}
+\mathrm{(CH_3)_3C{-}CO{-}CH_3}+\mathrm{H_2O}.
+\]
+驱动力是生成稳定的羰基。不对称的邻二醇中，迁移能力强的基团优先迁移（芳基 $>$ 烷基），迁移基团的构型通常保持。立体电子要求是迁移基团与离去的羟基处于反式共平面，这一点与下面要讲的肟重排相同。
+
+Beckmann 重排把酮肟变成 $N$-取代酰胺：
+\[
+\mathrm{R^1C(R^2){=}NOH}\longrightarrow \mathrm{R^1CONHR^2}.
+\]
+酸（\ce{H_2SO_4}、\ce{PCl_5}、\ce{SOCl_2}、多聚磷酸）使羟基质子化并离去，与羟基处于反位的基团迁移到氮上，水再进攻碳，最后去质子得到酰胺。关键是\textbf{只有与羟基反位的基团才能迁移}，因此这个重排是立体专一的：肟的构型决定产物中酰基与氮上取代基的相对位置。环酮肟重排得到内酰胺，环己酮肟生成 $\varepsilon$-己内酰胺，后者开环聚合就是尼龙-6。若需要指定迁移基团，就先控制肟的 $E/Z$ 构型，再让反位基团迁移。
+
 
 
 \newpage
@@ -3343,6 +4343,7 @@ Michael 加成是烯醇负离子对 $\alpha,\beta$-不饱和羰基的共轭加�
 
 % ---- combo ch4_1 + ch10[4.2:] : 第四章：ch4_1（2026-11-06 19:59 最新改写的章首+4.1 人名反应）拼接 ch10 的 4.2 之后各节 ----
 
+\newpage
 \section{从反应到合成：人名反应、保护基与逆合成}
 
 下面按反应类型汇总《基础有机化学》（第 4 版）上册各章涉及的常用反应。每条反应以键线式画出反应物，向右分出多条箭头，每条箭头标出条件、指向对应产物，反应名紧随产物之后。同一条件下若有两种产物（如 1,2- 与 1,4-加成），一并写在箭头末端。实际使用时需按底物与保护基情况调整。
@@ -3412,6 +4413,13 @@ Michael 加成是烯醇负离子对 $\alpha,\beta$-不饱和羰基的共轭加�
 \node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{R-O-R'}};
 \draw[->] (a.east) -- (6.40,0) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{浓 HI，$\Delta$};
 \node[anchor=west,inner sep=1pt] at (6.50,0) {\chemfig[baseline=(current bounding box.center)]{R-OH}+\chemfig[baseline=(current bounding box.center)]{R'-I}\ （醚裂解）};
+\end{tikzpicture}\par\addvspace{3pt}
+\noindent\begin{tikzpicture}[baseline=0pt,x=1cm,y=1cm,font=\scriptsize]
+\node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30]-[:-30]OH}};
+\draw[->] (a.east) -- (6.40,1.35) node[pos=0.5,above,sloped,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{PCl_3}$ 或 $\mathrm{POCl_3}$};
+\node[anchor=west,inner sep=1pt] at (6.50,1.35) {\chemfig[baseline=(current bounding box.center)]{R-[:30]-[:-30]Cl}\ （卤代）};
+\draw[->] (a.east) -- (6.40,-1.35) node[pos=0.5,above,sloped,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{Swern 或 Dess-Martin};
+\node[anchor=west,inner sep=1pt] at (6.50,-1.35) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30]H}\ （温和氧化，停在醛）};
 \end{tikzpicture}\par\addvspace{3pt}
 
 \par\nopagebreak[4]\addvspace{7pt}\noindent\textbf{烯烃与炔烃（第八章）}\par\nopagebreak[4]\addvspace{2pt}
@@ -3491,6 +4499,31 @@ Michael 加成是烯醇负离子对 $\alpha,\beta$-不饱和羰基的共轭加�
 \node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{R-C~C-Na} + \chemfig[baseline=(current bounding box.center)]{R'-X}};
 \draw[->] (a.east) -- (6.40,0) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{无水};
 \node[anchor=west,inner sep=1pt] at (6.50,0) {\chemfig[baseline=(current bounding box.center)]{R-C~C-R'}+\ce{NaX}\ （炔基化）};
+\end{tikzpicture}\par\addvspace{3pt}
+
+\par\nopagebreak[4]\addvspace{7pt}\noindent\textbf{芳香族与酚（第九章）}\par\nopagebreak[4]\addvspace{2pt}
+\noindent\begin{tikzpicture}[baseline=0pt,x=1cm,y=1cm,font=\scriptsize]
+\node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{*6(=-=-=-)}};
+\draw[->] (a.east) -- (6.40,1.35) node[pos=0.5,above,sloped,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{Br_2}$，$\mathrm{FeBr_3}$};
+\node[anchor=west,inner sep=1pt] at (6.50,1.35) {\chemfig[baseline=(current bounding box.center)]{*6(=-=(-Br)-=-)}\ （亲电取代）};
+\draw[->] (a.east) -- (6.40,-1.35) node[pos=0.5,above,sloped,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{浓 $\mathrm{HNO_3}$，$\mathrm{H_2SO_4}$};
+\node[anchor=west,inner sep=1pt] at (6.50,-1.35) {\chemfig[baseline=(current bounding box.center)]{*6(=-=(-NO_2)-=-)}\ （硝化）};
+\end{tikzpicture}\par\addvspace{3pt}
+\noindent\begin{tikzpicture}[baseline=0pt,x=1cm,y=1cm,font=\scriptsize]
+\node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{*6(=-=(-OH)-=-)}};
+\draw (a.east) -- ++(0.45,0) coordinate (t);
+\draw ([yshift=2.60cm]t) -- ([yshift=-2.60cm]t);
+\draw[->] (t) ++(0,2.60) -- (6.40,2.60) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{溴水，室温};
+\node[anchor=west,inner sep=1pt] at (6.50,2.60) {2,4,6-三溴苯酚$\downarrow$（白色沉淀，检验）};
+\draw[->] (t) ++(0,0) -- (6.40,0) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{FeCl_3}$ 溶液};
+\node[anchor=west,inner sep=1pt] at (6.50,0) {显色（酚羟基检验）};
+\draw[->] (t) ++(0,-2.60) -- (6.40,-2.60) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{CHCl_3}$，$\mathrm{NaOH}$，$\Delta$};
+\node[anchor=west,inner sep=1pt] at (6.50,-2.60) {水杨醛（邻羟基苯甲醛，Reimer-Tiemann）};
+\end{tikzpicture}\par\addvspace{3pt}
+\noindent\begin{tikzpicture}[baseline=0pt,x=1cm,y=1cm,font=\scriptsize]
+\node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{*6(=-=(-ONa)-=-)}};
+\draw[->] (a.east) -- (6.40,0) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{CO_2}$，加压，$125^\circ$C，后酸化};
+\node[anchor=west,inner sep=1pt] at (6.50,0) {水杨酸（邻羟基苯甲酸，Kolbe-Schmitt）};
 \end{tikzpicture}\par\addvspace{3pt}
 
 \par\nopagebreak[4]\addvspace{7pt}\noindent\textbf{共轭加成与周环反应（第九章）}\par\nopagebreak[4]\addvspace{2pt}
@@ -3584,6 +4617,45 @@ Michael 加成是烯醇负离子对 $\alpha,\beta$-不饱和羰基的共轭加�
 \node[anchor=west,inner sep=1pt] at (6.50,1.35) {\chemfig[baseline=(current bounding box.center)]{{(CH_3)_3C}-[:30](=[:90]O)-[:-30]CH_3}+\ce{H_2O}\ （重排）};
 \draw[->] (a.east) -- (6.40,-1.35) node[pos=0.5,above,sloped,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{HIO_4}$ 或 $\mathrm{Pb(OAc)_4}$};
 \node[anchor=west,inner sep=1pt] at (6.50,-1.35) {\chemfig[baseline=(current bounding box.center)]{CH_3-[:30](=[:90]O)-[:-30]CH_3}$+$\chemfig[baseline=(current bounding box.center)]{CH_3-[:30](=[:90]O)-[:-30]CH_3}\ （氧化断裂）};
+\end{tikzpicture}\par\addvspace{3pt}
+\noindent\begin{tikzpicture}[baseline=0pt,x=1cm,y=1cm,font=\scriptsize]
+\node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30]H}};
+\draw[->] (a.east) -- (6.40,0) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{Fehling 试剂，$\Delta$};
+\node[anchor=west,inner sep=1pt] at (6.50,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30]O^{\ominus}}+\ce{Cu_2O}$\downarrow$\ （Fehling 氧化，酮不反应）};
+\end{tikzpicture}\par\addvspace{3pt}
+\noindent\begin{tikzpicture}[baseline=0pt,x=1cm,y=1cm,font=\scriptsize]
+\node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30]R}};
+\draw (a.east) -- ++(0.45,0) coordinate (t);
+\draw ([yshift=2.60cm]t) -- ([yshift=-2.60cm]t);
+\draw[->] (t) ++(0,2.60) -- (6.40,2.60) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{CF_3CO_3H}$ 或 mCPBA};
+\node[anchor=west,inner sep=1pt] at (6.50,2.60) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30]O-[:30]R'}\ （Baeyer-Villiger 氧化成酯）};
+\draw[->] (t) ++(0,0) -- (6.40,0) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{异丙醇，$\mathrm{Al(OiPr)_3}$};
+\node[anchor=west,inner sep=1pt] at (6.50,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30](-[::90]OH)-[:-30]R}\ （MPV 还原；逆反应为 Oppenauer 氧化）};
+\draw[->] (t) ++(0,-2.60) -- (6.40,-2.60) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{Mg-Hg 或低价 Ti};
+\node[anchor=west,inner sep=1pt] at (6.50,-2.60) {\chemfig[baseline=(current bounding box.center),atom sep=2.4em]{R-(-[::90]OH)(-[::-90]R)-(-[::-90]OH)(-[::90]R)-R}\ （频哪醇偶联）};
+\end{tikzpicture}\par\addvspace{3pt}
+\noindent\begin{tikzpicture}[baseline=0pt,x=1cm,y=1cm,font=\scriptsize]
+\node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30]=[:30]R}};
+\draw (a.east) -- ++(0.45,0) coordinate (t);
+\draw ([yshift=2.60cm]t) -- ([yshift=-2.60cm]t);
+\draw[->] (t) ++(0,2.60) -- (6.40,2.60) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{R'Li}$ 或 $\mathrm{R'MgX}$（硬）};
+\node[anchor=west,inner sep=1pt] at (6.50,2.60) {\chemfig[baseline=(current bounding box.center)]{R-[:30](-[::90]OH)(-[::-90]R')-[:-30]=[:30]R}\ （1,2-加成，烯丙醇）};
+\draw[->] (t) ++(0,0) -- (6.40,0) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{R'_2CuLi}$（软）};
+\node[anchor=west,inner sep=1pt] at (6.50,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30](-[::-90]R')-[:30]-[:-30]R}\ （1,4-加成，饱和酮）};
+\draw[->] (t) ++(0,-2.60) -- (6.40,-2.60) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{H_2/Pd}$ 或 $\mathrm{NaBH_4}$};
+\node[anchor=west,inner sep=1pt] at (6.50,-2.60) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30]-[:30]R} 或 \chemfig[baseline=(current bounding box.center)]{R-[:30](-[::90]OH)-[:-30]=[:30]R}\ （择一还原）};
+\end{tikzpicture}\par\addvspace{3pt}
+\noindent\begin{tikzpicture}[baseline=0pt,x=1cm,y=1cm,font=\scriptsize]
+\node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]N-OH)-[:-30]R}};
+\draw[->] (a.east) -- (6.40,0) node[pos=0.5,above,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{H_2SO_4}$ 或 $\mathrm{PCl_5}$};
+\node[anchor=west,inner sep=1pt] at (6.50,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30]NH-R}\ （Beckmann 重排，反位基团迁移）};
+\end{tikzpicture}\par\addvspace{3pt}
+\noindent\begin{tikzpicture}[baseline=0pt,x=1cm,y=1cm,font=\scriptsize]
+\node[anchor=west,inner sep=1pt] (a) at (0,0) {\chemfig[baseline=(current bounding box.center)]{R-[:30](=[:90]O)-[:-30]R}};
+\draw[->] (a.east) -- (6.40,1.35) node[pos=0.5,above,sloped,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{Ph_3P=CH_2}$};
+\node[anchor=west,inner sep=1pt] at (6.50,1.35) {\chemfig[baseline=(current bounding box.center)]{R-[:30](-[::90]R)-[:-30]=[:30]}\ （Wittig 反应，不稳定叶立德给 Z）};
+\draw[->] (a.east) -- (6.40,-1.35) node[pos=0.5,above,sloped,font=\tiny,fill=white,inner sep=1pt,yshift=2pt]{$\mathrm{(EtO)_2P(O)CH_2CO_2Et}$，碱};
+\node[anchor=west,inner sep=1pt] at (6.50,-1.35) {\chemfig[baseline=(current bounding box.center)]{R-[:30](-[::90]R)-[:-30]=[:30](-[::-90]CO_2Et)}\ （HWE，给 E）};
 \end{tikzpicture}\par\addvspace{3pt}
 
 \par\nopagebreak[4]\addvspace{7pt}\noindent\textbf{羧酸（第十一章）}\par\nopagebreak[4]\addvspace{2pt}
@@ -3694,6 +4766,7 @@ $\mathrm{NaBH_4}$ 与 $\mathrm{LiAlH_4}$ 都能把醛、酮还原为醇，两个
 
 前文建立了有机反应的语言与类型。这一章把工具装进工具箱：先给人名反应的速查与几条最常用的碳碳键构建方法，再讲官能团转换与保护基，然后进入逆合成分析，最后用波谱验证结构。学完这一章，面对一个目标分子，应该能说出“从哪切断、先装什么、后装什么、怎么证明做对了”。
 
+\newpage
 \section{人名反应速查}
 
 人名反应不是另一套知识，而是“某个条件组合下最好用的那个反应”的代号。下表按反应类型归类，只列合成上真正会被用到的那些。
@@ -3752,7 +4825,32 @@ Baeyer--Villiger & \ce{mCPBA} & 酯/内酯 & 重排 \\
 \schemestop
 \end{center}
 
-叶立德可以由膦盐加碱制得。稳定叶立德（带吸电子基）给出 E 型双键，不稳定叶立德给出 Z 型，这一点在合成天然产物时很关键。
+叶立德不是买来的，而是现场制备。三苯基膦与卤代烷发生 \ce{S_N2}，生成膦盐；再用强碱（\ce{NaH}、正丁基锂、醇钠）夺去与磷相邻的 $\alpha$-氢，就得到叶立德：
+\[\begin{gathered}
+\mathrm{Ph_3P + RCH_2X \longrightarrow [Ph_3PCH_2R]^+X^-},\\
+\mathrm{[Ph_3PCH_2R]^+X^- + B \longrightarrow Ph_3P{=}CHR + BH^+}.
+\end{gathered}\]
+与磷相邻的碳带正电，其 $\alpha$-氢酸性很强，这一步很容易进行。
+
+叶立德的性质由 $\alpha$-碳上的取代基决定，这直接决定产物双键的构型。带烷基或氢的叶立德不稳定，必须在低温下原位使用，反应活性高，与醛、酮都能反应，主要给 \textbf{Z} 型烯烃；带酯基、氰基、羰基的叶立德因吸电子基能离域负电荷而稳定，可以分离、可以久置，但活性低，通常只与醛反应，给 \textbf{E} 型烯烃；芳基、烯基取代的叶立德介于两者之间，产物是 E/Z 混合物，构型受溶剂与温度影响。
+
+\begin{table}[H]
+\centering
+\caption{三类 Wittig 试剂的反应性与立体选择性}
+\begin{tabularx}{\textwidth}{l l X l l l}
+\toprule
+类型 & $\alpha$-碳取代基 & 稳定性 & 与醛 & 与酮 & 主要构型 \\
+\midrule
+不稳定 & H、烷基 & 须低温原位制备 & 快 & 可反应 & Z \\
+半稳定 & 芳基、烯基 & 中等 & 快 & 慢 & E/Z 混合 \\
+稳定 & 酯基、氰基、羰基 & 可分离 & 可 & 基本不反应 & E \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+机理上，叶立德碳负离子先进攻羰基碳，形成甜菜碱，再关环成氧磷杂环丁烷，最后顺式消除三苯基氧膦（\ce{Ph_3PO}）释放双键。构型的来源就在这个四元环：不稳定叶立德关环不可逆，动力学控制，顺式消除给 Z；稳定叶立德关环可逆，热力学控制，给更稳定的 E。
+
+实用上有两个常用变体。Horner--Wadsworth--Emmons 反应用膦酸酯 \ce{(EtO)_2P(O)CH_2CO_2Et} 代替膦叶立德，与醛酮缩合给 E-$\alpha,\beta$-不饱和酯，副产物是水溶性磷酸盐，后处理比除去三苯基氧膦干净得多，工业上更常用。Schlosser 改良则针对不稳定叶立德：在低温下加入过量盐并让中间体平衡，可以把原本的 Z 选择性翻转为 E。合成天然产物时，先想清楚需要 E 还是 Z，再据此选叶立德类型，往往比事后分离异构体划算。
 
 \subsection{Mannich 反应与亚胺离子}
 
@@ -3830,6 +4928,7 @@ Mannich 产物加氢或消除后可以得到 $\gamma$-氨基醇或 $\alpha,\beta
 
 选择保护基的核心是“正交”：两个保护基的脱除条件不能重叠，否则脱一个会连带脱掉另一个。例如 Boc（酸敏）与 Fmoc（碱敏）可以共存，先脱哪个由加酸还是加碱决定。缩醛（酸敏）与 TBS（氟敏）也可以正交。
 
+\newpage
 \section{逆合成分析}
 
 \subsection{切断与合成子}
@@ -3892,6 +4991,7 @@ Mannich 产物加氢或消除后可以得到 $\gamma$-氨基醇或 $\alpha,\beta
 
 这条路线体现了逆合成的两个原则：一是“定位基的顺序要服从目标的位置关系”，二是“钝化基团最后引入”，否则后面的反应做不动。
 
+\newpage
 \section{波谱验证}
 
 合成做出来不等于结构对。确认结构靠四张谱：红外（官能团）、氢谱（氢的环境与数目）、碳谱（碳的种类）、质谱（分子量与碎片）。
@@ -3952,6 +5052,7 @@ Mannich 产物加氢或消除后可以得到 $\gamma$-氨基醇或 $\alpha,\beta
 
 四张谱要合起来看。红外告诉你“有什么基团”，氢谱告诉你“基团怎么连”，碳谱告诉你“一共有几种碳”，质谱告诉你“分子量是多少”。四者一致，结构才算确定。
 
+\newpage
 \section{本章小结}
 
 这一章把前面各节的语言与反应组装成一套工作方法：先用逆合成把目标分子切成熟悉的片段，再按“定位规则、活性阶梯、保护基正交”安排顺序，最后用波谱验证。
@@ -4003,19 +5104,19 @@ Mannich 产物加氢或消除后可以得到 $\gamma$-氨基醇或 $\alpha,\beta
 分析化学的结论最终都落在一个数字上，而这个数字永远带着不确定度。怎样描述误差、怎样从有限次测定中估计真值、怎样判断两组数据是否真的不同，是后面一切计算的前提。本节从最朴素的频数分布讲起，经正态分布走到 $t$ 分布，给出置信区间、显著性检验与可疑值的判据，最后落到有效数字的修约。
 
 设单次测定值为 $x_i$，真值为 $\mu$，则绝对误差与相对误差为
-\begin{equation}
+\[
 E=x_i-\mu,\qquad E_r=\frac{E}{\mu}\times100\%.
-\end{equation}
+\]
 真值在实践中不可知，通常用标准值（标准物质、标准方法）代替，或用多次测定的平均值 $\bar{x}$ 作估计。
 
 误差分为三类。系统误差（可定误差）在重复测定中方向一致、大小相近，来源包括方法误差、仪器误差、试剂误差、操作误差；它不能靠增加平行次数消除，只能通过校正、空白、对照实验或改进方法来消除。随机误差（偶然误差）大小方向随机，服从正态分布，可通过增加测定次数减小，但不能完全消除。过失误差由操作失误造成，含过失的数据必须剔除。
 
 精密度描述重复测定之间的一致程度，用偏差衡量：
-\begin{equation}
+\[
 s=\sqrt{\frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}},
 \qquad
 RSD=\frac{s}{\bar{x}}\times100\%.
-\end{equation}
+\]
 准确度描述测定值与真值的接近程度，用误差衡量。两者关系是：精密度高不一定准确度高（可能存在系统误差），准确度高必然要求精密度高。
 
 \subsection{随机误差的分布与置信区间}
@@ -4087,19 +5188,19 @@ RSD=\frac{s}{\bar{x}}\times100\%.
 把 $120$ 次重复测定按组距 $0.02$ 分成若干组，以测定值为横轴、频数为纵轴作直方图，得到图~\ref{fig:err-hist}中的阶梯轮廓。矩形高低参差，是因为每一次落进哪个组本身就是随机的；但如果把组距缩小、测定次数增多，锯齿会被逐渐磨平，轮廓趋于一条中间高、两边低的光滑曲线。这条曲线就是随机误差的概率密度曲线 $f(x)$：横轴上小区间 $(x,x+\mathrm{d}x)$ 内的曲线下面积，等于测定值落在该区间内的概率。连续型随机变量取某个确切值的概率为零，所以谈论随机误差只能说“落在某个区间里”。
 
 大量独立的随机因素叠加，结果服从正态分布（也称高斯分布，Gaussian distribution），其密度函数为
-\begin{equation}
+\[
 f(x)=\frac{1}{\sigma\sqrt{2\pi}}\exp\left[-\frac{(x-\mu)^2}{2\sigma^2}\right].
-\end{equation}
+\]
 式中两个参数各有明确含义。$\mu$ 是曲线的位置，等于测定次数趋于无穷时的平均值，也就是真值；$\sigma$ 是曲线的尺度，等于单次测定的总体标准差，描述数据的分散程度。$\sigma$ 越小，峰越高越窄，说明测定越精密；$\sigma$ 越大，峰越矮越宽。曲线在 $x=\mu\pm\sigma$ 处出现拐点，这是 $\sigma$ 作为“分散程度”最直观的几何解释。
 
 不同体系的 $\mu$ 与 $\sigma$ 各不相同，直接比较曲线形状很不方便。作变量代换
-\begin{equation}
+\[
 z=\frac{x-\mu}{\sigma},
-\end{equation}
+\]
 就把任意正态分布平移、缩放成同一个标准正态分布
-\begin{equation}
+\[
 \varphi(z)=\frac{1}{\sqrt{2\pi}}\mathrm{e}^{-z^2/2},
-\end{equation}
+\]
 它的中心在 $0$，标准差为 $1$，曲线下总面积为 $1$。$z$ 的绝对值有很直观的意思：它表示一个测定值偏离真值多少个 $\sigma$。
 
 \begin{figure}[H]
@@ -4155,9 +5256,9 @@ z=\frac{x-\mu}{\sigma},
 实际分析不可能测无穷次，$n$ 总是有限的，这时上面这套说法要打两个折扣。第一，$\sigma$ 不知道，只能用样本标准差 $s$ 代替。第二，平均值 $\bar{x}$ 本身也是随机变量：单次测定的标准差是 $\sigma$，$n$ 次平均值的标准差则是 $\sigma/\sqrt{n}$，称为标准误。它说明平均值比单次测定更稳定，稳定程度随 $\sqrt{n}$ 改善。如果 $\sigma$ 已知，统计量 $z=(\bar{x}-\mu)/(\sigma/\sqrt{n})$ 服从标准正态；可一旦分母换成 $s$，情况就变了——$s$ 本身随样本波动，$n$ 小时常常偏小，除出来的比值就会被系统性地放大，用 $1.96$ 作临界值会低估风险。
 
 这个问题由 $t$ 分布解决。$1908$ 年，Guinness 啤酒厂的统计师 William Sealy Gosset 因公司禁止员工发表论文，以“Student”为笔名在 \emph{Biometrika} 上发表了小样本均值的精确分布，后人便称之为 Student's $t$ 分布。统计量
-\begin{equation}
+\[
 t=\frac{\bar{x}-\mu}{s/\sqrt{n}}
-\end{equation}
+\]
 服从自由度为 $f=n-1$ 的 $t$ 分布。自由度少一个，是因为算 $s$ 之前先要用 $\bar{x}$：$n$ 个偏差 $x_i-\bar{x}$ 受 $\sum(x_i-\bar{x})=0$ 这一约束，知道其中 $n-1$ 个，最后一个就被定死了，真正能自由变动的只有 $n-1$ 个。
 
 \begin{figure}[H]
@@ -4253,15 +5354,15 @@ t=\frac{\bar{x}-\mu}{s/\sqrt{n}}
 如图~\ref{fig:err-t}，$t$ 分布与标准正态一样左右对称、单峰，但峰更低、尾部更厚，也就是出现较大偏差的概率比正态更大。自由度越小，尾巴越厚；$f=1$ 时它退化成柯西分布，尾部厚到连方差都不存在，此时用一次测定去估计 $\mu$ 基本没有意义。随着 $f$ 增大，$t$ 曲线从两侧向标准正态收拢，$f\to\infty$ 时完全重合。同样取双侧 $95\%$ 的临界值可以看到差距：$f=1$ 时 $t=12.706$，$f=5$ 时 $2.571$，$f=10$ 时 $2.228$，$f=30$ 时 $2.042$，而正态是 $1.960$。小样本要用大得多的临界值，才换得同样水平的把握。
 
 由此得到平均值的置信区间
-\begin{equation}
+\[
 \mu=\bar{x}\pm\frac{t_{f,P}\,s}{\sqrt{n}},
-\end{equation}
+\]
 其中 $t_{f,P}$ 是置信水平 $P$、自由度 $f$ 下的双侧 $t$ 值，由查表得到。分析化学教材的附表一般给出 $P=95\%$ 与 $P=99\%$ 两档，因为这两个水平最常用。
 
 举一个算例。对某标准样品平行测定 $5$ 次，得 $10.02$、$9.98$、$10.05$、$10.01$、$9.94$，算得 $\bar{x}=10.00$，$s=0.042$。取 $P=95\%$，自由度 $f=4$，查表得 $t=2.776$，于是
-\begin{equation}
+\[
 \mu=10.00\pm\frac{2.776\times0.042}{\sqrt{5}}=10.00\pm0.05.
-\end{equation}
+\]
 若图省事用正态的 $1.96$，区间只有 $\pm0.04$，看起来更“漂亮”，实际却把不确定性低估了近三成。小样本用 $t$ 而不是 $1.96$，差别正在这里。
 
 对置信区间的解释要格外小心。“$\mu$ 落在 $[\bar{x}-\Delta,\bar{x}+\Delta]$ 内的概率是 $95\%$”这句话并不严格：$\mu$ 是一个固定但未知的数，不随机；随机的是区间。正确的说法是，如果按同样的方法重复做很多批实验，每批给出一个区间，那么其中约 $95\%$ 的区间会覆盖 $\mu$。对已经算出的这一个区间，只能说“按这套构造方法，命中的概率是 $95\%$”，不能说“$\mu$ 有 $95\%$ 的概率在里面”。
@@ -4273,21 +5374,21 @@ t=\frac{\bar{x}-\mu}{s/\sqrt{n}}
 置信区间回答“$\mu$ 可能在哪里”，显著性检验回答另一个问题：“两组结果的差异，究竟是随机波动，还是确实存在系统误差”。两者的统计基础相同，都是 $t$ 分布。
 
 \textbf{$t$ 检验（平均值与标准值比较）}。用标准物质或标准方法得到真值 $\mu$，测得 $n$ 次结果的平均值 $\bar{x}$ 与 $s$，检验测定结果是否存在系统误差：
-\begin{equation}
+\[
 t=\frac{|\bar{x}-\mu|}{\dfrac{s}{\sqrt{n}}}.
-\end{equation}
+\]
 若 $t>t_{f,P}$ 则差异显著，说明存在系统误差；否则不能认为存在系统误差。注意后者不等于“证明没有系统误差”，只是现有数据不足以把它从随机波动里分辨出来。
 
 \textbf{$F$ 检验（两组精密度比较）}。先比较两组数据的方差：
-\begin{equation}
+\[
 F=\frac{s_1^2}{s_2^2}\quad(s_1^2>s_2^2),
-\end{equation}
+\]
 查 $F$ 表，若 $F>F_{(f_1,f_2),P}$ 则两组精密度有显著差异。只有方差无显著差异时，才可继续用合并方差做两组平均值的 $t$ 检验：
-\begin{equation}
+\[
 s_{\text{合}}^2=\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2},
 \qquad
 t=\frac{|\bar{x}_1-\bar{x}_2|}{s_{\text{合}}\sqrt{\dfrac{1}{n_1}+\dfrac{1}{n_2}}}.
-\end{equation}
+\]
 这里自由度是 $n_1+n_2-2$，道理与前面相同：两组各用一个平均值，各损失一个自由度。
 
 \subsection{可疑值的取舍：$Q$ 检验与 Grubbs 检验}
@@ -4295,15 +5396,15 @@ t=\frac{|\bar{x}_1-\bar{x}_2|}{s_{\text{合}}\sqrt{\dfrac{1}{n_1}+\dfrac{1}{n_2}
 前面用 $3\sigma$ 给离群值划了一条粗线，但实际数据只有几次，$\sigma$ 还得用带可疑值的 $s$ 来估，直接套 $3\sigma$ 既不准确也不公平。小样本有专门的判据。
 
 \textbf{$Q$ 检验}。将数据按大小排列，计算
-\begin{equation}
+\[
 Q=\frac{|x_{\text{疑}}-x_{\text{邻}}|}{x_{\max}-x_{\min}},
-\end{equation}
+\]
 若 $Q>Q_{\text{表}}$ 则舍去。$Q$ 检验只用到最大值、最小值与邻近值，计算极简，适用于 $n=3\sim10$ 的小样本；缺点是丢掉了其余数据的信息，$n$ 稍大就过于粗糙。
 
 \textbf{Grubbs 检验}适用于更大样本，统计量为
-\begin{equation}
+\[
 G=\frac{|x_{\text{疑}}-\bar{x}|}{s},
-\end{equation}
+\]
 超过临界值则舍去。它用到了全部数据的平均值与标准差，判别力比 $Q$ 检验强，但 $\bar{x}$ 与 $s$ 里本身掺着可疑值，样本越小，可疑值把 $s$ 撑大的效应越明显，所以也要按 $n$ 查表而不是拿固定的 $3$ 去比。
 
 注意：可疑值不能因为“看起来偏”就随手丢弃，必须先有统计判据；已被判为可疑的数据也应保留记录。多次出现离群值，往往说明方法本身存在问题，而不是数据偶然——这时要查的是方法，不是删数据。
@@ -4311,28 +5412,28 @@ G=\frac{|x_{\text{疑}}-\bar{x}|}{s},
 \subsection{回归与检出限}
 
 标准曲线用最小二乘法拟合 $y=a+bx$：
-\begin{equation}
+\[
 b=\frac{\sum(x_i-\bar{x})(y_i-\bar{y})}{\sum(x_i-\bar{x})^2},
 \qquad
 a=\bar{y}-b\bar{x},
-\end{equation}
+\]
 相关系数
-\begin{equation}
+\[
 r=\frac{\sum(x_i-\bar{x})(y_i-\bar{y})}
 {\sqrt{\sum(x_i-\bar{x})^2\sum(y_i-\bar{y})^2}}.
-\end{equation}
+\]
 检出限按空白测定的标准差估计：
-\begin{equation}
+\[
 L_{\mathrm{D}}=3s_{\text{空白}}\quad(\text{或}\ 3\sigma\text{ 对应的浓度}).
-\end{equation}
+\]
 定量限一般取 $10s_{\text{空白}}$。
 
 \subsection{有效数字}
 
 有效数字由全部可靠数字加一位可疑数字组成。加减法按小数点后位数最少者保留，乘除法按有效数字位数最少者保留。对数运算的有效数字位数由尾数决定：
-\begin{equation}
+\[
 \mathrm{pH}=-\lg a_{\mathrm{H^+}},
-\end{equation}
+\]
 若 $a_{\mathrm{H^+}}$ 有两位有效数字，则 $\mathrm{pH}$ 保留两位小数。
 
 首位数大于等于 8 时，有效数字可多计一位（如 $9.2$ 可看作三位）。计算过程中应多保留一位，最终结果再按规则修约，并采用“四舍六入五成双”的修约规则。
@@ -4344,6 +5445,7 @@ L_{\mathrm{D}}=3s_{\text{空白}}\quad(\text{或}\ 3\sigma\text{ 对应的浓度
 
 
 
+\newpage
 \section{水溶液 $\mathrm{pH}$ 的计算}
 
 $\mathrm{pH}$ 计算是第一章原理的直接应用：分布系数给出各形态的分数，守恒方程给出主变量满足的方程，条件常数把活度与副反应并入常数。这些原理连同推导已在原理部分讲完（分布系数\textsuperscript{[\pageref{sec:delta}]}、守恒方程组与质子平衡\textsuperscript{[\pageref{sec:balance}]}、活度与条件常数\textsuperscript{[\pageref{sec:activity}]}），本节不再重复，只按体系类型给出可用公式、适用条件与算例。
@@ -4353,25 +5455,24 @@ $\mathrm{pH}$ 计算是第一章原理的直接应用：分布系数给出各形
 \subsection{强酸强碱与极稀溶液}
 
 对浓度为 $c$ 的强酸，质子平衡为
-\begin{equation}
+\[
 [\mathrm{H^+}]=c+[\mathrm{OH^-}]=c+\frac{K_{\mathrm{w}}}{[\mathrm{H^+}]}.
-\end{equation}
+\]
 整理得
-\begin{equation}
+\[
 [\mathrm{H^+}]^2-c[\mathrm{H^+}]-K_{\mathrm{w}}=0,
-\end{equation}
+\]
 故
-\begin{equation}
+\[
 [\mathrm{H^+}]=\frac{c+\sqrt{c^2+4K_{\mathrm{w}}}}{2}.
-\label{eq:strong-acid}
-\end{equation}
+\]
 当 $c\gg\sqrt{K_{\mathrm{w}}}=10^{-7}$ 时退化为 $[\mathrm{H^+}]\approx c$。
 
 \textbf{例}：$2.0\times10^{-7}\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{HCl}$。
-\begin{equation}
+\[
 [\mathrm{H^+}]=\frac{2.0\times10^{-7}+\sqrt{4.0\times10^{-14}+4.0\times10^{-14}}}{2}
 =2.4\times10^{-7},
-\end{equation}
+\]
 $\mathrm{pH}=6.62$。若直接取 $[\mathrm{H^+}]=c$，会得到 $\mathrm{pH}=6.70$，误差 0.08 个单位——在极稀溶液中，水的电离不能忽略。
 
 强碱完全对称：把 $c$ 换成 $c_{\mathrm{OH}}$，先求 $[\mathrm{OH^-}]$，再由 $K_{\mathrm{w}}$ 得 $[\mathrm{H^+}]$。
@@ -4381,29 +5482,27 @@ $\mathrm{pH}=6.62$。若直接取 $[\mathrm{H^+}]=c$，会得到 $\mathrm{pH}=6.
 \subsubsection{精确式与近似式}
 
 对一元弱酸 $\mathrm{HA}$，质子平衡为 $[\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}]$，代入分布系数得精确三次方程
-\begin{equation}
+\[
 [\mathrm{H^+}]^3+K_{\mathrm{a}}[\mathrm{H^+}]^2-(K_{\mathrm{a}}c+K_{\mathrm{w}})[\mathrm{H^+}]-K_{\mathrm{a}}K_{\mathrm{w}}=0.
-\end{equation}
+\]
 实际计算按两级近似：
 
 \textbf{第一级（忽略水的电离）}：当 $cK_{\mathrm{a}}\ge10K_{\mathrm{w}}$ 时，$[\mathrm{OH^-}]$ 可略，得
-\begin{equation}
+\[
 [\mathrm{H^+}]=\sqrt{K_{\mathrm{a}}([\mathrm{HA}])}
 =\sqrt{K_{\mathrm{a}}(c-[\mathrm{H^+}])},
-\end{equation}
+\]
 即
-\begin{equation}
+\[
 [\mathrm{H^+}]^2+K_{\mathrm{a}}[\mathrm{H^+}]-K_{\mathrm{a}}c=0,
 \qquad
 [\mathrm{H^+}]=\frac{-K_{\mathrm{a}}+\sqrt{K_{\mathrm{a}}^2+4K_{\mathrm{a}}c}}{2}.
-\label{eq:weak-acid-quadratic}
-\end{equation}
+\]
 
 \textbf{第二级（再忽略解离消耗）}：当 $c/K_{\mathrm{a}}\ge100$（解离度小于约 $5\%$）时，$[\mathrm{HA}]\approx c$，得最简式
-\begin{equation}
+\[
 [\mathrm{H^+}]\approx\sqrt{K_{\mathrm{a}}c}.
-\label{eq:weak-acid-simple}
-\end{equation}
+\]
 
 \begin{table}[H]
 \centering
@@ -4421,93 +5520,91 @@ $\mathrm{pH}=6.62$。若直接取 $[\mathrm{H^+}]=c$，会得到 $\mathrm{pH}=6.
 
 \textbf{例}：$0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{HAc}$，$K_{\mathrm{a}}=1.8\times10^{-5}$。
 $cK_{\mathrm{a}}=1.8\times10^{-6}\ge10K_{\mathrm{w}}$，$c/K_{\mathrm{a}}=5.6\times10^{3}\ge100$，用最简式
-\begin{equation}
+\[
 [\mathrm{H^+}]=\sqrt{1.8\times10^{-5}\times0.10}=1.34\times10^{-3},
 \qquad
 \mathrm{pH}=2.87.
-\end{equation}
+\]
 
 \subsubsection{弱碱}
 
 弱碱 $\mathrm{B}$ 用 $K_{\mathrm{b}}$ 算 $[\mathrm{OH^-}]$：
-\begin{equation}
+\[
 [\mathrm{OH^-}]\approx\sqrt{K_{\mathrm{b}}c},
 \qquad
 \mathrm{pH}=14-\mathrm{pOH}.
-\end{equation}
+\]
 也可以统一用共轭酸的 $K_{\mathrm{a}}=K_{\mathrm{w}}/K_{\mathrm{b}}$ 直接算 $[\mathrm{H^+}]$。两种写法等价，但必须前后一致，不能一半用 $K_{\mathrm{a}}$、一半用 $K_{\mathrm{b}}$。
 
 \textbf{例}：$0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{NH_3}$，$K_{\mathrm{b}}=1.8\times10^{-5}$。
-\begin{equation}
+\[
 [\mathrm{OH^-}]=\sqrt{1.8\times10^{-5}\times0.10}=1.34\times10^{-3},
 \qquad
 \mathrm{pOH}=2.87,\quad \mathrm{pH}=11.13.
-\end{equation}
+\]
 
 \subsection{多元酸、酸式盐与氨基酸}
 
 \subsubsection{多元酸}
 
 以二元酸 $\mathrm{H_2B}$ 为例，质子平衡为
-\begin{equation}
+\[
 [\mathrm{H^+}]=[\mathrm{HB^-}]+2[\mathrm{B^{2-}}]+[\mathrm{OH^-}].
-\end{equation}
+\]
 能否按一元酸处理，要看两个条件：
 \begin{enumerate}
   \item 第一级解离足够强，水的电离可略：$K_{\mathrm{a1}}c\ge10K_{\mathrm{w}}$；
   \item 第二级解离足够弱：$\dfrac{K_{\mathrm{a2}}}{\sqrt{K_{\mathrm{a1}}c}}<0.05$（即第二级贡献小于约 $5\%$）。
 \end{enumerate}
 两条都满足时，
-\begin{equation}
+\[
 [\mathrm{H^+}]\approx\sqrt{K_{\mathrm{a1}}c}.
-\end{equation}
+\]
 
 \textbf{例}：饱和 $\mathrm{H_2CO_3}$ 溶液，$c=0.040\ \mathrm{mol\cdot L^{-1}}$，$K_{\mathrm{a1}}=4.2\times10^{-7}$，$K_{\mathrm{a2}}=5.6\times10^{-11}$。
-\begin{equation}
+\[
 K_{\mathrm{a1}}c=1.7\times10^{-8}\gg10K_{\mathrm{w}},\qquad
 \frac{K_{\mathrm{a2}}}{\sqrt{K_{\mathrm{a1}}c}}=0.0043<0.05,
-\end{equation}
+\]
 故
-\begin{equation}
+\[
 [\mathrm{H^+}]=\sqrt{4.2\times10^{-7}\times0.040}=1.3\times10^{-4},
 \qquad
 \mathrm{pH}=3.89.
-\end{equation}
+\]
 
 \subsubsection{两性物质（酸式盐）}
 
 对 $\mathrm{NaHA}$ 溶液，零水准取 $\mathrm{HA^-}$ 与水，质子平衡为
-\begin{equation}
+\[
 [\mathrm{H^+}]+[\mathrm{H_2A}]=[\mathrm{A^{2-}}]+[\mathrm{OH^-}].
-\end{equation}
+\]
 代入平衡常数，得精确式
-\begin{equation}
+\[
 [\mathrm{H^+}]=\sqrt{\frac{K_{\mathrm{a1}}\left(K_{\mathrm{a2}}[\mathrm{HA^-}]+K_{\mathrm{w}}\right)}{K_{\mathrm{a1}}+[\mathrm{HA^-}]}}.
-\label{eq:amphiprotic-exact}
-\end{equation}
+\]
 当 $[\mathrm{HA^-}]\approx c$ 且 $K_{\mathrm{a2}}c\gg K_{\mathrm{w}}$、$c\gg K_{\mathrm{a1}}$ 时，退化为最简式
-\begin{equation}
+\[
 [\mathrm{H^+}]=\sqrt{K_{\mathrm{a1}}K_{\mathrm{a2}}},
 \qquad
 \mathrm{pH}=\frac{1}{2}\left(\mathrm{p}K_{\mathrm{a1}}+\mathrm{p}K_{\mathrm{a2}}\right).
-\label{eq:amphiprotic-simple}
-\end{equation}
+\]
 
 这个结果值得记：酸式盐的 $\mathrm{pH}$ 几乎与浓度无关，只由两级 $K_{\mathrm{a}}$ 的几何平均决定。原因是一边水解、一边电离，两个方向相互抵消，浓度对两边的影响同阶。
 
 \textbf{例}：$0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{NaHCO_3}$。
-\begin{equation}
+\[
 [\mathrm{H^+}]=\sqrt{4.2\times10^{-7}\times5.6\times10^{-11}}=4.85\times10^{-9},
 \qquad
 \mathrm{pH}=8.31.
-\end{equation}
+\]
 
 \subsubsection{氨基酸与等电点}
 
 氨基酸同时含羧基（酸性）与氨基（碱性），是典型的两性物质。以甘氨酸为例，存在三种形态 $\mathrm{H_2A^+}$、$\mathrm{HA}$、$\mathrm{A^-}$。等电点定义为净电荷为零时的 $\mathrm{pH}$：
-\begin{equation}
+\[
 \mathrm{p}I=\frac{1}{2}\left(\mathrm{p}K_{\mathrm{a1}}+\mathrm{p}K_{\mathrm{a2}}\right).
-\end{equation}
+\]
 在 $\mathrm{p}I$ 处，氨基酸以两性离子 $\mathrm{HA}$ 为主，溶解度最小，电泳迁移率为零。这是等电聚焦与蛋白质纯化的基础。
 
 注意：酸式盐的最简式与等电点公式形式相同，但物理含义不同——前者是“酸式根同时电离和水解”，后者是“正负电荷恰好抵消”。二者恰好同构，是因为都对应“两侧各失/得一个质子的中点”。
@@ -4523,13 +5620,13 @@ K_{\mathrm{a1}}c=1.7\times10^{-8}\gg10K_{\mathrm{w}},\qquad
 \subsubsection{精确计算式}
 
 设 \(\mathrm{HA}\) 与 \(\mathrm{A^-}\) 的形式浓度分别为 \(C_{\mathrm{HA}}\)、\(C_{\mathrm{A^-}}\)。以 \(\mathrm{HA}\) 与 \(\mathrm{NaA}\) 配制的缓冲溶液为例，物料平衡给出总浓度，电荷平衡给出
-\begin{equation}
+\[
   [\mathrm{A^-}]=C_{\mathrm{A^-}}+[\mathrm{H^+}]-[\mathrm{OH^-}],
   \qquad
   [\mathrm{HA}]=C_{\mathrm{HA}}-[\mathrm{H^+}]+[\mathrm{OH^-}],
-\end{equation}
+\]
 代入 \(K_a=[\mathrm{H^+}][\mathrm{A^-}]/[\mathrm{HA}]\) 即得
-\begin{equation}
+\[
   [\mathrm{H^+}]
   =
   K_a
@@ -4537,42 +5634,39 @@ K_{\mathrm{a1}}c=1.7\times10^{-8}\gg10K_{\mathrm{w}},\qquad
        {C_{\mathrm{A^-}}+[\mathrm{H^+}]-[\mathrm{OH^-}]},
   \qquad
   [\mathrm{OH^-}]=\frac{K_w}{[\mathrm{H^+}]}.
-  \label{eq:exact-acid-buffer}
-\end{equation}
+\]
 这是关于 \([\mathrm{H^+}]\) 的三次方程，一般需迭代或数值求解；解出 \([\mathrm{H^+}]\) 后取 \(\mathrm{pH}=-\lg[\mathrm{H^+}]\)。
 
 \subsubsection{条件约化：Henderson--Hasselbalch 近似}
 
-当 \(C_{\mathrm{HA}},C_{\mathrm{A^-}}\gg[\mathrm{H^+}],[\mathrm{OH^-}]\) 时，式 \eqref{eq:exact-acid-buffer} 中的修正项可以略去，\([\mathrm{HA}]\approx C_{\mathrm{HA}}\)、\([\mathrm{A^-}]\approx C_{\mathrm{A^-}}\)，于是
-\begin{equation}
+当 \(C_{\mathrm{HA}},C_{\mathrm{A^-}}\gg[\mathrm{H^+}],[\mathrm{OH^-}]\) 时，式 上述精确式 中的修正项可以略去，\([\mathrm{HA}]\approx C_{\mathrm{HA}}\)、\([\mathrm{A^-}]\approx C_{\mathrm{A^-}}\)，于是
+\[
   \mathrm{pH}
   = \mathrm{p}K_a+\lg\frac{[\mathrm{A^-}]}{[\mathrm{HA}]}
   \approx \mathrm{p}K_a+\lg\frac{C_{\mathrm{A^-}}}{C_{\mathrm{HA}}}.
-  \label{eq:HH-acid}
-\end{equation}
+\]
 弱碱 \(\mathrm{B}\) 与其共轭酸 \(\mathrm{BH^+}\) 组成的缓冲溶液形式完全相同，只需把 \(\mathrm{p}K_a\) 换成共轭酸的 \(\mathrm{p}K_a\)；多元酸的缓冲体系以主导的缓冲对为准，照样套用。该近似的适用条件量化为
-\begin{equation}
+\[
   C_{\mathrm{HA}},C_{\mathrm{A^-}} \gg [\mathrm{H^+}],[\mathrm{OH^-}],
   \qquad
   0.1 \leq \frac{C_{\mathrm{A^-}}}{C_{\mathrm{HA}}} \leq 10.
-\end{equation}
+\]
 
 在离子强度较大时需要考虑活度\textsuperscript{[\pageref{sec:activity}]}，则
-\begin{equation}
+\[
   \mathrm{pH}
   = \mathrm{p}K_a
   + \lg\frac{a_{\mathrm{A^-}}}{a_{\mathrm{HA}}}
   = \mathrm{p}K_a
   + \lg\frac{\gamma_{\mathrm{A^-}}C_{\mathrm{A^-}}}
               {\gamma_{\mathrm{HA}}C_{\mathrm{HA}}},
-  \label{eq:HH-activity}
-\end{equation}
+\]
 其中 \(\gamma\) 为活度系数。
 
 \subsubsection{缓冲容量}
 
 一元弱酸缓冲体系的缓冲容量为
-\begin{equation}
+\[
   \beta
   =
   \frac{\mathrm{d}C_b}{\mathrm{d}\,\mathrm{pH}}
@@ -4585,14 +5679,13 @@ K_{\mathrm{a1}}c=1.7\times10^{-8}\gg10K_{\mathrm{w}},\qquad
     \frac{C_T K_a[\mathrm{H^+}]}
          {\left(K_a+[\mathrm{H^+}]\right)^2}
   \right),
-  \label{eq:buffer-capacity}
-\end{equation}
+\]
 其中 \(C_T\) 为缓冲对的总分析浓度。当
-\begin{equation}
+\[
   \mathrm{pH}\approx \mathrm{p}K_a,
   \qquad
   \frac{C_{\mathrm{A^-}}}{C_{\mathrm{HA}}}\approx 1
-\end{equation}
+\]
 时，缓冲容量最大。
 
 \subsubsection{实用算法}
@@ -4612,19 +5705,18 @@ K_{\mathrm{a1}}c=1.7\times10^{-8}\gg10K_{\mathrm{w}},\qquad
 \subsubsection{缓冲范围与体系设计}
 
 缓冲比 $0.1\le C_{\mathrm{A^-}}/C_{\mathrm{HA}}\le10$ 给出的可用区间是
-\begin{equation}
+\[
 \mathrm{pH}=\mathrm{p}K_{\mathrm{a}}\pm1 .
-\label{eq:buffer-range}
-\end{equation}
+\]
 超出这个界限，少的那一方在加入少量强酸或强碱后就基本耗尽，缓冲能力急剧下降。但这只是“别太偏”的经验界限，真正的定量指标是缓冲容量 $\beta$。
 
 设计一个缓冲溶液按三步走：
 \begin{enumerate}
   \item 由目标 $\mathrm{pH}$ 选缓冲对：$\mathrm{p}K_{\mathrm{a}}$ 必须落在 $[\mathrm{pH}-1,\mathrm{pH}+1]$ 内，越靠近 $\mathrm{pH}$ 越好，此时 $\beta$ 取极大；
-  \item 由式 \eqref{eq:HH-acid} 反算浓度比，$C_{\mathrm{A^-}}/C_{\mathrm{HA}}=10^{\mathrm{pH}-\mathrm{p}K_{\mathrm{a}}}$；
+  \item 由式 上式 反算浓度比，$C_{\mathrm{A^-}}/C_{\mathrm{HA}}=10^{\mathrm{pH}-\mathrm{p}K_{\mathrm{a}}}$；
   \item 按所需 $\beta$ 定总浓度 $C_T$：$\mathrm{pH}\approx\mathrm{p}K_{\mathrm{a}}$ 时 $\beta_{\max}\approx0.576\,C_T$，故 $C_T\approx\beta/0.576$。
 \end{enumerate}
-总浓度通常取 $0.05\sim0.5\ \mathrm{mol\cdot L^{-1}}$。太低则容量不足；太高则离子强度大、活度系数偏离 1，按浓度算出的 $\mathrm{pH}$ 会系统性偏离，此时应改用式 \eqref{eq:HH-activity} 做活度校正。
+总浓度通常取 $0.05\sim0.5\ \mathrm{mol\cdot L^{-1}}$。太低则容量不足；太高则离子强度大、活度系数偏离 1，按浓度算出的 $\mathrm{pH}$ 会系统性偏离，此时应改用式 含活度的修正式 做活度校正。
 
 \begin{table}[H]
 \centering
@@ -4644,9 +5736,9 @@ Tris/TrisH$^+$ & $7.0\sim9.0$ & 生化常用，$\mathrm{p}K_{\mathrm{a}}$ 温度
 \end{table}
 
 \textbf{例}：$0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{HAc}$ 与 $0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{NaAc}$ 等体积混合，$\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}=4.74$。加入少量强酸，使酸形式增至 $0.11$、碱形式降至 $0.09$（同体积下的相对值），则
-\begin{equation}
+\[
 \mathrm{pH}=4.74+\lg\frac{0.09}{0.11}=4.65,
-\end{equation}
+\]
 只变化 0.09 个单位。把同样量的酸加进纯水，$\mathrm{pH}$ 会从 7 直落至 2 附近。反过来加碱，变化同样被压在 0.1 个单位以内——这就是缓冲对 $\mathrm{HA}$、$\mathrm{A^-}$ 两支“此消彼长”的定量含义。
 
 \textbf{血液缓冲}：血浆的主导缓冲对是 $\mathrm{H_2CO_3/HCO_3^-}$，正常 $\mathrm{pH}=7.40$，$[\mathrm{HCO_3^-}]/[\mathrm{H_2CO_3}]\approx20:1$，与表观 $\mathrm{p}K_{\mathrm{a}}'=6.1$ 自洽。更关键的是它是一个\textbf{开放体系}：$\mathrm{CO_2}$ 由肺排出、$\mathrm{HCO_3^-}$ 由肾调节，因此实际缓冲容量远超同浓度的封闭体系。这说明缓冲能力不只取决于 $\beta$ 的公式，还取决于体系能否把某一组分移走。
@@ -4656,17 +5748,17 @@ Tris/TrisH$^+$ & $7.0\sim9.0$ & 生化常用，$\mathrm{p}K_{\mathrm{a}}$ 温度
 \subsubsection{两种弱酸的混合}
 
 若 $\mathrm{HA}$ 与 $\mathrm{HB}$ 都很弱且浓度较大，两者的解离互相抑制，可分别按各自浓度计算，再叠加：
-\begin{equation}
+\[
 [\mathrm{H^+}]=\sqrt{K_{\mathrm{HA}}c_{\mathrm{HA}}+K_{\mathrm{HB}}c_{\mathrm{HB}}}.
-\end{equation}
+\]
 这个式子隐含“两种酸都几乎不解离”的假设；若其中一种酸较强，应改用精确式或迭代。
 
 \subsubsection{弱酸与弱碱的混合}
 
 若 $\mathrm{HA}$ 与 $\mathrm{B}$ 的浓度都较大、且酸碱性都较弱，二者之间的中和可略，质子平衡近似为 $[\mathrm{HB^+}]\approx[\mathrm{A^-}]$，由此得
-\begin{equation}
+\[
 [\mathrm{H^+}]=\sqrt{\frac{c_{\mathrm{HA}}}{c_{\mathrm{B}}}K_{\mathrm{HA}}K_{\mathrm{HB}}},
-\end{equation}
+\]
 其中 $K_{\mathrm{HB}}=K_{\mathrm{w}}/K_{\mathrm{b,B}}$ 是共轭酸的酸常数。
 
 必须注意：这个公式只在“弱酸与弱碱不发生显著反应”时成立。若 $\mathrm{HA}$ 与 $\mathrm{B}$ 的 $\mathrm{p}K_{\mathrm{a}}$ 相差较大，二者会大量中和，溶液应按“反应后的产物组成”重新计算，而不是套这个公式。例如 $\mathrm{HAc}$ 与 $\mathrm{NH_3}$ 混合，应视为 $\mathrm{NH_4Ac}$ 溶液或 $\mathrm{NH_4Ac}$ 与过量组分的混合物。
@@ -4680,31 +5772,29 @@ Tris/TrisH$^+$ & $7.0\sim9.0$ & 生化常用，$\mathrm{p}K_{\mathrm{a}}$ 温度
 
 
 \paragraph{精确方程} 以一元弱酸为例，把 $\delta_{\mathrm{HA}}$ 代入质子平衡 $[\mathrm{H^+}]=[\mathrm{A^-}]+[\mathrm{OH^-}]$，得到关于 $[\mathrm{H^+}]$ 的三次方程
-\begin{equation}
+\[
 [\mathrm{H^+}]^3+K_{\mathrm{a}}[\mathrm{H^+}]^2-(K_{\mathrm{a}}c+K_{\mathrm{w}})[\mathrm{H^+}]-K_{\mathrm{a}}K_{\mathrm{w}}=0.
-\label{eq:cubic-mono}
-\end{equation}
+\]
 二元酸对应四次方程，$n$ 元酸对应 $n+2$ 次方程。解析求根不现实，也没必要——分析化学的精度要求通常只有 $1\%\sim5\%$，近似式配合回代检验就够；真正需要精确值时用数值迭代。
 
-\paragraph{不动点迭代} 把式 \eqref{eq:cubic-mono} 改写成 $[\mathrm{H^+}]=F([\mathrm{H^+}])$ 的形式：
-\begin{equation}
+\paragraph{不动点迭代} 把式 上式 改写成 $[\mathrm{H^+}]=F([\mathrm{H^+}])$ 的形式：
+\[
 [\mathrm{H^+}]_{k+1}
 =\sqrt{K_{\mathrm{a}}c\,\delta_{\mathrm{HA}}([\mathrm{H^+}]_k)+K_{\mathrm{w}}}
 =\sqrt{K_{\mathrm{a}}c\frac{[\mathrm{H^+}]_k}{[\mathrm{H^+}]_k+K_{\mathrm{a}}}+K_{\mathrm{w}}}.
-\label{eq:fixedpoint}
-\end{equation}
+\]
 从 $[\mathrm{H^+}]_0=\sqrt{K_{\mathrm{a}}c}$ 出发，迭代到相邻两次结果的相对偏差小于 $10^{-4}$ 为止。收敛条件是 $|F'(x)|<1$。这个格式的收敛速度是线性的：每次迭代误差约缩小一个固定倍数，初值取得好时十几次即可。
 
 \paragraph{Newton 法} 若要求更快收敛，令
-\begin{equation}
+\[
 f(x)=x^3+K_{\mathrm{a}}x^2-(K_{\mathrm{a}}c+K_{\mathrm{w}})x-K_{\mathrm{a}}K_{\mathrm{w}},
-\end{equation}
+\]
 则
-\begin{equation}
+\[
 x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)},
 \qquad
 f'(x)=3x^2+2K_{\mathrm{a}}x-(K_{\mathrm{a}}c+K_{\mathrm{w}}).
-\end{equation}
+\]
 Newton 法在根附近二阶收敛，通常 4 到 6 次迭代即可达到 $10^{-8}$ 精度。代价是每步要算导数，且初值太差时可能发散。
 
 \paragraph{数值实现的三条实践规则}
@@ -4720,17 +5810,17 @@ Newton 法在根附近二阶收敛，通常 4 到 6 次迭代即可达到 $10^{-
 对数浓度图（Sillén 图）把 $\lg c_i$ 对 $\mathrm{pH}$ 作图。它的价值在于：每条物种线在远离交点处都是直线，斜率只取整数，于是“谁大谁小、能否忽略”一眼可见。
 
 以总浓度 $c$ 的一元酸为例。水的两条线是
-\begin{equation}
+\[
 \lg[\mathrm{H^+}]=-\mathrm{pH},
 \qquad
 \lg[\mathrm{OH^-}]=\mathrm{pH}-14,
-\end{equation}
+\]
 斜率分别为 $-1$ 与 $+1$。酸的两种形态为
-\begin{equation}
+\[
 \lg[\mathrm{HA}]=\lg c+\lg\delta_{\mathrm{HA}},
 \qquad
 \lg[\mathrm{A^-}]=\lg c+\lg\delta_{\mathrm{A^-}}.
-\end{equation}
+\]
 当 $\mathrm{pH}\ll\mathrm{p}K_{\mathrm{a}}$ 时 $\delta_{\mathrm{HA}}\approx1$，$\lg[\mathrm{HA}]\approx\lg c$（水平线），而 $\lg[\mathrm{A^-}]\approx\lg c+\mathrm{pH}-\mathrm{p}K_{\mathrm{a}}$（斜率 $+1$）；当 $\mathrm{pH}\gg\mathrm{p}K_{\mathrm{a}}$ 时两者互换。两条线在 $\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}$ 处相交，交点纵坐标为 $\lg c-0.30$。
 
 \begin{figure}[H]
@@ -4810,11 +5900,11 @@ Lewis 酸碱还可以按“硬软”再分一层：硬酸电荷密度高、极�
 \subsubsection{水解方程}
 
 金属水合离子在水中是酸：
-\begin{equation}
+\[
 [\mathrm{M(H_2O)_6}]^{n+}\rightleftharpoons[\mathrm{M(OH)(H_2O)_5}]^{(n-1)+}+\mathrm{H^+},
 \qquad
 K_{\mathrm{h1}}=\frac{[\mathrm{M(OH)}^{(n-1)+}][\mathrm{H^+}]}{[\mathrm{M^{n+}}]}.
-\end{equation}
+\]
 形式上这就是一元弱酸的电离，$K_{\mathrm{h1}}$ 就是酸常数。水解的推动力是金属离子的高电荷密度：它把配位水分子的电子云拉向自己，使 O--H 键极化，质子容易离去。
 
 \begin{table}[H]
@@ -4838,63 +5928,62 @@ $\mathrm{Pb^{2+}}$ & $\approx7.8$ & $\mathrm{Mg^{2+}}$ & $\approx11.4$ \\
 \subsubsection{金属盐溶液的 $\mathrm{pH}$}
 
 既然水解就是弱酸电离，前面所有一元弱酸的公式都可以直接搬过来：
-\begin{equation}
+\[
 [\mathrm{H^+}]\approx\sqrt{K_{\mathrm{h1}}c}
 \quad\left(cK_{\mathrm{h1}}\ge10K_{\mathrm{w}},\ \frac{c}{K_{\mathrm{h1}}}\ge100\right).
-\end{equation}
+\]
 
 \textbf{例}：$0.010\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{FeCl_3}$，$K_{\mathrm{h1}}=10^{-2.2}=6.3\times10^{-3}$。
 这里 $c/K_{\mathrm{h1}}=1.6<100$，不能用最简式，改用近似式
-\begin{equation}
+\[
 [\mathrm{H^+}]=\frac{-6.3\times10^{-3}+\sqrt{(6.3\times10^{-3})^2+4\times6.3\times10^{-3}\times0.010}}{2}
 =5.4\times10^{-3},
-\end{equation}
+\]
 $\mathrm{pH}=2.27$。也就是说，$0.01\ \mathrm{mol\cdot L^{-1}}$ 的 $\mathrm{FeCl_3}$ 溶液中有超过一半的 $\mathrm{Fe^{3+}}$ 已经水解，溶液 $\mathrm{pH}$ 只有 2 左右。这解释了为什么配制 $\mathrm{Fe^{3+}}$ 标准溶液必须加酸抑制水解。
 
 \subsubsection{多级水解、羟桥聚合与沉淀}
 
 高价离子不止一级水解：
-\begin{equation}
+\[
 \mathrm{Fe^{3+}}\xrightarrow{\mathrm{OH^-}}\mathrm{Fe(OH)^{2+}}\xrightarrow{\mathrm{OH^-}}\mathrm{Fe(OH)_2^+}\xrightarrow{\mathrm{OH^-}}\mathrm{Fe(OH)_3\downarrow}.
-\end{equation}
+\]
 中间产物还会通过羟桥聚合：
-\begin{equation}
+\[
 2\mathrm{Fe(OH)^{2+}}\rightleftharpoons[\mathrm{Fe_2(OH)_2}]^{4+},
-\end{equation}
+\]
 形成多核配合物，最终长成胶体或沉淀。这就是为什么 $\mathrm{Fe^{3+}}$、$\mathrm{Al^{3+}}$ 溶液久置会变浑、加热会加快——温度促进水解与聚合。
 
 开始沉淀的 $\mathrm{pH}$ 由溶度积决定：
-\begin{equation}
+\[
 [\mathrm{OH^-}]=\left(\frac{K_{\mathrm{sp}}}{[\mathrm{M^{n+}}]}\right)^{1/n},
 \qquad
 \mathrm{pH}=14-\mathrm{pOH}.
-\end{equation}
+\]
 例如 $0.010\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{Fe^{3+}}$，$K_{\mathrm{sp}}(\mathrm{Fe(OH)_3})\approx4\times10^{-38}$：
-\begin{equation}
+\[
 [\mathrm{OH^-}]=\left(\frac{4\times10^{-38}}{0.010}\right)^{1/3}=1.6\times10^{-12},
 \qquad
 \mathrm{pH}=2.2.
-\end{equation}
+\]
 这解释了为什么分析化学中常用“调 $\mathrm{pH}$ 至 2 以上”来沉淀 $\mathrm{Fe(OH)_3}$ 除铁——它几乎在酸性条件下就已沉淀完全。
 
 \subsubsection{两性金属与 $\mathrm{pH}$ 窗口}
 
 $\mathrm{Al^{3+}}$、$\mathrm{Zn^{2+}}$、$\mathrm{Cr^{3+}}$、$\mathrm{Pb^{2+}}$ 的氢氧化物是两性的：既能溶于酸，也能溶于强碱生成羟基配离子。
-\begin{align}
+\[\begin{aligned}
 \mathrm{Al(OH)_3}+ \mathrm{OH^-} &\rightleftharpoons [\mathrm{Al(OH)_4}]^-, \\
 \mathrm{Zn(OH)_2}+2\mathrm{OH^-} &\rightleftharpoons [\mathrm{Zn(OH)_4}]^{2-}, \\
 \mathrm{Cr(OH)_3}+\mathrm{OH^-} &\rightleftharpoons [\mathrm{Cr(OH)_4}]^-.
-\end{align}
+\end{aligned}\]
 
 设金属离子电荷为 $n$，羟基配离子为 $\mathrm{M(OH)_4^{4-n}}$，则总溶解度可写成
-\begin{equation}
+\[
 S=\frac{K_{\mathrm{sp}}}{[\mathrm{OH^-}]^{n}}+\beta_4\frac{K_{\mathrm{sp}}}{[\mathrm{OH^-}]^{n}}[\mathrm{OH^-}]^4.
-\label{eq:amphoteric-S}
-\end{equation}
+\]
 第一项是游离金属离子，第二项是羟基配离子。前者随 $\mathrm{pH}$ 升高而减小，后者随 $\mathrm{pH}$ 升高而增大，因此 $S$ 关于 $\mathrm{pH}$ 是一条 U 形曲线，存在一个溶解度最低点。令 $\mathrm{d}S/\mathrm{d}[\mathrm{OH^-}]=0$，得
-\begin{equation}
+\[
 [\mathrm{OH^-}]_{\min}=\left(\frac{n}{(4-n)\beta_4}\right)^{1/4}.
-\end{equation}
+\]
 
 对 $\mathrm{Zn^{2+}}$（$n=2$，$\lg\beta_4\approx15.5$），$[\mathrm{OH^-}]_{\min}\approx4\times10^{-4}$，$\mathrm{pH}_{\min}\approx10.6$；对 $\mathrm{Al^{3+}}$（$n=3$，$\lg\beta_4\approx33$），$[\mathrm{OH^-}]_{\min}\approx7\times10^{-9}$，$\mathrm{pH}_{\min}\approx5.8$。这与实验事实一致：$\mathrm{Al(OH)_3}$ 在弱酸性到中性附近沉淀最完全，$\mathrm{Zn(OH)_2}$ 在弱碱性附近沉淀最完全；碱再浓，两者都会重新溶解。
 
@@ -4903,16 +5992,15 @@ S=\frac{K_{\mathrm{sp}}}{[\mathrm{OH^-}]^{n}}+\beta_4\frac{K_{\mathrm{sp}}}{[\ma
 \subsubsection{硫化物沉淀的 $\mathrm{pH}$ 控制}
 
 硫化氢是二元弱酸，饱和溶液浓度约 $0.10\ \mathrm{mol\cdot L^{-1}}$，$K_{\mathrm{a1}}=1.0\times10^{-7}$，$K_{\mathrm{a2}}=1.3\times10^{-13}$。溶液中 $\mathrm{S^{2-}}$ 的浓度由分布系数给出：
-\begin{equation}
+\[
 [\mathrm{S^{2-}}]=c_{\mathrm{H_2S}}\,\delta_{\mathrm{S^{2-}}}
 =\frac{c_{\mathrm{H_2S}}K_{\mathrm{a1}}K_{\mathrm{a2}}}{[\mathrm{H^+}]^2+K_{\mathrm{a1}}[\mathrm{H^+}]+K_{\mathrm{a1}}K_{\mathrm{a2}}}.
-\label{eq:sulfide}
-\end{equation}
+\]
 金属硫化物沉淀的条件是
-\begin{equation}
+\[
 [\mathrm{M^{2+}}][\mathrm{S^{2-}}]\ge K_{\mathrm{sp}}.
-\end{equation}
-把式 \eqref{eq:sulfide} 代入，即可解出“开始沉淀的 $\mathrm{pH}$”。取 $[\mathrm{M^{2+}}]=0.10\ \mathrm{mol\cdot L^{-1}}$，计算结果如下表。
+\]
+把式 上式 代入，即可解出“开始沉淀的 $\mathrm{pH}$”。取 $[\mathrm{M^{2+}}]=0.10\ \mathrm{mol\cdot L^{-1}}$，计算结果如下表。
 
 \begin{table}[H]
 \centering
@@ -4937,23 +6025,23 @@ $\mathrm{MnS}$ & $2\times10^{-13}$ & 约 $4.6$ & 锰组 \\
 \subsubsection{配位掩蔽与条件常数}
 
 当溶液中同时存在配体 $\mathrm{L}$ 时，金属离子的游离浓度被压低：
-\begin{equation}
+\[
 [\mathrm{M^{n+}}]=\frac{c_{\mathrm{M}}}{\alpha_{\mathrm{M(L)}}}.
-\end{equation}
+\]
 于是沉淀条件变为
-\begin{equation}
+\[
 \frac{c_{\mathrm{M}}}{\alpha_{\mathrm{M(L)}}}[\mathrm{A^-}]\ge K_{\mathrm{sp}},
-\end{equation}
+\]
 即
-\begin{equation}
+\[
 c_{\mathrm{M}}[\mathrm{A^-}]\ge K_{\mathrm{sp}}\alpha_{\mathrm{M(L)}}=K_{\mathrm{sp}}'.
-\end{equation}
+\]
 配位掩蔽提高了“表观溶度积”，使本来会沉淀的离子留在溶液中。这正是配位滴定中“掩蔽干扰离子”的定量依据：加入掩蔽剂，把干扰离子的 $\alpha_{\mathrm{M}}$ 抬高，使 $K_{\mathrm{sp}}'$ 大到位移出沉淀区。
 
 同理，在配位滴定中
-\begin{equation}
+\[
 K'_{\mathrm{MY}}=\frac{K_{\mathrm{MY}}}{\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}}},
-\end{equation}
+\]
 掩蔽剂提高了 $\alpha_{\mathrm{M}}$，反而降低了主反应的 $K'$。所以掩蔽必须“选择性地作用于干扰离子”，不能把待测离子也一起掩蔽掉——这就是掩蔽剂选择性的重要性。
 
 \subsection{综合算例：从一元弱酸到沉淀}
@@ -4987,15 +6075,15 @@ K'_{\mathrm{MY}}=\frac{K_{\mathrm{MY}}}{\alpha_{\mathrm{M}}\alpha_{\mathrm{Y}}},
 \subsubsection{算例一：铵盐溶液}
 
 求 $0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{NH_4Cl}$ 的 $\mathrm{pH}$。$\mathrm{NH_4^+}$ 是弱酸，
-\begin{equation}
+\[
 K_{\mathrm{a}}=\frac{K_{\mathrm{w}}}{K_{\mathrm{b}}}=\frac{1.0\times10^{-14}}{1.8\times10^{-5}}=5.6\times10^{-10}.
-\end{equation}
+\]
 检验：$cK_{\mathrm{a}}=5.6\times10^{-11}\ge10K_{\mathrm{w}}=1.0\times10^{-13}$，$c/K_{\mathrm{a}}=1.8\times10^{8}\ge100$。两条都满足，用最简式
-\begin{equation}
+\[
 [\mathrm{H^+}]=\sqrt{5.6\times10^{-10}\times0.10}=7.5\times10^{-6},
 \qquad
 \mathrm{pH}=5.12.
-\end{equation}
+\]
 
 \subsubsection{算例二：缓冲溶液的抗酸碱能力}
 
@@ -5004,49 +6092,49 @@ $0.10\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{HAc}$ 与 $0.10\ \mathrm{mol\cdot L^{-
 初始：$\mathrm{pH}=\mathrm{p}K_{\mathrm{a}}=4.74$。
 
 加入 $\mathrm{HCl}$ 后，$\mathrm{H^+}$ 与 $\mathrm{Ac^-}$ 反应，物质的量变为
-\begin{equation}
+\[
 n_{\mathrm{HAc}}=5.0+1.0=6.0\ \mathrm{mmol},\qquad
 n_{\mathrm{Ac^-}}=5.0-1.0=4.0\ \mathrm{mmol}.
-\end{equation}
+\]
 总体积近似不变，故
-\begin{equation}
+\[
 \mathrm{pH}=4.74+\lg\frac{4.0}{6.0}=4.56.
-\end{equation}
+\]
 只变化 0.18 个单位。若同样的 $\mathrm{HCl}$ 加入 $100\ \mathrm{mL}$ 纯水，$\mathrm{pH}$ 会降到约 2。
 
 \subsubsection{算例三：金属盐的沉淀 $\mathrm{pH}$}
 
 求 $0.010\ \mathrm{mol\cdot L^{-1}}$ $\mathrm{AlCl_3}$ 开始沉淀 $\mathrm{Al(OH)_3}$ 的 $\mathrm{pH}$，$K_{\mathrm{sp}}=1.3\times10^{-33}$。
-\begin{equation}
+\[
 [\mathrm{OH^-}]=\left(\frac{1.3\times10^{-33}}{0.010}\right)^{1/3}=5.1\times10^{-11},
 \qquad
 \mathrm{pOH}=10.29,\quad \mathrm{pH}=3.71.
-\end{equation}
+\]
 注意此时 $\mathrm{Al^{3+}}$ 本身的水解（$\mathrm{p}K_{\mathrm{h1}}\approx5.0$）也已相当显著，实际沉淀 $\mathrm{pH}$ 会略低，且受羟桥聚合影响。严格计算需要把水解平衡与溶度积联立，这正是流程图第 5、6 步的用武之地。
 
 \subsubsection{算例四：硫化物分组的 $\mathrm{pH}$ 窗口}
 
-由式 \eqref{eq:sulfide} 与 $K_{\mathrm{sp}}$ 求 $\mathrm{FeS}$ 开始沉淀的 $\mathrm{pH}$。取 $[\mathrm{Fe^{2+}}]=0.10$，$[\mathrm{S^{2-}}]=K_{\mathrm{sp}}/0.10=6\times10^{-18}$。在高 $\mathrm{pH}$ 区可近似 $\delta_{\mathrm{S^{2-}}}\approx K_{\mathrm{a1}}K_{\mathrm{a2}}/[\mathrm{H^+}]^2$，于是
-\begin{equation}
+由式 上式 与 $K_{\mathrm{sp}}$ 求 $\mathrm{FeS}$ 开始沉淀的 $\mathrm{pH}$。取 $[\mathrm{Fe^{2+}}]=0.10$，$[\mathrm{S^{2-}}]=K_{\mathrm{sp}}/0.10=6\times10^{-18}$。在高 $\mathrm{pH}$ 区可近似 $\delta_{\mathrm{S^{2-}}}\approx K_{\mathrm{a1}}K_{\mathrm{a2}}/[\mathrm{H^+}]^2$，于是
+\[
 [\mathrm{S^{2-}}]\approx\frac{0.10\times1.3\times10^{-20}}{[\mathrm{H^+}]^2}=6\times10^{-18},
-\end{equation}
+\]
 解得 $[\mathrm{H^+}]=4.7\times10^{-3}$，$\mathrm{pH}\approx2.3$。这就是“$\mathrm{FeS}$ 在弱酸性到中性才沉淀”的定量说法；同理可算出 $\mathrm{MnS}$ 需 $\mathrm{pH}\approx4.6$，而 $\mathrm{CuS}$、$\mathrm{CdS}$ 在强酸中即可沉淀。
 \newpage
 
 
 % ---- chunk ch12 : 第四章 分析化学：滴定准确度（含 ch11_4 滴定分析 7/10 段，为超集，故不并入 ch11_4） ----
 
+\newpage
 \section{反应完全度与准确滴定判据}
 
 主反应的完全度决定滴定能否准确进行。设计量点时主反应物的分析浓度为 $c_{\mathrm{sp}}$，条件常数为 $K'$，则未反应部分的比例约为
-\begin{equation}
+\[
 \frac{[\mathrm{A}]_{\mathrm{sp}}}{c_{\mathrm{sp}}}\approx\frac{1}{\sqrt{c_{\mathrm{sp}}K'}}.
-\end{equation}
+\]
 若要求终点误差不超过 $0.1\%$，需要
-\begin{equation}
+\[
 c_{\mathrm{sp}}K'\ge10^{6}.
-\label{eq:criterion}
-\end{equation}
+\]
 这是一条通用的数量级判据：只要条件常数与浓度的乘积达到 $10^6$，主反应就“基本进行完全”，可以准确滴定。
 
 \begin{table}[H]
@@ -5064,44 +6152,53 @@ c_{\mathrm{sp}}K'\ge10^{6}.
 \end{tabular}
 \end{table}
 
-酸碱判据的来源可以这样看：$cK_{\mathrm{a}}\ge10^{-8}$ 等价于 $c(K_{\mathrm{a}}/K_{\mathrm{w}})\ge10^{6}$，即 $cK_t\ge10^{6}$，与式 \eqref{eq:criterion} 完全一致。四类滴定的判据形式不同，内核是同一条。
+酸碱判据的来源可以这样看：$cK_{\mathrm{a}}\ge10^{-8}$ 等价于 $c(K_{\mathrm{a}}/K_{\mathrm{w}})\ge10^{6}$，即 $cK_t\ge10^{6}$，与式 上述判据 完全一致。四类滴定的判据形式不同，内核是同一条。
 
-\section{滴定曲线方程}
+\newpage
+\section{路易斯酸与路易斯碱的中和滴定}
+\label{sec:lewis-titration}
 
 滴定曲线描述主变量随滴定分数 $f$ 的变化。$f$ 定义为
-\begin{equation}
+\[
 f=\frac{c_{\mathrm{B}}V_{\mathrm{B}}}{c_{\mathrm{A}}V_{\mathrm{A}}},
-\end{equation}
+\]
 即“实际加入的滴定剂物质的量 / 按计量关系所需的量”。
+
+酸碱滴定、配位滴定与沉淀滴定看似处理不同的化学，实际上都是路易斯酸碱中和：酸是电子对接受体，碱是电子对给体，二者结合即中和。三者只是在“电子对以什么形式交出”上有所区别：
+\begin{itemize}
+  \item \textbf{酸碱滴定}：滴定剂给出或接受质子。质子是典型的路易斯酸，$\mathrm{OH^-}$、$\mathrm{Ac^-}$、$\mathrm{NH_3}$ 等是路易斯碱，主反应是质子在中和。
+  \item \textbf{配位滴定}：金属离子是路易斯酸，$\mathrm{EDTA}$、$\mathrm{NH_3}$ 等配体是路易斯碱，主反应是配位键的生成，可看作电子对被金属离子“取走”。
+  \item \textbf{沉淀滴定}：$\mathrm{Ag^+}$ 等金属离子与卤离子结合成难溶盐，本质仍是路易斯酸与路易斯碱的加合，只是加合物不溶于水。
+\end{itemize}
+三类滴定的曲线都由同一组守恒方程出发，只是主变量分别取 $\mathrm{pH}$、$\mathrm{pM}$ 与 $\mathrm{pAg}$。氧化还原滴定转移的是电子而不是电子对，中和的对象不同，单独成节。
 
 \subsection{酸碱滴定}
 
 以强碱滴定弱酸 $\mathrm{HA}$ 为例。混合后酸的总分析浓度为 $c_{\mathrm{A}}$，碱的总分析浓度为 $c_{\mathrm{B}}$。电荷平衡为
-\begin{equation}
+\[
 [\mathrm{H^+}]+c_{\mathrm{B}}=[\mathrm{A^-}]+[\mathrm{OH^-}],
-\end{equation}
+\]
 代入 $[\mathrm{A^-}]=c_{\mathrm{A}}\delta_{\mathrm{A^-}}$，得精确的滴定曲线方程
-\begin{equation}
+\[
 [\mathrm{H^+}]+c_{\mathrm{B}}
 =c_{\mathrm{A}}\frac{K_{\mathrm{a}}}{[\mathrm{H^+}]+K_{\mathrm{a}}}+\frac{K_{\mathrm{w}}}{[\mathrm{H^+}]}.
-\label{eq:titration-curve}
-\end{equation}
+\]
 给定 $f$（从而给定 $c_{\mathrm{A}}$、$c_{\mathrm{B}}$），解这个方程即得该点的 $\mathrm{pH}$。
 
 曲线分三段：
 \begin{itemize}
   \item \textbf{滴定前与初期}：$f$ 小，$[\mathrm{H^+}]\approx\sqrt{K_{\mathrm{a}}c_{\mathrm{A}}}$，曲线平缓。
   \item \textbf{缓冲区}：$0.1<f<0.9$，$c_{\mathrm{B}}$ 与 $c_{\mathrm{A}}$ 同时存在，近似满足
-  \begin{equation}
+  \[
   \mathrm{pH}\approx\mathrm{p}K_{\mathrm{a}}+\lg\frac{f}{1-f},
-  \end{equation}
+  \]
   这就是 Henderson--Hasselbalch 式在滴定中的形式。
   \item \textbf{计量点附近}：$f\approx1$，曲线陡升，形成突跃。计量点 $\mathrm{pH}$ 由水解决定：
-  \begin{equation}
+  \[
   [\mathrm{OH^-}]\approx\sqrt{\frac{K_{\mathrm{w}}}{K_{\mathrm{a}}}c_{\mathrm{sp}}},
   \qquad
   \mathrm{pH}_{\mathrm{sp}}=7+\frac{1}{2}\mathrm{p}K_{\mathrm{a}}+\frac{1}{2}\lg c_{\mathrm{sp}}.
-  \end{equation}
+  \]
 \end{itemize}
 
 突跃范围由条件常数与浓度决定：$cK_t$ 越大，计量点附近 $\mathrm{pH}$ 变化越剧烈，可选指示剂越多。这就是为什么“弱酸太弱不能准确滴定”——不是因为反应不动，而是因为突跃太短，指示剂无处可站。
@@ -5109,33 +6206,114 @@ f=\frac{c_{\mathrm{B}}V_{\mathrm{B}}}{c_{\mathrm{A}}V_{\mathrm{A}}},
 \subsection{配位滴定}
 
 对 $\mathrm{M}+\mathrm{Y}\rightleftharpoons\mathrm{MY}$，由条件稳定常数与物料平衡可得
-\begin{equation}
+\[
 K'_{\mathrm{MY}}=\frac{[\mathrm{MY}]}{[\mathrm{M}][\mathrm{Y}]},
 \qquad
 c_{\mathrm{M}}=[\mathrm{M}]+[\mathrm{MY}],
 \qquad
 c_{\mathrm{Y}}=[\mathrm{Y}]+[\mathrm{MY}].
-\end{equation}
+\]
 滴定分数 $f=c_{\mathrm{Y}}/c_{\mathrm{M}}$。计量点前 $\mathrm{M}$ 过量，计量点后 $\mathrm{Y}$ 过量，曲线的纵坐标用 $\mathrm{pM}$ 表示：
-\begin{equation}
+\[
 \mathrm{pM}=\lg\frac{1}{[\mathrm{M}]}.
-\end{equation}
+\]
 计量点时 $c_{\mathrm{M}}=c_{\mathrm{Y}}=c_{\mathrm{sp}}$，且 $[\mathrm{M}]\approx[\mathrm{Y}]$，故
-\begin{equation}
+\[
 \mathrm{pM}_{\mathrm{sp}}=\frac{1}{2}\left(\lg K'_{\mathrm{MY}}+\lg c_{\mathrm{sp}}\right).
-\end{equation}
+\]
 这个式子把“条件常数越大、浓度越高，突跃越大”写得非常清楚。
 
-\subsection{氧化还原滴定}
+\subsection{沉淀滴定}
+
+以 $\mathrm{AgNO_3}$ 滴定 $\mathrm{Cl^-}$ 为例，纵坐标为 $\mathrm{pAg}$ 或 $\mathrm{pCl}$，计量点前由过量的 $\mathrm{Cl^-}$ 控制：
+\[
+[\mathrm{Ag^+}]=\frac{K_{\mathrm{sp}}(\mathrm{AgCl})}{[\mathrm{Cl^-}]},
+\]
+计量点后由过量的 $\mathrm{Ag^+}$ 直接给出 $\mathrm{pAg}$；计量点时
+\[
+[\mathrm{Ag^+}]_{\mathrm{sp}}=[\mathrm{Cl^-}]_{\mathrm{sp}}=\sqrt{K_{\mathrm{sp}}}.
+\]
+$K_{\mathrm{sp}}$ 越小、浓度越高，突跃越大。这与配位滴定的判据同源：反应的“条件常数”在这里就是 $1/K_{\mathrm{sp}}$。
+
+银量法的难点不在主反应，而在如何指示终点。按指示方式分为三类：莫尔法用生成有色沉淀的指示剂，弗尔哈德法用变色指示剂配合返滴定，法扬斯法用吸附指示剂。
+
+\subsubsection{莫尔法：铬酸钾指示剂}
+
+莫尔法用 $\mathrm{K_2CrO_4}$ 指示 $\mathrm{AgNO_3}$ 直接滴定 $\mathrm{Cl^-}$ 或 $\mathrm{Br^-}$。$\mathrm{AgCl}$ 先沉淀，待 $\mathrm{Ag^+}$ 稍过量，$\mathrm{CrO_4^{2-}}$ 才析出砖红色的 $\mathrm{Ag_2CrO_4}$：
+\[
+\mathrm{Ag^+}+\mathrm{Cl^-}\longrightarrow\mathrm{AgCl}\downarrow\quad(\text{先}),
+\qquad
+2\mathrm{Ag^+}+\mathrm{CrO_4^{2-}}\longrightarrow\mathrm{Ag_2CrO_4}\downarrow\quad(\text{后}).
+\]
+指示剂浓度由两个溶度积直接算出。计量点时 $[\mathrm{Ag^+}]=\sqrt{K_{\mathrm{sp}}(\mathrm{AgCl})}\approx1.3\times10^{-5}\ \mathrm{mol\cdot L^{-1}}$，要让 $\mathrm{Ag_2CrO_4}$ 恰好在此刻饱和，需要
+\[
+[\mathrm{CrO_4^{2-}}]=\frac{K_{\mathrm{sp}}(\mathrm{Ag_2CrO_4})}{[\mathrm{Ag^+}]^2}
+\approx\frac{1.1\times10^{-12}}{1.8\times10^{-10}}\approx6\times10^{-3}\ \mathrm{mol\cdot L^{-1}}.
+\]
+实际取 $0.002\sim0.005\ \mathrm{mol\cdot L^{-1}}$，终点时 $\mathrm{Ag^+}$ 略有超额，终点稍滞后于计量点，由此带来的正误差约在 $0.1\%$ 量级。
+
+适用条件有两条边界。酸度过高，$\mathrm{CrO_4^{2-}}$ 质子化为 $\mathrm{HCrO_4^-}$，有效指示剂浓度下降，终点滞后；碱度过高，$\mathrm{Ag^+}$ 以 $\mathrm{Ag_2O}$ 沉淀析出。因此控制 $\mathrm{pH}=6.5\sim10.5$。氨会与 $\mathrm{Ag^+}$ 生成 $[\mathrm{Ag(NH_3)_2}]^+$，降低游离 $\mathrm{Ag^+}$，也不允许。$\mathrm{I^-}$、$\mathrm{SCN^-}$ 被沉淀强烈吸附，终点变色不明显且严重提前，不能用莫尔法测定。
+
+\subsubsection{弗尔哈德法：返滴定与铁铵矾指示剂}
+
+弗尔哈德法先加入过量的 $\mathrm{AgNO_3}$ 标准溶液，把待测离子沉淀完全，再用 $\mathrm{NH_4SCN}$ 标准溶液回滴剩余的 $\mathrm{Ag^+}$。指示剂是铁铵矾中的 $\mathrm{Fe^{3+}}$，终点时生成红色的硫氰酸铁配合物：
+\[
+\mathrm{Ag^+}+\mathrm{SCN^-}\longrightarrow\mathrm{AgSCN}\downarrow,
+\qquad
+\mathrm{Fe^{3+}}+\mathrm{SCN^-}\rightleftharpoons[\mathrm{Fe(SCN)}]^{2+}\ (\text{红}).
+\]
+前者 $K_{\mathrm{sp}}(\mathrm{AgSCN})\approx1.0\times10^{-12}$，后者条件常数约 $10^2$，故 $\mathrm{SCN^-}$ 先与 $\mathrm{Ag^+}$ 反应，$\mathrm{Ag^+}$ 耗尽后才与 $\mathrm{Fe^{3+}}$ 显色。为让红色足够明显，$\mathrm{Fe^{3+}}$ 需保持 $0.01\sim0.02\ \mathrm{mol\cdot L^{-1}}$。
+
+滴定必须在硝酸酸性介质中进行：$\mathrm{Fe^{3+}}$ 在近中性溶液中水解成红棕色羟合物，掩盖终点；碱性更强时还会沉淀。硝酸同时避免了 $\mathrm{Cl^-}$ 等阴离子的干扰。由于是返滴定，方法可用于 $\mathrm{Cl^-}$、$\mathrm{Br^-}$、$\mathrm{I^-}$、$\mathrm{SCN^-}$，也可直接测定 $\mathrm{Ag^+}$。
+
+测定 $\mathrm{Cl^-}$ 时有一个特有问题。$K_{\mathrm{sp}}(\mathrm{AgCl})\approx1.8\times10^{-10}$ 大于 $K_{\mathrm{sp}}(\mathrm{AgSCN})$，回滴的 $\mathrm{SCN^-}$ 会把已生成的 $\mathrm{AgCl}$ 转化为 $\mathrm{AgSCN}$：
+\[
+\mathrm{AgCl}\downarrow+\mathrm{SCN^-}\longrightarrow\mathrm{AgSCN}\downarrow+\mathrm{Cl^-}.
+\]
+这一转化消耗滴定剂，使终点拖后甚至无法判断。解决办法是加入硝基苯（或邻苯二甲酸二丁酯），把 $\mathrm{AgCl}$ 沉淀包裹起来，隔绝 $\mathrm{SCN^-}$ 与它的接触；也可改用莫尔法测 $\mathrm{Cl^-}$、用弗尔哈德法测其余离子。$\mathrm{Br^-}$、$\mathrm{I^-}$ 的银盐溶解度更小，不存在这一转化。测 $\mathrm{I^-}$ 时还需注意 $\mathrm{Fe^{3+}}$ 能氧化 $\mathrm{I^-}$，因此应先加入过量 $\mathrm{AgNO_3}$ 把 $\mathrm{I^-}$ 沉淀，再加指示剂。
+
+\subsubsection{法扬斯法：吸附指示剂}
+
+法扬斯法利用沉淀表面电荷在计量点前后的反转。以 $\mathrm{AgNO_3}$ 滴定 $\mathrm{Cl^-}$、用荧光黄（$\mathrm{HFl}$，阴离子型指示剂）为例：
+
+计量点前 $\mathrm{Cl^-}$ 过量，$\mathrm{AgCl}$ 沉淀优先吸附 $\mathrm{Cl^-}$ 而带负电，同性相斥，荧光黄阴离子留在溶液中，不显色；计量点后 $\mathrm{Ag^+}$ 稍过量，沉淀转而吸附 $\mathrm{Ag^+}$ 带正电，把荧光黄阴离子吸附到表面，指示剂由黄绿色变为粉红色：
+\[
+(\mathrm{AgCl})_{\text{表面}}\cdot\mathrm{Ag^+}+\mathrm{Fl^-}\longrightarrow(\mathrm{AgCl})_{\text{表面}}\cdot\mathrm{AgFl}\ (\text{粉红}).
+\]
+变色发生在沉淀表面，因此沉淀必须保持高度分散、比表面大。操作中加入糊精或明胶作保护胶体，防止沉淀凝聚；避免强光直射，防止卤化银分解变色；电解质浓度不能太高，否则压缩双电层、削弱吸附，终点变色迟钝。
+
+指示剂的选择由沉淀的吸附能力与溶液的 $\mathrm{pH}$ 共同决定。荧光黄适用于 $\mathrm{pH}=7\sim10$ 时测 $\mathrm{Cl^-}$、$\mathrm{Br^-}$；二氯荧光黄酸性更强，可在 $\mathrm{pH}=4\sim10$ 使用；曙红（四溴荧光黄）在 $\mathrm{pH}=2\sim10$ 均可用，但吸附过强，只适合测 $\mathrm{Br^-}$、$\mathrm{I^-}$、$\mathrm{SCN^-}$，用于 $\mathrm{Cl^-}$ 会使终点提前。原因是卤化银对指示剂的吸附能力须与对待测离子的吸附能力大致相当：太弱则终点滞后，太强则终点提前。
+
+\begin{table}[H]
+\centering
+\caption{三种银量法的比较}
+\begin{tabularx}{\textwidth}{l l l X X}
+\toprule
+方法 & 滴定方式 & 指示剂 & 终点现象 & 主要限制 \\
+\midrule
+莫尔法 & 直接滴定 & $\mathrm{K_2CrO_4}$ & 白色沉淀中出现砖红色 &
+$\mathrm{pH}=6.5\sim10.5$；不能测 $\mathrm{I^-}$、$\mathrm{SCN^-}$；忌氨 \\
+弗尔哈德法 & 返滴定 & 铁铵矾 $\mathrm{Fe^{3+}}$ & 溶液变为红色 &
+硝酸酸性介质；测 $\mathrm{Cl^-}$ 需加硝基苯保护 $\mathrm{AgCl}$ \\
+法扬斯法 & 直接或返滴定 & 吸附指示剂（荧光黄等） & 沉淀表面颜色改变 &
+须控制 $\mathrm{pH}$ 与胶体状态；避光；电解质不宜过多 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+\section{氧化还原滴定}
 \label{sec:redox-titration}
+
+氧化还原滴定的纵坐标是体系电势 $\varphi$，主变量不再是某一组分的浓度。曲线的位置与突跃大小由两个电对的条件电势差决定，而这一差值又等价于反应的平衡常数。
 
 氧化还原反应进行的程度，可由氧化还原反应的平衡常数（equilibrium constant of redox reaction）来衡量。氧化还原反应的平衡常数，可以根据有关电对的标准电势或条件电势求得。电极电势与各物种浓度的关系不再重新推导，直接取第一章的能斯特方程\textsuperscript{[\pageref{sec:nernst}]}。
 
 25 ℃时，两电对的半反应及相应的能斯特方程式为
-\begin{gather*}
+\[\begin{gathered}
 \text{Ox}_1 + z_1\text{e}^- \rightleftharpoons \text{Red}_1 \qquad \varphi_1 = \varphi_1^\ominus + \frac{0.059\text{ V}}{z_1} \lg \frac{a_{\text{Ox}_1}}{a_{\text{Red}_1}} \\
 \text{Ox}_2 + z_2\text{e}^- \rightleftharpoons \text{Red}_2 \qquad \varphi_2 = \varphi_2^\ominus + \frac{0.059\text{ V}}{z_2} \lg \frac{a_{\text{Ox}_2}}{a_{\text{Red}_2}}
-\end{gather*}
+\end{gathered}\]
 
 
 
@@ -5150,48 +6328,40 @@ z_2\text{Ox}_1 + z_1\text{Red}_2 \rightleftharpoons z_1\text{Ox}_2 + z_2\text{Re
 \]
 
 以 $\mathrm{Ox}_1$ 滴定 $\mathrm{Red}_2$ 为例，滴定过程中体系电势由两个电对共同决定。计量点前由被滴定物电对控制，计量点后由滴定剂电对控制。计量点电势为
-\begin{equation}
+\[
 \varphi_{\mathrm{sp}}=\frac{n_1\varphi_1^{\ominus'}+n_2\varphi_2^{\ominus'}}{n_1+n_2}.
-\end{equation}
+\]
 这个公式只在两电对电子转移数相等或反应对称时严格成立；不对称反应（如 $\mathrm{Cr_2O_7^{2-}}$ 与 $\mathrm{Fe^{2+}}$）需要按具体计量关系修正。使用时应当注意前提，而不是无条件套用。
 
-\subsection{沉淀滴定}
-
-以 $\mathrm{AgNO_3}$ 滴定 $\mathrm{Cl^-}$ 为例，纵坐标为 $\mathrm{pAg}$ 或 $\mathrm{pCl}$，计量点附近由溶度积决定：
-\begin{equation}
-[\mathrm{Ag^+}]_{\mathrm{sp}}=[\mathrm{Cl^-}]_{\mathrm{sp}}=\sqrt{K_{\mathrm{sp}}}.
-\end{equation}
-$K_{\mathrm{sp}}$ 越小，突跃越大。
-
+\newpage
 \section{终点误差：林邦公式的统一推导}
 
 四类滴定的终点误差公式长得几乎一样。这不是巧合，而是同一个近似推导的结果。
 
 设主反应为 $\mathrm{A}+\mathrm{B}\rightleftharpoons\mathrm{AB}$，条件常数为 $K'$，计量点浓度为 $c_{\mathrm{sp}}$。终点时滴定剂过量 $\Delta c$，则终点误差为
-\begin{equation}
+\[
 E_t=\frac{\Delta c}{c_{\mathrm{sp}}}\times100\%.
-\end{equation}
+\]
 在终点附近，$[\mathrm{AB}]\approx c_{\mathrm{sp}}$，故
-\begin{equation}
+\[
 [\mathrm{A}][\mathrm{B}]=\frac{[\mathrm{AB}]}{K'}\approx\frac{c_{\mathrm{sp}}}{K'}.
-\end{equation}
+\]
 又因过量 $\Delta c=[\mathrm{B}]-[\mathrm{A}]$（以 $\mathrm{B}$ 为滴定剂），令 $[\mathrm{A}]=x$、$[\mathrm{B}]=y$，解
-\begin{equation}
+\[
 x-y=\Delta c,\qquad xy=\frac{c_{\mathrm{sp}}}{K'}
-\end{equation}
+\]
 得
-\begin{equation}
+\[
 x=\frac{\Delta c+\sqrt{\Delta c^2+4c_{\mathrm{sp}}/K'}}{2}.
-\end{equation}
+\]
 当 $\Delta c$ 远小于 $2\sqrt{c_{\mathrm{sp}}/K'}$ 时，$\sqrt{\cdots}\approx2\sqrt{c_{\mathrm{sp}}/K'}$，于是
-\begin{equation}
+\[
 \Delta c\approx\sqrt{\frac{c_{\mathrm{sp}}}{K'}}\left(10^{\Delta pX}-10^{-\Delta pX}\right),
-\end{equation}
+\]
 其中 $\Delta pX$ 是终点与计量点的主变量差（对酸碱是 $\Delta\mathrm{pH}$，对配位是 $\Delta\mathrm{pM}$，对氧化还原是 $n\Delta\varphi/0.059$）。代回定义即得林邦误差公式
-\begin{equation}
+\[
 E_t=\frac{10^{\Delta pX}-10^{-\Delta pX}}{\sqrt{c_{\mathrm{sp}}K'}}\times100\%.
-\label{eq:ringbom}
-\end{equation}
+\]
 
 \begin{table}[H]
 \centering
@@ -5215,6 +6385,7 @@ E_t=\frac{10^{\Delta pX}-10^{-\Delta pX}}{\sqrt{c_{\mathrm{sp}}K'}}\times100\%.
   \item 误差关于 $\Delta$ 不对称：$10^{\Delta}$ 比 $10^{-\Delta}$ 增长快，所以“滴定过量”比“滴定不足”更危险。这解释了为什么实际操作中宁可终点略早，也不要过量。
 \end{enumerate}
 
+\newpage
 \section{指示剂}
 
 指示剂的任务只有一句话：把“计量点”这个看不见的瞬间翻译成一个看得见的信号。对它的全部要求因此可以归结为两条：变色点要靠近计量点，变色要敏锐。下面按四类滴定分别给出。
@@ -5222,65 +6393,46 @@ E_t=\frac{10^{\Delta pX}-10^{-\Delta pX}}{\sqrt{c_{\mathrm{sp}}K'}}\times100\%.
 \subsection{酸碱指示剂}
 
 酸碱指示剂本身是弱酸或弱碱，酸式与碱式颜色不同：
-\begin{equation}
+\[
 \mathrm{HIn}\rightleftharpoons\mathrm{H^+}+\mathrm{In^-}.
-\end{equation}
+\]
 由
-\begin{equation}
+\[
 \frac{[\mathrm{In^-}]}{[\mathrm{HIn}]}=\frac{K_{\mathrm{HIn}}}{[\mathrm{H^+}]}
-\end{equation}
+\]
 可知，当 $\mathrm{pH}=\mathrm{p}K_{\mathrm{HIn}}$ 时两者相等，颜色居中；肉眼能分辨的颜色变化大约发生在比值 $1/10$ 到 $10$ 之间，故理论变色范围为
-\begin{equation}
+\[
 \mathrm{pH}=\mathrm{p}K_{\mathrm{HIn}}\pm1.
-\end{equation}
+\]
 选择指示剂的原则是：变色范围应落在滴定突跃之内，且理论变色点尽量接近计量点。混合指示剂利用两种指示剂的颜色互补，把变色区间压缩到 0.2 个 pH 单位左右，适合突跃较窄的弱酸弱碱滴定。
 
 \subsection{金属指示剂}
 
 金属指示剂与金属离子形成有色配合物，滴定中被 EDTA 置换而变色：
-\begin{equation}
+\[
 \mathrm{MIn}+\mathrm{Y}\rightleftharpoons\mathrm{MY}+\mathrm{In}.
-\end{equation}
+\]
 变色点满足
-\begin{equation}
+\[
 \mathrm{pM}_t=\lg K'_{\mathrm{MIn}}.
-\end{equation}
+\]
 要求 $K'_{\mathrm{MIn}}$ 略小于 $K'_{\mathrm{MY}}$：太大则 EDTA 置换不动，称为\textbf{封闭}（$K'_{\mathrm{MIn}}>K'_{\mathrm{MY}}$ 时终点直接消失）；太小则终点提前。若 $\mathrm{MIn}$ 难溶或置换反应慢，终点拖长变色不锐，称为\textbf{僵化}。消除封闭靠掩蔽干扰离子，消除僵化靠加有机溶剂或加热。
 
 把“略小于”写成定量判据，就是
-\begin{equation}
+\[
 \lg\left(c_{\mathrm{sp}}K'_{\mathrm{MY}}\right)\ge6,
-\end{equation}
+\]
 此时指示剂误差约在 $\pm0.1\%$ 量级，与林邦公式给出的 $c_{\mathrm{sp}}K'\ge10^{6}$ 判据一致。
 
 \subsection{氧化还原指示剂与吸附指示剂}
 
 氧化还原指示剂的变色点由条件电势决定：
-\begin{equation}
+\[
 \varphi_{\mathrm{In}}^{\ominus'}=\varphi^{\ominus}+\frac{0.059}{z}\lg\frac{\alpha_{\mathrm{Red}}}{\alpha_{\mathrm{Ox}}}.
-\end{equation}
+\]
 变色范围约为 $\varphi_{\mathrm{In}}^{\ominus'}\pm\frac{0.059}{z}$。以 $\mathrm{K_2Cr_2O_7}$ 滴定 $\mathrm{Fe^{2+}}$ 为例，计量点前体系的电势由 $\mathrm{Fe^{3+}/Fe^{2+}}$ 控制（$\varphi^{\ominus'}=0.77\ \mathrm{V}$），而二苯胺磺酸钠的变色点为 $0.84\ \mathrm{V}$，高于这个电势，指示剂在到达计量点之前就会变色，终点提前。于是往体系里加 $\mathrm{H_3PO_4}$：它与 $\mathrm{Fe^{3+}}$ 生成无色稳定配合物，把 $[\mathrm{Fe^{3+}}]$ 压低，$\mathrm{Fe^{3+}/Fe^{2+}}$ 的条件电势随之降到约 $0.68\ \mathrm{V}$，计量点前那一段电势曲线整体下移，$0.84\ \mathrm{V}$ 才落进突跃之内；顺带还消除了 $\mathrm{Fe^{3+}}$ 的黄色对终点观察的干扰。这是“改条件去迁就指示剂”的典型例子。
 
 吸附指示剂（如荧光黄）在沉淀表面吸附后颜色改变，用于沉淀滴定，要求沉淀具有较大的比表面，因此常需避光、控制浓度并加入保护胶体（如糊精）防止沉淀凝聚。
-
-\subsection{沉淀滴定指示剂：以莫尔法为例}
-
-莫尔法用 $\mathrm{K_2CrO_4}$ 指示 $\mathrm{AgNO_3}$ 滴定 $\mathrm{Cl^-}$：
-\begin{equation}
-\mathrm{Ag^+}+\mathrm{Cl^-}\longrightarrow\mathrm{AgCl}\downarrow\quad(\text{先}),
-\qquad
-2\mathrm{Ag^+}+\mathrm{CrO_4^{2-}}\longrightarrow\mathrm{Ag_2CrO_4}\downarrow\quad(\text{后}).
-\end{equation}
-终点是白色沉淀中出现砖红色。误差来源很清楚：$\mathrm{Ag_2CrO_4}$ 必须等到 $\mathrm{Ag^+}$ 稍过量才析出，所以终点天然滞后于计量点。控制手段是
-\begin{equation}
-c(\mathrm{K_2CrO_4})\approx0.002\sim0.005\ \mathrm{mol\cdot L^{-1}},
-\qquad
-\mathrm{pH}=6.5\sim10.5.
-\end{equation}
-指示剂浓度过高则终点提前，过低则终点滞后；$\mathrm{pH}$ 过低 $\mathrm{CrO_4^{2-}}$ 质子化成 $\mathrm{HCrO_4^-}$，过高则 $\mathrm{Ag^+}$ 水解成 $\mathrm{Ag_2O}$。两个边界都是把指示剂有效浓度拉离设计值。
-
-
-
 
 
 \end{document}
